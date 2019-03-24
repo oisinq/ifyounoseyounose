@@ -1,3 +1,4 @@
+package  org.ifyounoseyounose;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.FieldDeclaration;
