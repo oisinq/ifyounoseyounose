@@ -1,4 +1,4 @@
-package  org.ifyounoseyounose;
+package org.ifyounoseyounose.javaparsertest;
 import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.visitor.ModifierVisitor;
 

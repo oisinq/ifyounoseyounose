@@ -10,7 +10,7 @@ public class Controller {
 
     // the initialize method is automatically invoked by the FXMLLoader - it's magic
     public void initialize() {
-        displayTreeView("D:/Code/ifyounoseyounose/src");
+        //displayTreeView("/ifyounoseyounose/src");
     }
 
     public static void createTree(File file, TreeItem<String> parent) {

@@ -1,4 +1,4 @@
-package  org.ifyounoseyounose;
+package org.ifyounoseyounose;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -9,13 +9,15 @@ import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.visitor.VoidVisitor;
 import org.ifyounoseyounose.GUI.Controller;
+import org.ifyounoseyounose.javaparsertest.MethodNameCollector;
+import org.ifyounoseyounose.javaparsertest.MethodNamePrinter;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 public class Main extends Application {
-    private static final String FILE_PATH = "src/main/java/org.ifyounoseyounose/ReversePolishNotation.java";
+    private static final String FILE_PATH = "src/main/java/org.ifyounoseyounose/javaparsertest/ReversePolishNotation.java";
 
     @Override
     public void start(Stage primaryStage) throws IOException {
@@ -25,12 +27,9 @@ public class Main extends Application {
         final Controller controller = loader.<Controller>getController();
 
 
-
         primaryStage.setScene(new Scene(root, 800,600));
         primaryStage.show();
     }
-
-
 
     public static void main(String[] args) throws Exception  {
         System.out.println(System.getProperty("user.dir"));
