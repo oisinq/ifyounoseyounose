@@ -8,6 +8,7 @@ import javafx.stage.Stage;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.visitor.VoidVisitor;
+import org.ifyounoseyounose.GUI.Controller;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,15 +19,18 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        primaryStage.setTitle("Code Smeller 3000");
-        Parent root = FXMLLoader.load(getClass().getResource("CodeSmeller.fxml"));
+        primaryStage.setTitle("Code Smeller");
+        final FXMLLoader loader = new FXMLLoader(getClass().getResource("CodeSmeller.fxml"));
+        final Parent root = (Parent) loader.load();
+        final Controller controller = loader.<Controller>getController();
+
+
+
         primaryStage.setScene(new Scene(root, 800,600));
         primaryStage.show();
     }
-    private static Parent loadFXML(String fxml) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(fxml + ".fxml"));
-        return fxmlLoader.load();
-    }
+
+
 
     public static void main(String[] args) throws Exception  {
         System.out.println(System.getProperty("user.dir"));
