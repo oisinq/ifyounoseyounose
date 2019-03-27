@@ -1,16 +1,35 @@
 package org.ifyounoseyounose.GUI;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 
 import java.io.File;
+
 
 public class Controller {
     // the FXML annotation tells the loader to inject this variable before invoking initialize.
     @FXML private TreeView<String> treeView;
+    public String InputDirectory=null;
+    private Scene firstScene;
 
+    public void setInputDirectory(String set){
+        InputDirectory=set;
+    }
     // the initialize method is automatically invoked by the FXMLLoader - it's magic
     public void initialize() {
-        //displayTreeView("/ifyounoseyounose/src");
+        //displayTreeView(InputDirectory);
+    }
+
+    public void setFirstScene(Scene scene) {
+        firstScene = scene;
+    }
+
+    public void openFirstScene(ActionEvent actionEvent) {
+        Stage primaryStage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
+        primaryStage.setScene(firstScene);
     }
 
     public static void createTree(File file, TreeItem<String> parent) {

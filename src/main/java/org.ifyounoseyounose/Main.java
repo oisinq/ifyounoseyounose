@@ -1,14 +1,18 @@
 package org.ifyounoseyounose;
 
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.visitor.VoidVisitor;
 import org.ifyounoseyounose.GUI.Controller;
+import org.ifyounoseyounose.GUI.SetupController;
 import org.ifyounoseyounose.javaparsertest.MethodNameCollector;
 import org.ifyounoseyounose.javaparsertest.MethodNamePrinter;
 
@@ -22,12 +26,30 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
         primaryStage.setTitle("Code Smeller");
-        final FXMLLoader loader = new FXMLLoader(getClass().getResource("CodeSmeller.fxml"));
-        final Parent root = (Parent) loader.load();
-        final Controller controller = loader.<Controller>getController();
+        final FXMLLoader setupLoader = new FXMLLoader(getClass().getResource("SetupScreen.fxml"));
+        final Parent setup =  setupLoader.load();
+        final SetupController setupController = setupLoader.<SetupController>getController();
+
+        Scene setupScene=new Scene(setup, 800,600);
+
+        final FXMLLoader mainLoader = new FXMLLoader(getClass().getResource("CodeSmeller.fxml"));
+        final Parent main =  mainLoader.load();
+        final Controller mainApplicationController = mainLoader.<Controller>getController();
+        Scene mainScene=new Scene(main, 800,600);
+
+        primaryStage.setScene(setupScene);
 
 
-        primaryStage.setScene(new Scene(root, 800,600));
+        // injecting second scene into the controller of the first scene
+        //FirstController firstPaneController = (FirstController) firstPaneLoader.getController();
+        //firstPaneController.setSecondScene(secondScene);
+
+        // injecting first scene into the controller of the second scene
+        //SecondController secondPaneController = (SecondController) secondPageLoader.getController();
+        //secondPaneController.setFirstScene(firstScene);
+        setupController.setSecondScene(mainScene);
+        mainApplicationController.setFirstScene(setupScene);
+
         primaryStage.show();
     }
 

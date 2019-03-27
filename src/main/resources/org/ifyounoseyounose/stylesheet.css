@@ -1,0 +1,10 @@
+.fill-btn {
+    -fx-graphic: url("last.png");
+    -fx-background-color: inherit;
+    -fx-opacity: inherit;
+    -fx-border: none;
+    -fx-min-width: 20px;
+    -fx-max-width: 20px;
+    -fx-min-height: 20px;
+    -fx-max-height: 20px;
+}
