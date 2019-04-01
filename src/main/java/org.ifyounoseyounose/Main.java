@@ -36,8 +36,6 @@ public class Main extends Application {
     public static void main(String[] args) throws Exception  {
         System.out.println(System.getProperty("user.dir"));
 
-        JavaCompiler c;
-
         //CompilationUnit
         CompilationUnit cu = StaticJavaParser.parse(new File(FILE_PATH));
 
