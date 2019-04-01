@@ -16,6 +16,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.tools.JavaCompiler;
+
 public class Main extends Application {
     private static final String FILE_PATH = "src/main/java/org.ifyounoseyounose/javaparsertest/ReversePolishNotation.java";
 
@@ -33,6 +35,9 @@ public class Main extends Application {
 
     public static void main(String[] args) throws Exception  {
         System.out.println(System.getProperty("user.dir"));
+
+        JavaCompiler c;
+
         //CompilationUnit
         CompilationUnit cu = StaticJavaParser.parse(new File(FILE_PATH));
 
