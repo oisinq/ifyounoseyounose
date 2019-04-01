@@ -1,5 +1,6 @@
 package org.ifyounoseyounose.GUI;
 
+import com.google.common.eventbus.EventBus;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -19,6 +20,7 @@ import java.io.File;
 
 
 public class SetupController {
+
     @FXML private Button browse;
     @FXML private Button settingsDisplay;
     @FXML private Button smellTime;
@@ -27,6 +29,8 @@ public class SetupController {
     //Stage stage = (Stage) browse.getScene().getWindow();
     File selectedDirectory=null;
     private Scene secondScene;
+    String selectedDirectoryString=null;
+    EventBus eventBus = EventBusFactory.getEventBus();//gotta explain this!!!!
 
     private boolean showSettings=false;
 
@@ -42,12 +46,9 @@ public class SetupController {
     public void setSecondScene(Scene scene){
         secondScene = scene;
     }
-    public void openSecondScene(ActionEvent actionEvent) {
-        Stage primaryStage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
-        primaryStage.setScene(secondScene);
-    }
 
     public void initialize() {
+
         /*this has all the button listeners pretty much*/
         setSettingsDisplay();//call once on intialise to set settings buttons as hidden
         settingsDisplay.setOnAction(new EventHandler<ActionEvent>() {
@@ -65,20 +66,22 @@ public class SetupController {
 
                 chooser.setTitle("Choose the Directory of files you wish to smell");
                 selectedDirectory = chooser.showDialog(new Stage());
-                String temp=selectedDirectory.getAbsolutePath();
-                displayDirectory.setText(temp);
+                selectedDirectoryString=selectedDirectory.getAbsolutePath();
+
+                displayDirectory.setText(selectedDirectoryString);
             }
         });
 
         smellTime.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                eventBus.post(new EventBusFactory(selectedDirectoryString));
                 Stage stage=(Stage) ((Node)event.getTarget()).getScene().getWindow();
                 stage.setScene(secondScene);
-
-
             }
         });
+
+
 
     }
 

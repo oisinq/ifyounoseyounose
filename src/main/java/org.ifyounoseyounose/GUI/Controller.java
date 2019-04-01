@@ -5,22 +5,32 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-
+import com.google.common.eventbus.Subscribe;
 import java.io.File;
 
 
 public class Controller {
+
+    @FXML
+    private TextArea txtView ;
     // the FXML annotation tells the loader to inject this variable before invoking initialize.
     @FXML private TreeView<String> treeView;
-    public String InputDirectory=null;
+
+    public String InputDirectory=null;//"C:/Users/ioo5c/Music";
     private Scene firstScene;
 
-    public void setInputDirectory(String set){
-        InputDirectory=set;
-    }
     // the initialize method is automatically invoked by the FXMLLoader - it's magic
     public void initialize() {
-        //displayTreeView(InputDirectory);
+        EventBusFactory.getEventBus().register(new Controller());//TODO TEST IF I NEED THIS
+        EventBusFactory.getEventBus().register(new Object() {
+            @Subscribe
+            public void setInputDirectory(EventBusFactory e){
+                String temp= e.getResult().replace("\\", "/");
+                InputDirectory=temp;
+                displayTreeView(temp);
+
+            }
+        });
     }
 
     public void setFirstScene(Scene scene) {
