@@ -27,7 +27,7 @@ public class SmellDetectorManager {
      * @param files A list of files we want to analyse
      * @return A result containing info about what code smells were detected
      */
-    public List<SmellReport> detectSmells(List<SmellDetector> smellDetectors, List<File> files) {
+    public List<ClassReport> detectSmells(List<SmellDetector> smellDetectors, List<File> files) {
         List<SmellReport> results = new ArrayList<>();
         List<CompilationUnit> compilationUnits = new ArrayList<>();
 
@@ -67,10 +67,16 @@ public class SmellDetectorManager {
                     classes = getListOfClasses(classLoader, compiledClassesDirectory);
                 }
 
-                ((ReflectionSmellDetector) smellDetector).detectSmell(classes);
+                results.add(((ReflectionSmellDetector) smellDetector).detectSmell(classes));
             }
         }
-        return results;
+
+        /*
+         * Todo: Take these results, turn them into a list of ClassReports
+         */
+        List<ClassReport> classReports = new ArrayList<>();
+
+        return classReports;
     }
 
     /**
