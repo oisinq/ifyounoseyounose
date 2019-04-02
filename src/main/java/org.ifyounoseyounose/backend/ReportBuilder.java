@@ -6,7 +6,9 @@ import java.util.List;
 import java.io.File;
 
 
-
+/**
+ * ReportBuilder - creates the list
+ */
 public class ReportBuilder {
 
     public ArrayList<File> java_files = new ArrayList<>();
@@ -20,18 +22,15 @@ public class ReportBuilder {
         ArrayList<File> javaFiles;
         javaFiles = getJavaFiles(directory_files);
 
-      //    for(File file: javaFiles){
-      //       System.err.println(file);
-      //  }
-
         SmellDetectorManager manager = new SmellDetectorManager();
         manager.detectSmells(smells, javaFiles);
 
-        // detectMap.put(, linesMap);
         return detectMap;
     }
 
-    //getting all the files in the directory that are .java files
+    /**
+     * Gets all the files in the directory that are .java files
+     */
     private ArrayList<File> getJavaFiles(File[] directory) {
 
         for (File dir : directory) {
