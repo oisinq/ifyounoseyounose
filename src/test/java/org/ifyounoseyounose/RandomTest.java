@@ -1,4 +1,4 @@
-package org.ifyounoseyounose.javaparsertest;
+package org.ifyounoseyounose;
 
 import org.junit.Test;
 

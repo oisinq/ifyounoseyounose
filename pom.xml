@@ -2,7 +2,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.ifyounoseyounose</groupId>
-    <artifactId>javaparser-test</artifactId>
+    <artifactId>ifyounoseyounose</artifactId>
     <version>1.0-SNAPSHOT</version>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -75,11 +75,6 @@
                     <mainClass>org.ifyounoseyounose.Main</mainClass>
                 </configuration>
             </plugin>
-            <!--<plugin>-->
-                <!--<groupId>org.apache.maven.plugins</groupId>-->
-                <!--<artifactId>maven-surefire-plugin</artifactId>-->
-                <!--<version>2.22.0</version>-->
-            <!--</plugin>-->
         </plugins>
     </build>
 </project>
