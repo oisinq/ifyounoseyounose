@@ -28,6 +28,9 @@ public class SmellDetectorManager {
      * @return A result containing info about what code smells were detected
      */
     public List<ClassReport> detectSmells(List<SmellDetector> smellDetectors, List<File> files) {
+        /**
+         * Todo: replace @results with a ClassReport object of some kind
+         */
         List<SmellReport> results = new ArrayList<>();
         List<CompilationUnit> compilationUnits = new ArrayList<>();
 
