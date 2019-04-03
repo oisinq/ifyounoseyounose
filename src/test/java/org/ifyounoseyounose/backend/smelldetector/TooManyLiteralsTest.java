@@ -1,5 +1,6 @@
-package org.ifyounoseyounose.backend;
+package org.ifyounoseyounose.backend.smelldetector;
 
+import org.ifyounoseyounose.backend.SmellDetectorManager;
 import org.ifyounoseyounose.backend.smelldetectors.SmellDetector;
 import org.ifyounoseyounose.backend.smelldetectors.TooManyLiteralsSmellDetector;
 import org.junit.Before;
@@ -9,11 +10,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SmellDetectorManagerTest {
-
-    @Before
-    public void setUp() throws Exception {
-    }
+public class TooManyLiteralsTest {
 
     @Test
     public void detectSmells() {

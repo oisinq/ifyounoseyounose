@@ -6,23 +6,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import com.github.javaparser.StaticJavaParser;
-import com.github.javaparser.ast.CompilationUnit;
-import com.github.javaparser.ast.visitor.VoidVisitor;
 import org.ifyounoseyounose.GUI.Controller;
 import org.ifyounoseyounose.GUI.EventBusFactory;
 import org.ifyounoseyounose.GUI.SetupController;
-import org.ifyounoseyounose.javaparsertest.MethodNameCollector;
-import org.ifyounoseyounose.javaparsertest.MethodNamePrinter;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import javax.tools.JavaCompiler;
 
 public class Main extends Application {
-    private static final String FILE_PATH = "src/main/java/org.ifyounoseyounose/javaparsertest/ReversePolishNotation.java";
     FXMLLoader mainLoader=null;
     Parent main=null;
     Controller mainApplicationController=null;
@@ -61,16 +52,6 @@ public class Main extends Application {
         EventBusFactory.getEventBus().register(new Main());//TODO TEST IF I NEED THIS
         System.out.println(System.getProperty("user.dir"));
 
-        //CompilationUnit
-        CompilationUnit cu = StaticJavaParser.parse(new File(FILE_PATH));
-
-        VoidVisitor<?> methodNameVisitor = new MethodNamePrinter();
-        methodNameVisitor.visit(cu, null);
-
-        List<String> methodNames = new ArrayList<>();
-        VoidVisitor<List<String>> methodNameCollector = new MethodNameCollector();
-        methodNameCollector.visit(cu, methodNames);
-        methodNames.forEach(n -> System.out.println("Method Name Collected: " + n));
         launch(args);
     }
 
