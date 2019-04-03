@@ -12,22 +12,25 @@ public class MessageChainingSmellDetector extends SmellDetector implements Manua
     @Override
     public SmellReport detectSmell(List<File> sourceCode) {
         SmellReport smells = new SmellReport();// To be returned
+        int count = 0;// Line number
         for(File f : sourceCode) {// Iterates through files
             List<Integer> current = new ArrayList<>();// Smelly line numbers
             String line = null;
-            int count = 0;// Line number
+            count=0;
             try {
                 FileReader targetStream = new FileReader(f);
                 BufferedReader bufferedReader =
                         new BufferedReader(targetStream);
                 while((line = bufferedReader.readLine()) != null) {
-                    if(line.matches(".*\\.*\\(\\)..*\\..*\\(\\).*"))// Regular expression check
+                    if(line.matches(".*(\\..*\\(.*\\)){3,}"))// Regular expression check
                     {
+                        System.out.println("here");
                         current.add(count);
                     }
                     count++;
                 }
-                smells.addToReport(f, current);
+                    smells.addToReport(f, current);
+
             }
             catch(Exception e)
             {

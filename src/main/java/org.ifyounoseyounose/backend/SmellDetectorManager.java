@@ -48,6 +48,10 @@ public class SmellDetectorManager {
                 results.add(((JavaParserSmellDetector) smellDetector).detectSmell(compilationUnits));
             } else if (smellDetector instanceof ManualParserSmellDetector) {
                 results.add(((ManualParserSmellDetector) smellDetector).detectSmell(files));
+                for(SmellReport q: results)
+                {
+                    q.toString();
+                }
             } else if (smellDetector instanceof ReflectionSmellDetector) {
                 compileJavaFiles(files);
 
