@@ -6,7 +6,9 @@ import org.ifyounoseyounose.backend.JavaParserSmellDetector;
 import org.ifyounoseyounose.backend.SmellDetector;
 import org.ifyounoseyounose.backend.SmellReport;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -15,15 +17,15 @@ import java.util.List;
 public class TooManyLiteralsSmellDetector extends SmellDetector implements JavaParserSmellDetector {
 
     @Override
-    public SmellReport detectSmell(List<CompilationUnit> compilationUnits) {
+    public SmellReport detectSmell(HashMap<CompilationUnit, File> compilationUnits) {
         SmellReport smellReport = new SmellReport();
         VoidVisitor<List<Integer>> visitor = new TooManyLiteralsCollector();
 
-        for (CompilationUnit compilationUnit : compilationUnits) {
+        for (CompilationUnit compilationUnit : compilationUnits.keySet()) {
             List<Integer> collector = new ArrayList<>();
-            Class c = compilationUnit.getClass();
             visitor.visit(compilationUnit, collector);
-            smellReport.addToReport(c, collector);
+            System.err.println(compilationUnits.get(compilationUnit) + " - " + collector.size());
+            smellReport.addToReport(compilationUnits.get(compilationUnit),collector);
         }
 
         return smellReport;

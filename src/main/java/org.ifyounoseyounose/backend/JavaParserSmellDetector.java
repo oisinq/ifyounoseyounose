@@ -1,9 +1,9 @@
 package org.ifyounoseyounose.backend;
 import com.github.javaparser.ast.CompilationUnit;
-import java.util.List;
 
-import java.util.List;
+import java.io.File;
+import java.util.HashMap;
 
 public interface JavaParserSmellDetector {
-    SmellReport detectSmell(List<CompilationUnit> compilationUnits);
+    SmellReport detectSmell(HashMap<CompilationUnit, File> compilationUnits);
 }

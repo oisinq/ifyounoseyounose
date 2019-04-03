@@ -32,7 +32,7 @@ public class TooManyLiteralsCollector extends VoidVisitorAdapter<List<Integer>> 
     private void addLineNumbers(Node node, List<Integer> collector) {
         Optional<Range> m = node.getRange();
         Range r = m.get();
-        for (int lineNumber = r.begin.line; lineNumber < r.end.line; lineNumber++) {
+        for (int lineNumber = r.begin.line; lineNumber <= r.end.line; lineNumber++) {
             collector.add(lineNumber);
         }
     }
