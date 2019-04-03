@@ -29,8 +29,9 @@ public class MessageChainingSmellDetector extends SmellDetector implements Manua
                     }
                     count++;
                 }
+                if(!current.isEmpty()) {//Ensures there is a line of code to add
                     smells.addToReport(f, current);
-
+                }
             }
             catch(Exception e)
             {
