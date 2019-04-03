@@ -1,5 +1,7 @@
 package org.ifyounoseyounose.backend;
 
+import org.ifyounoseyounose.backend.smelldetectors.SmellDetector;
+
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.List;

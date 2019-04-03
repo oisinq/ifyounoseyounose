@@ -2,6 +2,10 @@ package org.ifyounoseyounose.backend;
 
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
+import org.ifyounoseyounose.backend.smelldetectors.JavaParserSmellDetector;
+import org.ifyounoseyounose.backend.smelldetectors.ManualParserSmellDetector;
+import org.ifyounoseyounose.backend.smelldetectors.ReflectionSmellDetector;
+import org.ifyounoseyounose.backend.smelldetectors.SmellDetector;
 
 import javax.tools.JavaCompiler;
 import javax.tools.ToolProvider;
@@ -13,6 +17,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -28,12 +33,17 @@ public class SmellDetectorManager {
      * @return A result containing info about what code smells were detected
      */
     public List<ClassReport> detectSmells(List<SmellDetector> smellDetectors, List<File> files) {
+        /**
+         * Todo: replace @results with a ClassReport object of some kind
+         */
         List<SmellReport> results = new ArrayList<>();
-        List<CompilationUnit> compilationUnits = new ArrayList<>();
+       // List<CompilationUnit> compilationUnits = new ArrayList<>();
+        HashMap<CompilationUnit, File> compUnits = new HashMap<>();
 
         for (File f : files) {
             try {
-                compilationUnits.add(StaticJavaParser.parse(f));
+                compUnits.put(StaticJavaParser.parse(f), f);
+                //compilationUnits.add(StaticJavaParser.parse(f));
             } catch (FileNotFoundException e) {
                 System.err.println("Cannot find file " + f.getPath());
             }
@@ -45,7 +55,7 @@ public class SmellDetectorManager {
             // and call smellDetector.detectSmell() on it with the parameters corresponding to its interface
             if (smellDetector instanceof JavaParserSmellDetector) {
                 // I have to do some casting here, I'm not sure if it's necessary
-                results.add(((JavaParserSmellDetector) smellDetector).detectSmell(compilationUnits));
+                results.add(((JavaParserSmellDetector) smellDetector).detectSmell(compUnits));
             } else if (smellDetector instanceof ManualParserSmellDetector) {
                 results.add(((ManualParserSmellDetector) smellDetector).detectSmell(files));
             } else if (smellDetector instanceof ReflectionSmellDetector) {
@@ -71,12 +81,15 @@ public class SmellDetectorManager {
             }
         }
 
+        System.out.println("****SmellDetectorManager results:****");
+        for (SmellReport s : results) {
+            System.out.println(s);
+        }
+
         /*
          * Todo: Take these results, turn them into a list of ClassReports
          */
-        List<ClassReport> classReports = new ArrayList<>();
-
-        return classReports;
+        return new ArrayList<>();
     }
 
     /**
