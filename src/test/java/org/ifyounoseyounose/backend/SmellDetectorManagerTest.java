@@ -1,6 +1,7 @@
 package org.ifyounoseyounose.backend;
 
 import org.ifyounoseyounose.backend.smelldetectors.PlaceholderSmellDetector;
+import org.ifyounoseyounose.backend.smelldetectors.TooManyLiteralsSmellDetector;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -24,9 +25,10 @@ public class SmellDetectorManagerTest {
         l.add(new File("./src/test/java/smellycodedirectory/Yeet.java"));
         l.add(new File("./src/test/java/smellycodedirectory/Yeet2.java"));
         l.add(new File("./src/test/java/smellycodedirectory/seq/Yeet3.java"));
+        l.add(new File("./src/test/java/smellycodedirectory/SmellyLiterals.java"));
 
         List<SmellDetector> smellDetectors = new ArrayList<>();
-        smellDetectors.add(new PlaceholderSmellDetector());
+        smellDetectors.add(new TooManyLiteralsSmellDetector());
 
         s.detectSmells(smellDetectors, l);
         assert(true);
