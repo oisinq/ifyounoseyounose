@@ -18,27 +18,7 @@ public class PrimitiveObsessionCollector extends VoidVisitorAdapter<List<Integer
         super.visit(md, collector);
         addLineNumbers(md, collector);
     }
-
-    //get the number of each primitive type in a hashMap
-    public HashMap<Type,Integer> reflectPrimitive(Class host){
-        HashMap<Type, Integer> primitiveMap = new HashMap<>();
-
-        Field[]  fields = host.getDeclaredFields();
-        for(Field f:fields){
-            if(f.getType().isPrimitive()){
-
-                if(!primitiveMap.containsKey(f.getType())){
-                    primitiveMap.put(f.getType(), 1);
-                }
-                else{
-                    primitiveMap.put(f.getType(), primitiveMap.get(f.getType())+1);
-                }
-            }
-        }
-
-            return primitiveMap;
-    }
-
+    
     private void addLineNumbers(Node node, List<Integer> collector) {
         Optional<Range> m = node.getRange();
         Range r = m.get();
