@@ -8,7 +8,6 @@ public class SmellyPrimitives {
         for (int i = 0; i < 494; i++) {
             if (5 < 43) {
                 int smell =9;
-
             }
         }
     }
