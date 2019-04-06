@@ -2,6 +2,10 @@ package org.ifyounoseyounose.backend;
 
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
+import org.ifyounoseyounose.backend.smelldetectors.JavaParserSmellDetector;
+import org.ifyounoseyounose.backend.smelldetectors.ManualParserSmellDetector;
+import org.ifyounoseyounose.backend.smelldetectors.ReflectionSmellDetector;
+import org.ifyounoseyounose.backend.smelldetectors.SmellDetector;
 
 import javax.tools.JavaCompiler;
 import javax.tools.ToolProvider;
@@ -77,15 +81,15 @@ public class SmellDetectorManager {
             }
         }
 
+        System.out.println("****SmellDetectorManager results:****");
         for (SmellReport s : results) {
-            System.err.println(s);
+            System.out.println(s);
         }
+
         /*
          * Todo: Take these results, turn them into a list of ClassReports
          */
-        List<ClassReport> classReports = new ArrayList<>();
-
-        return classReports;
+        return new ArrayList<>();
     }
 
     /**
