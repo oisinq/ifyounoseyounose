@@ -1,5 +1,6 @@
 package org.ifyounoseyounose.backend;
 
+import org.ifyounoseyounose.backend.smelldetectors.MessageChainingSmellDetector;
 import org.ifyounoseyounose.backend.smelldetectors.PlaceholderSmellDetector;
 import org.ifyounoseyounose.backend.smelldetectors.SmellDetector;
 import org.junit.Before;
@@ -22,7 +23,7 @@ public class ReportBuilderTest {
         File directory = new File("./src/test/java/smellycodedirectory/");
 
         List<SmellDetector> smellDetectors = new ArrayList<>();
-        smellDetectors.add(new PlaceholderSmellDetector());
+        smellDetectors.add(new MessageChainingSmellDetector());
 
         r.generateReport(smellDetectors, directory);
         assert(true);
