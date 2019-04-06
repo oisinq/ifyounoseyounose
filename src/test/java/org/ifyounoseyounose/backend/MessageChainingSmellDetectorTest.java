@@ -2,6 +2,7 @@ package org.ifyounoseyounose.backend;
 
 import org.ifyounoseyounose.backend.smelldetectors.MessageChainingSmellDetector;
 import org.ifyounoseyounose.backend.smelldetectors.PlaceholderSmellDetector;
+import org.ifyounoseyounose.backend.smelldetectors.SmellDetector;
 import org.junit.Before;
 import org.junit.Test;
 
