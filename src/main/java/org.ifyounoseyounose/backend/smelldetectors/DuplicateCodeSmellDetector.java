@@ -12,7 +12,7 @@ public class DuplicateCodeSmellDetector extends SmellDetector implements ManualP
     public SmellReport detectSmell(List<File> sourceCode) {
         SmellReport smells = new SmellReport();// To be returned
         int count = 0;// Line number
-        HashMap<String, Integer> temp = new HashMap<>();
+        HashMap<String, Integer> temp = new HashMap<>();// Key is line contents, value is number of times line has appeared
         for(File f : sourceCode) {// Iterates through files
             List<Integer> current = new ArrayList<>();// Smelly line numbers
             String line = null;
@@ -22,12 +22,17 @@ public class DuplicateCodeSmellDetector extends SmellDetector implements ManualP
                 BufferedReader bufferedReader =
                         new BufferedReader(targetStream);
                 while((line = bufferedReader.readLine()) != null) {
-                    if(temp.containsKey(line))// Regular expression check
+                    line = line.trim();
+                    if(temp.containsKey(line)&&temp.get(line)>2)//If number of times line has appeared exceeds limit add line to smell reort
                     {
                         current.add(count);
                         temp.put(line, temp.get(line)+1);
                     }
-                    else
+                    else if(temp.containsKey(line))// If line has been repeated but under limit. Increase hashmap value
+                    {
+                        temp.put(line, temp.get(line)+1);
+                    }
+                    else// If line has not appeared before add to hashmap
                     {
                         temp.put(line, 1);
                     }
