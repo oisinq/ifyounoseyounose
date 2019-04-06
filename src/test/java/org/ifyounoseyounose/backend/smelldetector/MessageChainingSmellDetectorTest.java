@@ -1,5 +1,6 @@
-package org.ifyounoseyounose.backend;
+package org.ifyounoseyounose.backend.smelldetector;
 
+import org.ifyounoseyounose.backend.SmellDetectorManager;
 import org.ifyounoseyounose.backend.smelldetectors.MessageChainingSmellDetector;
 import org.ifyounoseyounose.backend.smelldetectors.PlaceholderSmellDetector;
 import org.ifyounoseyounose.backend.smelldetectors.SmellDetector;
@@ -11,11 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MessageChainingSmellDetectorTest {
-
-    @Before
-    public void setUp() throws Exception {
-    }
-
     @Test
     public void detectSmells() {
         SmellDetectorManager s = new SmellDetectorManager();
