@@ -12,34 +12,38 @@ public class DuplicateCodeSmellDetector extends SmellDetector implements ManualP
     public SmellReport detectSmell(List<File> sourceCode) {
         SmellReport smells = new SmellReport();// To be returned
         int count = 0;// Line number
-        HashMap<String, Integer> temp = new HashMap<>();// Key is line contents, value is number of times line has appeared
         for(File f : sourceCode) {// Iterates through files
-            List<Integer> current = new ArrayList<>();// Smelly line numbers
+            HashMap<String, List<Integer>> temp = new HashMap<>();// Key is line contents, value is number of times line has appeared
+
             String line = null;
             count=0;
             try {
+
                 FileReader targetStream = new FileReader(f);
                 BufferedReader bufferedReader =
                         new BufferedReader(targetStream);
+
                 while((line = bufferedReader.readLine()) != null) {
                     line = line.trim();
-                    if(temp.containsKey(line)&&temp.get(line)>2)//If number of times line has appeared exceeds limit add line to smell reort
-                    {
-                        current.add(count);
-                        temp.put(line, temp.get(line)+1);
-                    }
-                    else if(temp.containsKey(line))// If line has been repeated but under limit. Increase hashmap value
-                    {
-                        temp.put(line, temp.get(line)+1);
-                    }
-                    else// If line has not appeared before add to hashmap
-                    {
-                        temp.put(line, 1);
+
+                    if (!line.equals("}") && !line.equals("{") && !line.equals("")) {// Checks lines are irrelevant
+                        List<Integer> l = temp.get(line); //see if you already have a list for current key
+                        if (l == null) { //if not create one and put it in the map
+                            l = new ArrayList<Integer>();
+                            temp.put(line, l);
+                        }
+                            temp.get(line).add(count);
                     }
                     count++;
                 }
-                if(!current.isEmpty()) {//Ensures there is a line of code to add
-                    smells.addToReport(f, current);
+
+                if(!temp.isEmpty()) {//Ensures there is a line of code to add
+                    for(List<Integer> i: temp.values()) {//Searches for lines that have occurred more than the limit
+                            if(i.size()>=2) {
+                                smells.addToReport(f, i);
+                            }
+
+                    }
                 }
             }
             catch(Exception e)
@@ -48,6 +52,7 @@ public class DuplicateCodeSmellDetector extends SmellDetector implements ManualP
             }
 
         }
+
         return smells;
     }
 }
