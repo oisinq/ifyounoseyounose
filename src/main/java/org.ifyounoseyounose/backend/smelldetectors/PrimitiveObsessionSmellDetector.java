@@ -2,8 +2,6 @@ package org.ifyounoseyounose.backend.smelldetectors;
 
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.visitor.VoidVisitor;
-import org.ifyounoseyounose.backend.JavaParserSmellDetector;
-import org.ifyounoseyounose.backend.SmellDetector;
 import org.ifyounoseyounose.backend.SmellReport;
 
 import java.io.File;
