@@ -3,35 +3,37 @@ package org.ifyounoseyounose.backend.smelldetectors;
 
 import org.ifyounoseyounose.backend.SmellReport;
 
-
 import java.lang.reflect.Modifier;
-import java.util.List;
+import java.util.*;
+
 import java.lang.reflect.Field;
+import java.io.File;
 
 
+public class ViolationOfDataHidingSmellDetector extends SmellDetector implements ReflectionSmellDetector {
 
     @Override
-    public SmellReport detectSmell(List<Class> classes){
-    SmellReport smells = new SmellReport();
-    
-    for(Class c:classes){
-        Field[] fields =  c.getDeclaredFields();
-        for(Field f:fields){
-            int modifiers = f.getModifiers();
-                if(Modifier.isPublic(modifiers)){
-                    //get the line of code
+    public SmellReport detectSmell(HashMap<Class, File> classes) {
 
+        SmellReport smells = new SmellReport();
+        List<Integer> lines = new ArrayList<>();
 
+        for (Class current : classes.keySet()) {    //iterate through all the classes in the hashmap 
+            Field[] fields = current.getDeclaredFields();
 
-
-
-
-                    smells.addToReport(c, );
+            for(Field f: fields){
+                int modifiers = f.getModifiers();
+                if(Modifier.isPublic(modifiers)){ //check that the field is public
+                    smells.addToReport(classes.get(current), lines);
                 }
+            }
 
         }
-    }
 
-    return smells;
+
+
+
+
+        return smells;
     }
 }

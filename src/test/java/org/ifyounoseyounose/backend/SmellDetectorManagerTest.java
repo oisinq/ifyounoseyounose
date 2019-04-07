@@ -1,7 +1,7 @@
 package org.ifyounoseyounose.backend;
 
 import org.ifyounoseyounose.backend.smelldetectors.SmellDetector;
-import org.ifyounoseyounose.backend.smelldetectors.TooManyLiteralsSmellDetector;
+import org.ifyounoseyounose.backend.smelldetectors.ViolationOfDataHidingSmellDetector;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -26,7 +26,7 @@ public class SmellDetectorManagerTest {
         l.add(new File("./src/test/java/smellycodedirectory/SmellyLiterals.java"));
 
         List<SmellDetector> smellDetectors = new ArrayList<>();
-        smellDetectors.add(new TooManyLiteralsSmellDetector());
+        smellDetectors.add(new ViolationOfDataHidingSmellDetector());
 
         s.detectSmells(smellDetectors, l);
         assert(true);

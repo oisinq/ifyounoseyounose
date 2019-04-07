@@ -65,6 +65,7 @@ public class SmellDetectorManager {
                 URL[] urlList = new URL[1];
                 URLClassLoader classLoader = null;
                 List<Class> classes = new ArrayList<>();
+                HashMap<List<Class>, List<File>> classesMap = new HashMap<>();
 
                 try {
                     urlList[0] = compiledClassesDirectory.toURI().toURL();
@@ -75,9 +76,11 @@ public class SmellDetectorManager {
 
                 if (classLoader != null) {
                     classes = getListOfClasses(classLoader, compiledClassesDirectory);
-                }
 
-                results.add(((ReflectionSmellDetector) smellDetector).detectSmell(classes));
+
+                }
+                classesMap.put(classes,files);
+                results.add(((ReflectionSmellDetector) smellDetector).detectSmell(classesMap));
             }
         }
 
