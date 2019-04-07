@@ -17,6 +17,9 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class SetupController {
@@ -24,9 +27,13 @@ public class SetupController {
     @FXML private Button browse;
     @FXML private Button settingsDisplay;
     @FXML private Button smellTime;
-    @FXML private CheckBox smell1,smell2,smell3,smell4;//TODO::rename with actual smell
+    @FXML private CheckBox DuplicateCode,MessageChaining,PrimitiveObsession,SwitchStatement,TooManyLiterals;
+    List<CheckBox> checkboxes = new ArrayList<CheckBox>();
+
     @FXML private TextField displayDirectory;
-    //Stage stage = (Stage) browse.getScene().getWindow();
+    @FXML private VBox vbox;
+    @FXML private AnchorPane ap;
+
     File selectedDirectory=null;
     private Scene secondScene;
     String selectedDirectoryString=null;
@@ -36,11 +43,11 @@ public class SetupController {
 
 
     public void setSettingsDisplay(){//TODO::once smells are set this would be better with an array
-        smell1.setVisible(showSettings);
-        smell2.setVisible(showSettings);
-        smell3.setVisible(showSettings);
-        smell4.setVisible(showSettings);
-
+        DuplicateCode.setVisible(showSettings);
+        MessageChaining.setVisible(showSettings);
+        PrimitiveObsession.setVisible(showSettings);
+        SwitchStatement.setVisible(showSettings);
+        TooManyLiterals.setVisible(showSettings);
     }
 
     public void setSecondScene(Scene scene){
@@ -48,7 +55,19 @@ public class SetupController {
     }
 
     public void initialize() {
+        //set all to be true by default
+        DuplicateCode.setSelected(true);
+        MessageChaining.setSelected(true);
+        PrimitiveObsession.setSelected(true);
+        SwitchStatement.setSelected(true);
+        TooManyLiterals.setSelected(true);
 
+        //add them to the list for checking
+        checkboxes.add(DuplicateCode);
+        checkboxes.add(MessageChaining);
+        checkboxes.add(PrimitiveObsession);
+        checkboxes.add(SwitchStatement);
+        checkboxes.add(TooManyLiterals);
         /*this has all the button listeners pretty much*/
         setSettingsDisplay();//call once on intialise to set settings buttons as hidden
         settingsDisplay.setOnAction(new EventHandler<ActionEvent>() {
@@ -75,14 +94,26 @@ public class SetupController {
         smellTime.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                eventBus.post(new EventBusFactory(selectedDirectoryString));
-                Stage stage=(Stage) ((Node)event.getTarget()).getScene().getWindow();
-                stage.setScene(secondScene);
+                List smells=getSmellsToTest();
+                if(selectedDirectoryString!=null&&smells!=null) {
+                    eventBus.post(new EventBusFactory(selectedDirectoryString, selectedDirectory));
+                    Stage stage = (Stage) ((Node) event.getTarget()).getScene().getWindow();
+                    stage.setScene(secondScene);
+                }
             }
         });
-
-
-
     }
 
+
+    public List getSmellsToTest(){
+        List toReturn=new ArrayList();
+        for(CheckBox a: checkboxes){
+            if(a.isSelected()){
+                System.out.println(a.getId());
+                toReturn.add(a.getId());
+            }
+        }
+
+        return toReturn;
+    }
 }
