@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class DuplicateCodeSmellDetector extends SmellDetector, LimitableSmellDetector implements ManualParserSmellDetector  {
+public class DuplicateCodeSmellDetector extends LimitableSmellDetector implements ManualParserSmellDetector  {
     @Override
     public SmellReport detectSmell(List<File> sourceCode) {
         SmellReport smells = new SmellReport();// To be returned
