@@ -38,6 +38,7 @@ public class DuplicateCodeSmellDetector extends LimitableSmellDetector implement
                             innerHashMap = new HashMap<>();
                             outerHashMap.put(line, innerHashMap);
                         }
+
                         List<Integer> list = (outerHashMap.get(line)).get(file); // See if you already have a list for current key
 
                         if (list == null) { // If not, create one and put it in the map
