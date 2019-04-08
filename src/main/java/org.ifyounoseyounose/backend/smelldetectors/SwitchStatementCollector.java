@@ -18,7 +18,14 @@ public class SwitchStatementCollector extends VoidVisitorAdapter<List<Integer>> 
     @Override
     public void visit(SwitchStmt md, List<Integer> collector) {
         super.visit(md, collector);
-        addLineNumbers(md, collector);
+        int limit = collector.get(0);
+
+        // This checks if the number of cases is over the limit. If it is, we add the lines to the list.
+        // We subtract one because getChildNodes() also includes the condition of the switch statement
+        if ((md.getChildNodes().size()-1) > limit) {
+            addLineNumbers(md, collector);
+        }
+
     }
 
     private void addLineNumbers(Node node, List<Integer> collector) {

@@ -23,7 +23,7 @@ public class TooManyLiteralsTest {
         l.add(new File("./src/test/java/smellycodedirectory/SmellyLiterals.java"));
 
         List<SmellDetector> smellDetectors = new ArrayList<>();
-        smellDetectors.add(new TooManyLiteralsSmellDetector());
+        smellDetectors.add(new TooManyLiteralsSmellDetector(2));
 
         s.detectSmells(smellDetectors, l);
         assert(true);

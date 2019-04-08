@@ -12,7 +12,15 @@ import java.util.List;
 /**
  * TooManyLiteralsSmellDetector - Returns every line in which a literal int, double, float or char is referenced, apart from variable assignments
  */
-public class SwitchStatementSmellDetector extends SmellDetector implements JavaParserSmellDetector {
+public class SwitchStatementSmellDetector extends LimitableSmellDetector implements JavaParserSmellDetector {
+
+    public SwitchStatementSmellDetector(int limit) {
+        super(limit);
+    }
+
+    public SwitchStatementSmellDetector() {
+        super(3);
+    }
 
     @Override
     public SmellReport detectSmell(HashMap<CompilationUnit, File> compilationUnits) {
@@ -22,7 +30,9 @@ public class SwitchStatementSmellDetector extends SmellDetector implements JavaP
         // We check for literals in each individual CompliationUnit and record the line numbers of instances of literals being used
         for (CompilationUnit compilationUnit : compilationUnits.keySet()) {
             List<Integer> collector = new ArrayList<>();
+            collector.add(limit);
             visitor.visit(compilationUnit, collector);
+            collector.remove(0);
             smellReport.addToReport(compilationUnits.get(compilationUnit),collector);
         }
 
