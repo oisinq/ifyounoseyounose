@@ -61,11 +61,13 @@ public class SmellDetectorManager {
             } else if (smellDetector instanceof ReflectionSmellDetector) {
                 compileJavaFiles(files);
 
+                HashMap<Class, File> classesMap = new HashMap<>();
+
                 File compiledClassesDirectory = new File(".compiled_classes/");
                 URL[] urlList = new URL[1];
                 URLClassLoader classLoader = null;
                 List<Class> classes = new ArrayList<>();
-                HashMap<List<Class>, List<File>> classesMap = new HashMap<>();
+
 
                 try {
                     urlList[0] = compiledClassesDirectory.toURI().toURL();
@@ -75,15 +77,15 @@ public class SmellDetectorManager {
                 }
 
                 if (classLoader != null) {
-                    classes = getListOfClasses(classLoader, compiledClassesDirectory);
-
-
+                    classesMap = getListOfClasses(classLoader, compiledClassesDirectory);
                 }
-                classesMap.put(classes,files);
+
+
                 results.add(((ReflectionSmellDetector) smellDetector).detectSmell(classesMap));
+
+
             }
         }
-
         System.out.println("****SmellDetectorManager results:****");
         for (SmellReport s : results) {
             System.out.println(s);
@@ -118,10 +120,10 @@ public class SmellDetectorManager {
      * @param compiledClassesDirectory This is the folder containing the new .compiled_classes
      * @return A list of Class objects
      */
-    private List<Class> getListOfClasses(URLClassLoader classLoader, File compiledClassesDirectory) {
+    private  HashMap<Class, File> getListOfClasses(URLClassLoader classLoader, File compiledClassesDirectory) {
         List<Class> classes = new ArrayList<>();
         List<Path> pathsList = new ArrayList<>();
-
+        HashMap<Class, File> classesMap = new HashMap<>();
         try (Stream<Path> paths = Files.walk(Paths.get(compiledClassesDirectory.toString()))) {
             paths.filter(Files::isRegularFile)
                  .forEach(pathsList::add);
@@ -138,12 +140,14 @@ public class SmellDetectorManager {
                 output = output.replaceAll("\\.class", "");
                 output = output.replaceAll("/", ".");
 
-                classes.add(classLoader.loadClass(output));
+                classesMap.put(classLoader.loadClass(output), p.toFile());
+                //classes.add(classLoader.loadClass(output));
             } catch (ClassNotFoundException e) {
                 System.err.println("Cannot find class.");
             }
         }
 
-        return classes;
+
+        return classesMap;
     }
 }
