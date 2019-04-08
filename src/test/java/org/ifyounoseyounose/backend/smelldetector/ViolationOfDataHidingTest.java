@@ -2,7 +2,7 @@ package org.ifyounoseyounose.backend.smelldetector;
 
 import org.ifyounoseyounose.backend.SmellDetectorManager;
 import org.ifyounoseyounose.backend.smelldetectors.SmellDetector;
-import org.ifyounoseyounose.backend.smelldetectors.TooManyLiteralsSmellDetector;
+
 import org.ifyounoseyounose.backend.smelldetectors.ViolationOfDataHidingSmellDetector;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,9 +18,9 @@ public class ViolationOfDataHidingTest {
         SmellDetectorManager s = new SmellDetectorManager();
 
         List<File> l = new ArrayList<>();
-        //l.add(new File("./src/test/java/smellycodedirectory/Yeet.java"));
-        //l.add(new File("./src/test/java/smellycodedirectory/Yeet2.java"));
-        //l.add(new File("./src/test/java/smellycodedirectory/seq/Yeet3.java"));
+        l.add(new File("./src/test/java/smellycodedirectory/Yeet.java"));
+        l.add(new File("./src/test/java/smellycodedirectory/Yeet2.java"));
+        l.add(new File("./src/test/java/smellycodedirectory/seq/Yeet3.java"));
         l.add(new File("./src/test/java/smellycodedirectory/SmellyLiterals.java"));
         l.add(new File("./src/test/java/smellycodedirectory/SmellyDataHiding.java"));
 

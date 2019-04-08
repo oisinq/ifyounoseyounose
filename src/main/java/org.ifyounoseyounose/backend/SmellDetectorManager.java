@@ -77,13 +77,16 @@ public class SmellDetectorManager {
                 }
 
                 if (classLoader != null) {
-                    classesMap = getListOfClasses(classLoader, compiledClassesDirectory);
+                    for (File f : files) {
+
+                        classesMap = getListOfClasses(classLoader, compiledClassesDirectory, files);
+
+                    }
+
+
+                    results.add(((ReflectionSmellDetector) smellDetector).detectSmell(classesMap));
+
                 }
-
-
-                results.add(((ReflectionSmellDetector) smellDetector).detectSmell(classesMap));
-
-
             }
         }
         System.out.println("****SmellDetectorManager results:****");
@@ -120,7 +123,7 @@ public class SmellDetectorManager {
      * @param compiledClassesDirectory This is the folder containing the new .compiled_classes
      * @return A list of Class objects
      */
-    private  HashMap<Class, File> getListOfClasses(URLClassLoader classLoader, File compiledClassesDirectory) {
+    private  HashMap<Class, File> getListOfClasses(URLClassLoader classLoader, File compiledClassesDirectory, List<File> files) {
         List<Class> classes = new ArrayList<>();
         List<Path> pathsList = new ArrayList<>();
         HashMap<Class, File> classesMap = new HashMap<>();
@@ -140,7 +143,13 @@ public class SmellDetectorManager {
                 output = output.replaceAll("\\.class", "");
                 output = output.replaceAll("/", ".");
 
-                classesMap.put(classLoader.loadClass(output), p.toFile());
+                for(File f:files){
+                   // System.out.println(f.getName().replaceAll(".java", ""));
+                   if(fullPath.contains(f.getName().replaceAll(".java", ""))){
+                       classesMap.put(classLoader.loadClass(output), f);
+                   }
+                }
+
                 //classes.add(classLoader.loadClass(output));
             } catch (ClassNotFoundException e) {
                 System.err.println("Cannot find class.");
