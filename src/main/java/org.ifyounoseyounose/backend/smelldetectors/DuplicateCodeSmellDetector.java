@@ -17,7 +17,7 @@ public class DuplicateCodeSmellDetector extends LimitableSmellDetector implement
         for(File f : sourceCode) {// Iterates through files
 
             String line = null;
-            count=0;
+            count=1;
             try {
 
                 FileReader targetStream = new FileReader(f);
