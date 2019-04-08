@@ -10,63 +10,62 @@ import java.util.List;
 public class DuplicateCodeSmellDetector extends LimitableSmellDetector implements ManualParserSmellDetector  {
     @Override
     public SmellReport detectSmell(List<File> sourceCode) {
-        SmellReport smells = new SmellReport();// To be returned
-        int count = 1;// Line number
-        HashMap<String, HashMap<File, List<Integer>>> temp = new HashMap<>();//A hashmap with key being the contents of the line, the value being a hashmap with the key being the file and the value being the line number the content appeared on
+        SmellReport smells = new SmellReport();
+        int lineNumber;
 
-        for(File f : sourceCode) {// Iterates through files
+        // A hashmap with key being the contents of the line, the value being a hashmap with the key
+        // being the file and the value being the line number the content appeared on
+        HashMap<String, HashMap<File, List<Integer>>> outerHashMap = new HashMap<>();
 
-            String line = null;
-            count=1;
+        for(File file : sourceCode) { // Iterates through files
+
+            String line;
+            lineNumber = 1;
+
             try {
+                FileReader targetStream = new FileReader(file);
+                BufferedReader bufferedReader = new BufferedReader(targetStream);
 
-                FileReader targetStream = new FileReader(f);
-                BufferedReader bufferedReader =
-                        new BufferedReader(targetStream);
-
+                // This conditional gets the next line from bufferedReader, assigns its value to line then ensures it's not null
                 while((line = bufferedReader.readLine()) != null) {
                     line = line.trim();
 
-                    if (!line.equals("}") && !line.equals("{") && !line.equals("")) {// Checks lines are irrelevant
-                        HashMap<File, List<Integer>> hold = temp.get(line); //see if you already have a hashmap for current key
-                        System.out.println("test4");
+                    if (!line.equals("}") && !line.equals("{") && !line.equals("")) { // Checks lines are irrelevant
 
-                        if (hold == null) { //if not create one and put it in the map
-                            hold = new HashMap<File, List<Integer>>();
-                            temp.put(line, hold);
-                        }
-                        List<Integer> l = (temp.get(line)).get(f); //see if you already have a list for current key
-                        System.out.println("test4");
+                        HashMap<File, List<Integer>> innerHashMap = outerHashMap.get(line); //see if you already have a hashmap for current key
 
-                        if (l == null) { //if not create one and put it in the map
-                            l = new ArrayList<Integer>();
-                            temp.get(line).put(f, l);
+                        if (innerHashMap == null) { // If not, create one and put it in the map
+                            innerHashMap = new HashMap<>();
+                            outerHashMap.put(line, innerHashMap);
                         }
-                        temp.get(line).get(f).add(count);//Adds the line number to the inner hashmap
+                        List<Integer> list = (outerHashMap.get(line)).get(file); // See if you already have a list for current key
+
+                        if (list == null) { // If not, create one and put it in the map
+                            list = new ArrayList<>();
+                            outerHashMap.get(line).put(file, list);
+                        }
+                        outerHashMap.get(line).get(file).add(lineNumber); // Adds the line number to the inner hashmap
                     }
-                    count++;
+                    lineNumber++;
                 }
 
 
             }
-            catch(IOException z)
+            catch(IOException e)
             {
-                System.out.println("Invalid file");
+                System.err.println("Could not read file");
             }
-
-
-
         }
-        if(!temp.isEmpty()) {//Ensures there is a line of code to add
 
-            int maxLines=0;
-            for(HashMap<File, List<Integer>> x: temp.values()) {//Searches through the hashmaps
-                maxLines=0;
-                for(List<Integer> u: x.values())//Adds up the total amount of times the lines has appeared
-                {
-                    maxLines=maxLines+u.size();
+        if(!outerHashMap.isEmpty()) { // Ensures there is a line of code to add
+            int maxLines;
+
+            for(HashMap<File, List<Integer>> x : outerHashMap.values()) { // Searches through the hashmaps
+                maxLines = 0;
+                for(List<Integer> u : x.values()) { // Adds up the total amount of times the lines has appeared
+                    maxLines = maxLines + u.size();
                 }
-                if(maxLines>=limit) {//If greater then the limit add to report
+                if(maxLines >= limit) { // If greater then the limit, add to report
                     for (File y : x.keySet()) {
                             smells.addToReport(y, x.get(y));
                     }
