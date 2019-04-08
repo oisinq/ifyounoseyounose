@@ -18,7 +18,7 @@ public class DuplicateCodeTest {
 
         List<File> l = new ArrayList<>();
         l.add(new File("./src/test/java/smellycodedirectory/DuplicatedCode.java"));
-
+        l.add(new File("./src/test/java/smellycodedirectory/Yeet.java"));
         List<SmellDetector> smellDetectors = new ArrayList<>();
         smellDetectors.add(new DuplicateCodeSmellDetector());
 
