@@ -1,10 +1,14 @@
 package org.ifyounoseyounose.backend.smelldetectors;
 
 public class LimitableSmellDetector extends SmellDetector {
-    private int limit = 0;
+    protected int limit;
 
     LimitableSmellDetector(int limit) {
         setLimit(limit);
+    }
+
+    LimitableSmellDetector() {
+        limit = 0;
     }
 
     public void setLimit(int limit) {
