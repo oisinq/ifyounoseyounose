@@ -25,7 +25,7 @@ public class Controller {
         EventBusFactory.getEventBus().register(new Object() {
             @Subscribe
             public void setInputDirectory(EventBusFactory e){
-                String temp= e.getResult().replace("\\", "/");
+                String temp= e.getLocation().replace("\\", "/");
                 InputDirectory=temp;
                 displayTreeView(temp);
 
