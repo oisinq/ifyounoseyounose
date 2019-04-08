@@ -36,7 +36,7 @@ public class DuplicateCodeSmellDetector extends LimitableSmellDetector implement
                             temp.put(line, hold);
                         }
                         List<Integer> l = (temp.get(line)).get(f); //see if you already have a list for current key
-                        System.out.println("test4");
+                        
 
                         if (l == null) { //if not create one and put it in the map
                             l = new ArrayList<Integer>();
