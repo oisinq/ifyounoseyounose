@@ -17,7 +17,7 @@ public class DuplicateCodeTest {
         SmellDetectorManager s = new SmellDetectorManager();
 
         List<File> l = new ArrayList<>();
-        l.add(new File("./src/test/java/smellycodedirectory/DuplicatedCode.java"));
+        l.add(new File("./src/test/java/smellycodedirectory/DeadCode.java"));
         l.add(new File("./src/test/java/smellycodedirectory/Yeet.java"));
 
 

@@ -7,20 +7,25 @@ import org.ifyounoseyounose.backend.SmellReport;
 
 import java.io.File;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class DeadCodeSmellDetector implements JavaParserSmellDetector {
-    public DeadCodeSmellDetector() {
-        super();
-    }
+public class DeadCodeSmellDetector extends SmellDetector implements JavaParserSmellDetector  {
     public SmellReport detectSmell(HashMap<CompilationUnit, File> compilationUnits){
         SmellReport smells = new SmellReport();
             VoidVisitor<List<MethodDeclaration>> visitor1 = new DeadCodeMethodCollector();
-            HashMap<File, List<MethodDeclaration>> methodList = new HashMap<>();
+            VoidVisitor<List<Integer>> visitor2 = new DeadCodeObjectCollector();
+            HashMap<File, List<MethodDeclaration>> methodHash = new HashMap<>();
             for(CompilationUnit comp: compilationUnits.keySet()){
-            visitor1.visit(comp, methodList.get(compilationUnits.get(comp)));
-            System.out.println(methodList.get(compilationUnits.get(comp)).toString());
+                List<MethodDeclaration> methodList = methodHash.get(compilationUnits.get(comp)); //see if you already have a hashmap for current key
+
+                if (methodList == null) { // If not, create one and put it in the map
+                    methodList = new ArrayList();
+                    methodHash.put(compilationUnits.get(comp),methodList);
+                }
+            visitor1.visit(comp, methodHash.get(compilationUnits.get(comp)));
+            System.out.println(methodHash.get(compilationUnits.get(comp)).get(1).getDeclarationAsString());
             }
         return null;
 

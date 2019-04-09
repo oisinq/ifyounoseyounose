@@ -10,7 +10,7 @@ public class MessageChainingSmellDetector extends SmellDetector implements Manua
     @Override
     public SmellReport detectSmell(List<File> sourceCode) {
         SmellReport smells = new SmellReport();// To be returned
-        int count = 0;// Line number
+        int count = 1;// Line number
         for(File f : sourceCode) {// Iterates through files
             List<Integer> current = new ArrayList<>();// Smelly line numbers
             String line = null;
