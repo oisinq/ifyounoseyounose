@@ -14,4 +14,8 @@ private int temp=0;
         this.temp =temp;
     }
 
+    public void data2(int temp){
+        this.temp =temp;
+    }
+
 }

@@ -14,27 +14,26 @@ public class DataOnlyClassesCollector extends VoidVisitorAdapter<List<Integer>> 
 
 
     @Override
-    public void visit(MethodDeclaration md, List<Integer> collector){
+    public void visit(MethodDeclaration md, List<Integer> collector) {
         super.visit(md, collector);
-       // System.out.println(md.getDeclarationAsString());
-        // two options, first line in the method is return something
-        // or this.something = something
 
-            String returnStatement = md.getBody().toString();
-            returnStatement = returnStatement.replaceAll(md.getDeclarationAsString(), "");
-            //returnStatement = returnStatement.replaceAll("", "");
-           // System.out.println(returnStatement);
-           // System.out.println(md.getBegin().get().line);
-        if(md.getName().toString().contains("get") || md.getName().toString().contains("set")){
+        String body = md.getBody().toString(); //
+        body = body.replaceAll(md.getDeclarationAsString(), "");
+
+        if (md.getName().toString().contains("get") || md.getName().toString().contains("set")) {
             addLineNumbers(md,collector);
+        } else if (md.getRange().get().end.line - md.getRange().get().begin.line <= 2
+                && (body.contains("return") || body.contains("this"))) {
+          addLineNumbers(md,collector);
         }
-            else if(md.getRange().get().end.line-md.getRange().get().begin.line<=2
-                                  && (returnStatement.contains("return") || returnStatement.contains("this") )) {
-                addLineNumbers(md,collector);
-            }
-
+        else{
+            //this is not a DataOnlyClass so we can stop looking
+            //empty the List
+            collector.clear();
+        }
 
     }
+
     @Override
     public void visit(VariableDeclarationExpr vd, List<Integer> collector) {
         super.visit(vd, collector);
