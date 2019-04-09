@@ -1,18 +1,16 @@
 package org.ifyounoseyounose.backend;
 
-
-import org.ifyounoseyounose.backend.smelldetectors.PlaceholderSmellDetector;
 import org.ifyounoseyounose.backend.smelldetectors.PrimitiveObsessionSmellDetector;
 import org.ifyounoseyounose.backend.smelldetectors.TooManyLiteralsSmellDetector;
 import org.ifyounoseyounose.backend.smelldetectors.SmellDetector;
-import org.ifyounoseyounose.backend.smelldetectors.TooManyLiteralsSmellDetector;
+
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import static org.junit.Assert.*;
+
 
 public class SmellDetectorManagerTest {
 
