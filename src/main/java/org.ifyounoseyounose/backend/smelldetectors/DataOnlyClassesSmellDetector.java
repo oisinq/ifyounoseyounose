@@ -15,21 +15,21 @@ public class DataOnlyClassesSmellDetector extends SmellDetector implements JavaP
     public SmellReport detectSmell(HashMap<CompilationUnit, File> compilationUnits) {
         SmellReport smellReport = new SmellReport();
         VoidVisitor<List<Integer>> visitor = new DataOnlyClassesCollector();
-        List<Integer> collector = new ArrayList<>();
-        int count = 0;
-        for (CompilationUnit compilationUnit : compilationUnits.keySet()) {
 
-            if(count>0 && collector.isEmpty()){
+        int count = 0; //keeps count of the number methods that are checked
+        for (CompilationUnit compilationUnit : compilationUnits.keySet()) {
+            List<Integer> collector = new ArrayList<>();
+            //breaks the loop if a method is not DataOnly
+            if (count > 0 && collector.isEmpty()) {
                 smellReport.addToReport(compilationUnits.get(compilationUnit), collector);
-                break;
+
             }
             visitor.visit(compilationUnit, collector);
-            System.err.println(compilationUnits.get(compilationUnit) + " - " + collector.size());
             smellReport.addToReport(compilationUnits.get(compilationUnit), collector);
             count++;
         }
 
-        return smellReport;
+        return smellReport; //returns the lines of the methods although the whole class is problematic
     }
 
 }
