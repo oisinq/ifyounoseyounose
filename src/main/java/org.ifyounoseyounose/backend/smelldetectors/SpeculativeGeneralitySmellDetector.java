@@ -15,8 +15,8 @@ public class SpeculativeGeneralitySmellDetector extends SmellDetector implements
 
         SmellReport smells = new SmellReport();
         VoidVisitor<List<Integer>> visitor1 = new SpeculativeGeneralityMethodCollector();
-        List<Integer> lineNumbers = new ArrayList();
         for(CompilationUnit comp: compilationUnits.keySet()){
+            List<Integer> lineNumbers = new ArrayList();
             visitor1.visit(comp, lineNumbers);
             smells.addToReport(compilationUnits.get(comp), lineNumbers);
         }
