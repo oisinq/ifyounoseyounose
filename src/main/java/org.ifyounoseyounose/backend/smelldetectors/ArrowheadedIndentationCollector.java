@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class ArrowheadedIndentationCollector extends VoidVisitorAdapter<List<Integer>> {
+    // This records the current depth, increasing as it enters if, while and for statements
     private int depth = 0;
     private int limit;
 
@@ -20,10 +21,10 @@ public class ArrowheadedIndentationCollector extends VoidVisitorAdapter<List<Int
 
     @Override
     public void visit(IfStmt md, List<Integer> collector) {
-        depth++;
-        if (depth >= limit) {
+        depth++; // When we're at an if statement, we increase the depth
+        if (depth >= limit) { // If we hit the limit, then we records the line numbers of the statement
             addLineNumbers(md, collector);
-        } else {
+        } else { // Otherwise, we recursively continue to search down the abstract syntax tree
             super.visit(md, collector);
         }
         depth--;
@@ -31,10 +32,10 @@ public class ArrowheadedIndentationCollector extends VoidVisitorAdapter<List<Int
 
     @Override
     public void visit(ForStmt md, List<Integer> collector) {
-        depth++;
-        if (depth >= limit) {
+        depth++; // When we're at an if statement, we increase the depth
+        if (depth >= limit) { // If we hit the limit, then we records the line numbers of the statement
             addLineNumbers(md, collector);
-        } else {
+        } else { // Otherwise, we recursively continue to search down the abstract syntax tree
             super.visit(md, collector);
         }
         depth--;
@@ -42,10 +43,10 @@ public class ArrowheadedIndentationCollector extends VoidVisitorAdapter<List<Int
 
     @Override
     public void visit(WhileStmt md, List<Integer> collector) {
-        depth++;
-        if (depth >= limit) {
+        depth++; // When we're at an if statement, we increase the depth
+        if (depth >= limit) { // If we hit the limit, then we records the line numbers of the statement
             addLineNumbers(md, collector);
-        } else {
+        } else { // Otherwise, we recursively continue to search down the abstract syntax tree
             super.visit(md, collector);
         }
         depth--;
