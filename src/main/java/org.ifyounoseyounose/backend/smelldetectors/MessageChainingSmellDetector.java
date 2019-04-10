@@ -22,7 +22,6 @@ public class MessageChainingSmellDetector extends SmellDetector implements Manua
                 while((line = bufferedReader.readLine()) != null) {
                     if(line.matches(".*(\\..*\\(.*\\)){3,}"))// Regular expression check
                     {
-                        System.out.println("here");
                         current.add(count);
                     }
                     count++;
