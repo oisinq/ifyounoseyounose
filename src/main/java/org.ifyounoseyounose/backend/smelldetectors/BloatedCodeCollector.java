@@ -18,9 +18,11 @@ public class BloatedCodeCollector extends VoidVisitorAdapter<List<Integer>> {
         if(md.getRange().get().end.line - md.getRange().get().begin.line >= limit){
             addLineNumbers(md, collector);
         }
-
+        if(md.getParameters().toString().length()>=3){
+            addLineNumbers(md, collector);
+        }
+        
     }
-
     private void addLineNumbers(Node node, List<Integer> collector) {
         Optional<Range> m = node.getRange();
         Range r = m.get();

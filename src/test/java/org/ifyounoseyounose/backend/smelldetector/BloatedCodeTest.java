@@ -16,6 +16,7 @@ public class BloatedCodeTest {
 
         List<File> l = new ArrayList<>();
         l.add(new File("./src/test/java/smellycodedirectory/SmellySwitchStatements.java"));
+        l.add(new File("./src/test/java/smellycodedirectory/SmellyBloatedCode.java"));
 
 
         List<SmellDetector> smellDetectors = new ArrayList<>();
