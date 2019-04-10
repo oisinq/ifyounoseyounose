@@ -13,7 +13,7 @@ public class BloatedCodeSmellDetector extends SmellDetector implements JavaParse
     @Override
     public SmellReport detectSmell(HashMap<CompilationUnit, File> compilationUnits) {
         SmellReport smellReport = new SmellReport();
-        VoidVisitor<List<Integer>> visitor = new BloatedCodeSmellDetector();
+        VoidVisitor<List<Integer>> visitor = new BloatedCodeCollector();
 
         for (CompilationUnit compilationUnit : compilationUnits.keySet()) {
             List<Integer> collector = new ArrayList<>();
