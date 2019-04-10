@@ -22,10 +22,10 @@ public class DataOnlyClassesCollector extends VoidVisitorAdapter<List<Integer>> 
             body = body.replaceAll(md.getDeclarationAsString(), "");
             if (body.contains("return") || body.contains("this")) {
                 addLineNumbers(md, collector);
+            } else if ((md.getName().toString().contains("get") && body.contains("return")) ||
+                    (md.getName().toString().contains("set") && !body.contains("return"))) {
+                addLineNumbers(md, collector);
             }
-        } else if (md.getName().toString().contains("get") || md.getName().toString().contains("set")) {
-            addLineNumbers(md, collector);
-
         } else {
             collector.clear(); //list is emptied if it is not a data only method
         }
