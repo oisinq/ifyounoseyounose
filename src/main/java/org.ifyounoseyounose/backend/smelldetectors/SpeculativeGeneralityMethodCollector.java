@@ -13,7 +13,7 @@ public class SpeculativeGeneralityMethodCollector extends VoidVisitorAdapter<Lis
     public void visit(MethodDeclaration md, List<Integer> collector) {
         super.visit(md, collector);
         String s = md.getBody().toString().substring(10, md.getBody().toString().length()-2);
-        if(s.trim().length() ==0) {
+        if(s.trim().length() ==0||s.contains("TO DO")||s.contains("TODO")||s.contains("todo")||s.contains("to do")) {
             addLineNumbers(md, collector);
         }
     }
@@ -21,7 +21,6 @@ public class SpeculativeGeneralityMethodCollector extends VoidVisitorAdapter<Lis
         Optional<Range> m = node.getRange();
         Range r = m.get();
         for (int lineNumber = r.begin.line; lineNumber <= r.end.line; lineNumber++) {
-            System.out.println(lineNumber);
             collector.add(lineNumber);
         }
     }
