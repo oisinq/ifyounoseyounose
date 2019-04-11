@@ -68,6 +68,7 @@ public class SetupController {
         checkboxes.add(PrimitiveObsession);
         checkboxes.add(SwitchStatement);
         checkboxes.add(TooManyLiterals);
+
         /*this has all the button listeners pretty much*/
         setSettingsDisplay();//call once on intialise to set settings buttons as hidden
         settingsDisplay.setOnAction(new EventHandler<ActionEvent>() {
@@ -82,11 +83,9 @@ public class SetupController {
             @Override
             public void handle(ActionEvent event) {
                 DirectoryChooser chooser = new DirectoryChooser();
-
                 chooser.setTitle("Choose the Directory of files you wish to smell");
                 selectedDirectory = chooser.showDialog(new Stage());
                 selectedDirectoryString=selectedDirectory.getAbsolutePath();
-
                 displayDirectory.setText(selectedDirectoryString);
             }
         });
