@@ -29,7 +29,6 @@ public class BloatedMethodCodeSmellDetector extends LimitableSmellDetector imple
             collector.add(limit);
             visitor.visit(compilationUnit, collector);
             collector.remove(0);
-            System.err.println(compilationUnits.get(compilationUnit) + " - " + collector.size());
             smellReport.addToReport(compilationUnits.get(compilationUnit),collector);
         }
 
