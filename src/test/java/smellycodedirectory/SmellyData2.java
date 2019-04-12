@@ -1,30 +1,13 @@
 package smellycodedirectory;
 
-public class SmellyData2 {
-    private int temp=0;
+final class Point {
+    public final int x;
+    public final int y;
 
-    public int getData(int temp){
-        return temp;
+    public Point(int x, int y) {
+        this.x = x;
+        this.y = y;
     }
-
-
-
-    public void setData(int temp){
-        this.temp = temp;
-    }
-
-
-
-
-    public void data(int temp){
-        this.temp =temp;
-    }
-
-
-
-
-    public void data2(int temp){
-        this.temp =temp;
-    }
-
 }
+// state-based implementations of equals, hashCode, toString
+// nothing else
