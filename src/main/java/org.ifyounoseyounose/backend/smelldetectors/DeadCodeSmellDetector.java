@@ -68,9 +68,11 @@ public class DeadCodeSmellDetector extends SmellDetector implements JavaParserSm
             }
 
         }
-        for(List<Signature> e: methodHash.values())
-        {
-            smells.addToReport(e.getClass(), e.);
+        for(File f: methodHash.keySet()) {
+            for (Signature e : methodHash.get(f)) {
+                
+                smells.addToReport(e.getClass(), e.);
+            }
         }
         return smells;
     }
