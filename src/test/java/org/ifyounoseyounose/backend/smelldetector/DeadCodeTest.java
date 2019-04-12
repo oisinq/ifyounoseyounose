@@ -16,8 +16,9 @@ public class DeadCodeTest {
         SmellDetectorManager s = new SmellDetectorManager();
 
         List<File> l = new ArrayList<>();
-        l.add(new File("./src/test/java/smellycodedirectory/DeadCode.java"));
         l.add(new File("./src/test/java/smellycodedirectory/Yeet.java"));
+        l.add(new File("./src/test/java/smellycodedirectory/DeadCode.java"));
+
 
 
         List<SmellDetector> smellDetectors = new ArrayList<>();
