@@ -1,7 +1,7 @@
 package org.ifyounoseyounose.backend.smelldetector;
 
 import org.ifyounoseyounose.backend.SmellDetectorManager;
-import org.ifyounoseyounose.backend.smelldetectors.BloatedCodeSmellDetector;
+import org.ifyounoseyounose.backend.smelldetectors.BloatedMethodCodeSmellDetector;
 import org.ifyounoseyounose.backend.smelldetectors.SmellDetector;
 import org.junit.Test;
 
@@ -16,11 +16,11 @@ public class BloatedCodeTest {
 
         List<File> l = new ArrayList<>();
         l.add(new File("./src/test/java/smellycodedirectory/SmellySwitchStatements.java"));
-        l.add(new File("./src/test/java/smellycodedirectory/SmellyBloatedCode.java"));
+        l.add(new File("./src/test/java/smellycodedirectory/SmellyBloatedParamCode.java"));
 
 
         List<SmellDetector> smellDetectors = new ArrayList<>();
-        smellDetectors.add(new BloatedCodeSmellDetector());
+        smellDetectors.add(new BloatedMethodCodeSmellDetector());
 
         s.detectSmells(smellDetectors, l);
         assert(true);

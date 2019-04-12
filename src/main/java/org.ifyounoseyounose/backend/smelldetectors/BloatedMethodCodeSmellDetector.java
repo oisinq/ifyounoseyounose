@@ -9,15 +9,26 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class BloatedCodeSmellDetector extends SmellDetector implements JavaParserSmellDetector{
+public class BloatedMethodCodeSmellDetector extends LimitableSmellDetector implements JavaParserSmellDetector {
+
+    public BloatedMethodCodeSmellDetector(int limit) {
+        super(limit);
+    }
+
+    public BloatedMethodCodeSmellDetector() {
+        super(20);
+    }
+
     @Override
     public SmellReport detectSmell(HashMap<CompilationUnit, File> compilationUnits) {
         SmellReport smellReport = new SmellReport();
-        VoidVisitor<List<Integer>> visitor = new BloatedCodeCollector();
+        VoidVisitor<List<Integer>> visitor = new BloatedMethodCollector();
 
         for (CompilationUnit compilationUnit : compilationUnits.keySet()) {
             List<Integer> collector = new ArrayList<>();
+            collector.add(limit);
             visitor.visit(compilationUnit, collector);
+            collector.remove(0);
             System.err.println(compilationUnits.get(compilationUnit) + " - " + collector.size());
             smellReport.addToReport(compilationUnits.get(compilationUnit),collector);
         }
