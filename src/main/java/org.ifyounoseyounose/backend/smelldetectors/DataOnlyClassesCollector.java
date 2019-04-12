@@ -9,8 +9,6 @@ import com.github.javaparser.ast.comments.*;
 
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 
-import java.io.SyncFailedException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,7 +43,7 @@ public class DataOnlyClassesCollector extends VoidVisitorAdapter<List<Integer>> 
 
     }
 
-    //need to check constructors also 
+    //need to check constructors also
     @Override
     public void visit(ConstructorDeclaration cd, List<Integer> collector) {
         String mdString =cd.getBody().toString();

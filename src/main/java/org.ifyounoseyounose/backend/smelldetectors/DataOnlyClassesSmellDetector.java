@@ -23,6 +23,8 @@ public class DataOnlyClassesSmellDetector extends SmellDetector implements JavaP
             if (count > 0 && collector.isEmpty()) {
                 smellReport.addToReport(compilationUnits.get(compilationUnit), collector);
             }
+                
+                collector.add(0);
                 visitor.visit(compilationUnit, collector);
                 smellReport.addToReport(compilationUnits.get(compilationUnit), collector);
                 count++;
