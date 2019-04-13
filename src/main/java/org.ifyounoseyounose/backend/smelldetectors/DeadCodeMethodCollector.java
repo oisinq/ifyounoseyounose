@@ -11,11 +11,11 @@ import java.util.Optional;
 public class DeadCodeMethodCollector extends VoidVisitorAdapter<List<MethodDeclaration>> {
 
     @Override
-    public void visit(MethodDeclaration md, List<MethodDeclaration> collector) {
+    public void visit(MethodDeclaration md, List<MethodDeclaration> collector) {//Gets all method declarations
         super.visit(md, collector);
         collector.add(md);
     }
-    void addLineNumbers(Node node, List<Integer> collector) {
+    void addLineNumbers(Node node, List<Integer> collector) {//Gets the line of the method declaration
         Optional<Range> m = node.getRange();
         Range r = m.get();
 
