@@ -29,7 +29,7 @@ public class BloatedClassSmellDetector extends LimitableSmellDetector implements
             int lineNumber = 0;
             List<Integer> lines = new ArrayList<Integer>();
             try {
-
+                
                 FileReader targetStream = new FileReader(classes.get(current));
 
                 BufferedReader bufferedReader =
@@ -40,14 +40,12 @@ public class BloatedClassSmellDetector extends LimitableSmellDetector implements
                     lineNumber++;
                         }
 
-
             } catch (Exception e) {
                 System.err.println("Invalid file" + e.toString());
             }
 
             if (limit < lineNumber) {
-                lines.add(0); //add zero to highlight the class declaration 
-                System.out.println(lineNumber);
+                lines.add(0); //add zero to highlight the class declaration
 
             }
 

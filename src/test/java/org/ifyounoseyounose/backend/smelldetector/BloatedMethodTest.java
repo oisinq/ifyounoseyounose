@@ -9,7 +9,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BloatedCodeTest {
+public class BloatedMethodTest {
     @Test
     public void detectSmells() {
         SmellDetectorManager s = new SmellDetectorManager();
