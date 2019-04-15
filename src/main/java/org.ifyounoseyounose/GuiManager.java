@@ -50,9 +50,9 @@ public class GuiManager extends Application {
             }
         });
 
-        String classString=Files.readString(Path.of("D:/Code/ifyounoseyounose/src/main/java/org.ifyounoseyounose/Main.java"));
-        Color color = Color.web("#56cbf9");
-        mainApplicationController.setCodeAreaText(classString,color,5);
+        //String classString=Files.readString(Path.of("D:/Code/ifyounoseyounose/src/main/java/org.ifyounoseyounose/Main.java"));
+        //Color color = Color.web("#56cbf9");
+        //mainApplicationController.setCodeAreaText(classString,color,5);
 
         primaryStage.show();
     }
