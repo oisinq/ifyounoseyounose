@@ -28,10 +28,8 @@ import org.fxmisc.richtext.model.StyledSegment;
 import org.fxmisc.richtext.model.TextOps;
 import org.reactfx.SuspendableNo;
 import org.reactfx.util.Either;
-
 import static org.fxmisc.richtext.model.TwoDimensional.Bias.Backward;
 import static org.fxmisc.richtext.model.TwoDimensional.Bias.Forward;
-
 
 public class Controller {
 
@@ -43,17 +41,17 @@ public class Controller {
 
     // the initialize method is automatically invoked by the FXMLLoader - it's magic
     public void initialize() {
-        EventBusFactory.getEventBus().register(new Controller());//TODO TEST IF I NEED THIS
+        //EventBusFactory.getEventBus().register(new Controller());//TODO TEST IF I NEED THIS
         EventBusFactory.getEventBus().register(new Object() {
             @Subscribe
             public void setInputDirectory(EventBusFactory e){
-                String temp= e.getLocation().replace("\\", "/");
+                String temp= e.getFileLocation().replace("\\", "/");
                 InputDirectory=temp;
                 displayTreeView(temp);
             }
         });
         code.setContent(displayCodeTab());
-        //setCodeAreaText("Click on a file you wish to see the text for");
+
     }
 
     public void setFirstScene(Scene scene) {
@@ -159,31 +157,24 @@ public class Controller {
             );
         }
 
-        private void updateParagraphStyleInSelection(ParStyle mixin,int a,int b) {
-            c(style -> style.updateWith(mixin),a,b);
+        private void updateParagraphStyleInSelection(ParStyle mixin,int line) {
+            c(style -> style.updateWith(mixin),line);
         }
 
-
-        private void updateParagraphBackground(Color color,int a,int b) {
+        private void updateParagraphBackground(Color color,int line) {
             if(!updatingToolbar.get()) {
-                updateParagraphStyleInSelection(ParStyle.backgroundColor(color),a, b);
+                updateParagraphStyleInSelection(ParStyle.backgroundColor(color),line);
             }
         }
 
-        public void setCodeAreaText(String a,Color b){
+        public void setCodeAreaText(String a,Color color,int line){
         area.replaceText(a);
-        updateParagraphBackground(Color.web("#56cbf9",0.8),0,4);
-        updateParagraphBackground(Color.web("#56cbf9",0.2),5,8);
+        //updateParagraphBackground(Color.web("#56cbf9",0.8),0);
+        updateParagraphBackground(color,line);
         }
 
-    private void c(Function<ParStyle, ParStyle> updater,int start,int end) {
-        int startPar = start;
-        int endPar = end;
-        System.err.println(startPar + " - " + endPar);
-        System.out.println("hi");
-        for(int i = startPar; i <= endPar; ++i) {
-            Paragraph<ParStyle, Either<String, LinkedImage>, TextStyle> paragraph = area.getParagraph(i);
-            area.setParagraphStyle(i, updater.apply(paragraph.getParagraphStyle()));
-        }
+    private void c(Function<ParStyle, ParStyle> updater,int line) {
+            Paragraph<ParStyle, Either<String, LinkedImage>, TextStyle> paragraph = area.getParagraph(line);
+            area.setParagraphStyle(line, updater.apply(paragraph.getParagraphStyle()));
     }
 }

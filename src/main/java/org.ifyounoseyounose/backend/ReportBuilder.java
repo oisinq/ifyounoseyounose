@@ -15,8 +15,8 @@ public class ReportBuilder {
 
     public ArrayList<File> java_files = new ArrayList<>();
 
-    public HashMap<File, HashMap<SmellDetector, List<Integer>>> generateReport(List<SmellDetector> smells, File directory) {
-
+    //public HashMap<File, HashMap<SmellDetector, List<Integer>>> generateReport(List<SmellDetector> smells, File directory) {
+    public HashMap<File, HashMap<SmellDetector, List<Integer>>> generateReport(HashMap<String,Integer> smells, File directory) {
         HashMap<SmellDetector, List<Integer>> linesMap = new HashMap<>();
         HashMap<File, HashMap<SmellDetector, List<Integer>>> detectMap = new HashMap<>();
 
@@ -25,7 +25,7 @@ public class ReportBuilder {
         javaFiles = getJavaFiles(directory_files);
 
         SmellDetectorManager manager = new SmellDetectorManager();
-        manager.detectSmells(smells, javaFiles);
+        //manager.detectSmells(smells, javaFiles);//TODO this new format has to get passed down the chain
 
         return detectMap;
     }
