@@ -45,7 +45,7 @@ public class GuiManager extends Application {
             @Subscribe
             public void setInputDirectory(EventBusFactory e){
                 //HashMap<String,int> pass = ;
-                reportBuilder.generateReport(e.getSmells(),e.getFile());//generate report wants a hashmap (List<SmellDetector> smells, File directory
+                //reportBuilder.generateReport(e.getSmells(),e.getFile());//generate report wants a hashmap (List<SmellDetector> smells, File directory
                 //hashmap with code smell as key, limit as value sure
             }
         });
