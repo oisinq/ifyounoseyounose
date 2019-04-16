@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class ReportBuilderTest {
@@ -22,10 +23,10 @@ public class ReportBuilderTest {
 
         File directory = new File("./src/test/java/smellycodedirectory/");
 
-        List<SmellDetector> smellDetectors = new ArrayList<>();
-        smellDetectors.add(new MessageChainingSmellDetector());
+        HashMap<String, Integer> smellDetectorObjects = new HashMap<>();
+        smellDetectorObjects.put("MessageChaining", 0);
 
-        r.generateReport(smellDetectors, directory);
+        r.generateReport(smellDetectorObjects, directory);
         assert(true);
     }
 }
