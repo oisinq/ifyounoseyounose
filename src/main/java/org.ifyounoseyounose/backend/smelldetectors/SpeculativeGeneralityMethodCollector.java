@@ -14,8 +14,12 @@ public class SpeculativeGeneralityMethodCollector extends VoidVisitorAdapter<Lis
     @Override
     public void visit(MethodDeclaration md, List<Integer> collector) {
         super.visit(md, collector);
-
-
+        String mdString;
+        for (Comment child : md.getAllContainedComments()) {
+            md.remove(child);
+            mdString = md.getBody().toString();
+            System.out.println(mdString);
+        }
             String s = md.getBody().toString().substring(10, md.getBody().toString().length() - 2);
             if ((s.trim().length() == 0) || s.contains("TO DO") || s.contains("TODO") || s.contains("todo") || s.contains("to do")) {
                 addLineNumbers(md, collector);
