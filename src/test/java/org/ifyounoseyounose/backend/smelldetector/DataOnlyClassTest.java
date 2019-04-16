@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class DataOnlyClassTest {
@@ -20,11 +21,11 @@ public class DataOnlyClassTest {
         l.add(new File("./src/test/java/smellycodedirectory/SmellyPrimitives.java"));
         l.add(new File("./src/test/java/smellycodedirectory/SmellyDataOnly.java"));
         l.add(new File("./src/test/java/smellycodedirectory/SmellyData2.java"));
-        List<SmellDetector> smellDetectors = new ArrayList<>();
-        smellDetectors.add(new DataOnlyClassesSmellDetector());
 
+        HashMap<String, Integer> smellDetectorObjects = new HashMap<>();
+        smellDetectorObjects.put("TooManyLiterals", 2);
 
-        s.detectSmells(smellDetectors, l);
+        s.detectSmells(smellDetectorObjects, l);
         assert(true);
     }
 }
