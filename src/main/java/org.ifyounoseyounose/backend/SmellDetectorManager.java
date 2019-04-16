@@ -181,7 +181,7 @@ public class SmellDetectorManager {
         HashMap<Class, File> classesMap = new HashMap<>();
         try (Stream<Path> paths = Files.walk(Paths.get(compiledClassesDirectory.toString()))) {
             paths.filter(Files::isRegularFile)
-                 .forEach(pathsList::add);
+                    .forEach(pathsList::add);
         } catch (Exception e) {
             System.err.println("Error searching .compiled_classes for files");
         }
@@ -196,10 +196,10 @@ public class SmellDetectorManager {
                 output = output.replaceAll("/", ".");
 
                 for(File f:files){
-                  // find the file to which the compiled class corresponds
-                   if(fullPath.contains(f.getName().replaceAll(".java", ""))){
-                       classesMap.put(classLoader.loadClass(output), f); // add the class and file to hashMap to be returned 
-                   }
+                    // find the file to which the compiled class corresponds
+                    if(fullPath.contains(f.getName().replaceAll(".java", ""))){
+                        classesMap.put(classLoader.loadClass(output), f); // add the class and file to hashMap to be returned
+                    }
                 }
 
 
