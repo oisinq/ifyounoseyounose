@@ -1,7 +1,6 @@
 package org.ifyounoseyounose.backend.smelldetectors;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
-import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.expr.MethodCallExpr;
 import com.github.javaparser.ast.visitor.VoidVisitor;
 
@@ -19,6 +18,7 @@ import java.util.List;
 public class InappropriateIntimacySmellDetector extends LimitableSmellDetector implements JavaParserSmellDetector {
     public SmellReport detectSmell(HashMap<CompilationUnit, File> compilationUnits){
         SmellReport smells = new SmellReport();
+        VoidVisitor<List<Integer>> visitor1 = new InappropriateIntimacyClassCollector();//Retrieves method declarations
         ReflectionTypeSolver[] ha = new ReflectionTypeSolver[1];
         ha[0] = new ReflectionTypeSolver();
         CombinedTypeSolver combinedTypeSolver = new CombinedTypeSolver(ha);
@@ -34,10 +34,12 @@ public class InappropriateIntimacySmellDetector extends LimitableSmellDetector i
                 for(MethodCallExpr exp: temp)
                 {
                     if(!exp.getClass().equals(compilationUnits.get(comp))) {
-                        count++
+                        count++;
                     }
                     if(count>limit){
-                        ClassOrInterfaceDeclaration declare = comp.getClass
+                        List<Integer> lines = new ArrayList<>();
+                        visitor1.visit(comp, lines);
+                        smells.addToReport(compilationUnits.get(comp), lines);
                     }
                 }
 
