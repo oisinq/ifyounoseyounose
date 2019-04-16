@@ -2,10 +2,7 @@ package org.ifyounoseyounose.backend;
 
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
-import org.ifyounoseyounose.backend.smelldetectors.JavaParserSmellDetector;
-import org.ifyounoseyounose.backend.smelldetectors.ManualParserSmellDetector;
-import org.ifyounoseyounose.backend.smelldetectors.ReflectionSmellDetector;
-import org.ifyounoseyounose.backend.smelldetectors.SmellDetector;
+import org.ifyounoseyounose.backend.smelldetectors.*;
 
 import javax.tools.JavaCompiler;
 import javax.tools.ToolProvider;
@@ -28,22 +25,23 @@ public class SmellDetectorManager {
 
     /**
      * Method called by ReportBuilder which in turn invokes each individual SmellDetector
-     * @param smellDetectors The SmellDetector objects we want to analyse the directory with
+     * @param smellDetectorStrings The smell detector names we want to analyse the directory with
      * @param files A list of files we want to analyse
      * @return A result containing info about what code smells were detected
      */
-    public List<ClassReport> detectSmells(List<SmellDetector> smellDetectors, List<File> files) {
+    public List<ClassReport> detectSmells(HashMap<String,Integer> smellDetectorStrings, List<File> files) {
         /**
          * Todo: replace @results with a ClassReport object of some kind
          */
+
+        List <SmellDetector> smellDetectors = getSmellDetectors(smellDetectorStrings);
+
         List<SmellReport> results = new ArrayList<>();
-       // List<CompilationUnit> compilationUnits = new ArrayList<>();
         HashMap<CompilationUnit, File> compUnits = new HashMap<>();
 
         for (File f : files) {
             try {
                 compUnits.put(StaticJavaParser.parse(f), f);
-                //compilationUnits.add(StaticJavaParser.parse(f));
             } catch (FileNotFoundException e) {
                 System.err.println("Cannot find file " + f.getPath());
             }
@@ -117,6 +115,59 @@ public class SmellDetectorManager {
         compile.run(null, null,null, st);
     }
 
+    private List<SmellDetector> getSmellDetectors(HashMap<String,Integer> smellDetectorStrings) {
+        List <SmellDetector> smellDetectors = new ArrayList<>();
+
+        for (String smellDetector : smellDetectorStrings.keySet()) {
+            SmellDetector currentSmell = null;
+            int limit = -1;
+            switch(smellDetector) {
+                case "ArrowHeaded":
+                    currentSmell = new ArrowheadedIndentationSmellDetector();
+                    limit = smellDetectorStrings.get("ArrowHeaded");
+                    break;
+                case "DeadCode":
+                    currentSmell = new DeadCodeSmellDetector();
+                    limit = smellDetectorStrings.get("DeadCode");
+                    break;
+                case "DuplicateCode":
+                    currentSmell = new DuplicateCodeSmellDetector();
+                    limit = smellDetectorStrings.get("DuplicateCode");
+                    break;
+                case "MessageChaining":
+                    currentSmell = new MessageChainingSmellDetector();
+                    limit = smellDetectorStrings.get("MessageChaining");
+                    break;
+                case "PrimitiveObsession":
+                    currentSmell = new PrimitiveObsessionSmellDetector();
+                    limit = smellDetectorStrings.get("PrimitiveObsession");
+                    break;
+                case "SwitchStatement":
+                    currentSmell = new SwitchStatementSmellDetector();
+                    limit = smellDetectorStrings.get("SwitchStatement");
+                    break;
+                case "TooManyLiterals":
+                    currentSmell = new TooManyLiteralsSmellDetector();
+                    limit = smellDetectorStrings.get("TooManyLiterals");
+                    break;
+                case "ViolationOfDataHiding":
+                    currentSmell = new ViolationOfDataHidingSmellDetector();
+                    limit = smellDetectorStrings.get("ViolationOfDataHiding");
+                    break;
+                default:
+                    System.err.println("Smell Detector not found!");
+            }
+
+            if (currentSmell instanceof LimitableSmellDetector) {
+                ((LimitableSmellDetector) currentSmell).setLimit(limit);
+            }
+
+            smellDetectors.add(currentSmell);
+        }
+
+        return smellDetectors;
+    }
+
     /**
      * Returns a list of Class objects that have been loaded into the classLoader
      * @param classLoader URLClassLoader, containing the new classes we have imported
@@ -130,7 +181,7 @@ public class SmellDetectorManager {
         HashMap<Class, File> classesMap = new HashMap<>();
         try (Stream<Path> paths = Files.walk(Paths.get(compiledClassesDirectory.toString()))) {
             paths.filter(Files::isRegularFile)
-                 .forEach(pathsList::add);
+                    .forEach(pathsList::add);
         } catch (Exception e) {
             System.err.println("Error searching .compiled_classes for files");
         }
@@ -145,10 +196,10 @@ public class SmellDetectorManager {
                 output = output.replaceAll("/", ".");
 
                 for(File f:files){
-                  // find the file to which the compiled class corresponds
-                   if(fullPath.contains(f.getName().replaceAll(".java", ""))){
-                       classesMap.put(classLoader.loadClass(output), f); // add the class and file to hashMap to be returned 
-                   }
+                    // find the file to which the compiled class corresponds
+                    if(fullPath.contains(f.getName().replaceAll(".java", ""))){
+                        classesMap.put(classLoader.loadClass(output), f); // add the class and file to hashMap to be returned
+                    }
                 }
 
 
