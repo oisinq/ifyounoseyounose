@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class DuplicateCodeTest {
@@ -21,10 +22,10 @@ public class DuplicateCodeTest {
         l.add(new File("./src/test/java/smellycodedirectory/Yeet.java"));
 
 
-        List<SmellDetector> smellDetectors = new ArrayList<>();
-        smellDetectors.add(new DuplicateCodeSmellDetector());
+        HashMap<String, Integer> smellDetectorObjects = new HashMap<>();
+        smellDetectorObjects.put("TooManyLiterals", 0);
 
-        s.detectSmells(smellDetectors, l);
+        s.detectSmells(smellDetectorObjects, l);
         assert(true);
     }
 }
