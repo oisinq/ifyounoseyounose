@@ -126,6 +126,10 @@ public class SmellDetectorManager {
                     currentSmell = new ArrowheadedIndentationSmellDetector();
                     limit = smellDetectorStrings.get("ArrowHeaded");
                     break;
+                case "DeadCode":
+                    currentSmell = new DeadCodeSmellDetector();
+                    limit = smellDetectorStrings.get("DeadCode");
+                    break;
                 case "DuplicateCode":
                     currentSmell = new DuplicateCodeSmellDetector();
                     limit = smellDetectorStrings.get("DuplicateCode");
