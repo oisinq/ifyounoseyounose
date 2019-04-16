@@ -29,16 +29,15 @@ public class SmellDetectorManager {
      * @param files A list of files we want to analyse
      * @return A result containing info about what code smells were detected
      */
-    public List<ClassReport> detectSmells(HashMap<String,Integer> smellDetectorStrings, List<File> files) {
-        /**
-         * Todo: replace @results with a ClassReport object of some kind
-         */
+    public List<FileReport> detectSmells(HashMap<String,Integer> smellDetectorStrings, List<File> files) {
 
         List <SmellDetector> smellDetectors = getSmellDetectors(smellDetectorStrings);
 
         List<SmellReport> results = new ArrayList<>();
         HashMap<CompilationUnit, File> compUnits = new HashMap<>();
 
+        // For each file, we add a CompilationUnit to the compUnits hashmap, with the File as the key
+        // This makes creating SmellReports much easier
         for (File f : files) {
             try {
                 compUnits.put(StaticJavaParser.parse(f), f);
@@ -64,8 +63,6 @@ public class SmellDetectorManager {
                 File compiledClassesDirectory = new File(".compiled_classes/");
                 URL[] urlList = new URL[1];
                 URLClassLoader classLoader = null;
-                List<Class> classes = new ArrayList<>();
-
 
                 try {
                     urlList[0] = compiledClassesDirectory.toURI().toURL();
@@ -75,12 +72,10 @@ public class SmellDetectorManager {
                 }
 
                 if (classLoader != null) {
+                    // Todo I have no idea why this is in a for loop. I'm scared to break it.
                     for (File f : files) {
-
                         classesMap = getListOfClasses(classLoader, compiledClassesDirectory, files);
-
                     }
-
 
                     results.add(((ReflectionSmellDetector) smellDetector).detectSmell(classesMap));
 
@@ -92,10 +87,19 @@ public class SmellDetectorManager {
             System.out.println(s);
         }
 
-        /*
-         * Todo: Take these results, turn them into a list of ClassReports
-         */
-        return new ArrayList<>();
+        // We take the list of SmellReports and convert them into FileReports and return this
+        List<FileReport> fileReports = new ArrayList<>();
+
+        for (File f : files) {
+            for (SmellReport smellReport : results) {
+                List<Integer> detectedLines = smellReport.getDetectionsByFile(f);
+                FileReport fileReport = new FileReport();
+                fileReport.addDetections(detectedLines);
+                fileReports.add(fileReport);
+            }
+        }
+
+        return fileReports;
     }
 
     /**
@@ -115,6 +119,12 @@ public class SmellDetectorManager {
         compile.run(null, null,null, st);
     }
 
+    /**
+     * Given a HashMap containing pairs of SmellDetector names and limits, we create the appropriate SmellDetector
+     * objects and return a list
+     * @param smellDetectorStrings The HashMap containing SmellDetector names and limits
+     * @return The list of SmellDetectors we want to use to detect smells (with limits set)
+     */
     private List<SmellDetector> getSmellDetectors(HashMap<String,Integer> smellDetectorStrings) {
         List <SmellDetector> smellDetectors = new ArrayList<>();
 

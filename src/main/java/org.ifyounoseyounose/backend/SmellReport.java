@@ -11,10 +11,12 @@ public class SmellReport {
     public void addToReport(File current, List<Integer> lines){ // Adds found lines to the report
         smells.put(current, lines);
     }
-  
-    public String toString() {
-        String output = "";
 
+    public List<Integer> getDetectionsByFile(File file) {
+        return smells.get(file);
+    }
+
+    public String toString() {
         return Arrays.asList(smells).toString();
     }
 }
