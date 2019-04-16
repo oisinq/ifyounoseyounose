@@ -13,21 +13,20 @@ import java.io.File;
  */
 public class ReportBuilder {
 
-    public ArrayList<File> java_files = new ArrayList<>();
+    private ArrayList<File> java_files = new ArrayList<>();
 
     //public HashMap<File, HashMap<SmellDetector, List<Integer>>> generateReport(List<SmellDetector> smells, File directory) {
-    public HashMap<File, HashMap<SmellDetector, List<Integer>>> generateReport(HashMap<String,Integer> smells, File directory) {
-        HashMap<SmellDetector, List<Integer>> linesMap = new HashMap<>();
-        HashMap<File, HashMap<SmellDetector, List<Integer>>> detectMap = new HashMap<>();
+    public FinalReport generateReport(HashMap<String,Integer> smells, File directory) {
+        FinalReport report = new FinalReport();
 
         File[] directory_files = directory.listFiles();
-        ArrayList<File> javaFiles;
-        javaFiles = getJavaFiles(directory_files);
+
+        ArrayList<File> javaFiles = getJavaFiles(directory_files);
 
         SmellDetectorManager manager = new SmellDetectorManager();
-        //manager.detectSmells(smells, javaFiles);//TODO this new format has to get passed down the chain
+        manager.detectSmells(smells, javaFiles);//TODO this new format has to get passed down the chain
 
-        return detectMap;
+        return report;
     }
 
     /**
@@ -47,4 +46,7 @@ public class ReportBuilder {
         return java_files;
     }
 
+    private void addStats(FinalReport report) {
+        // Todo
+    }
 }
