@@ -21,6 +21,7 @@ public class BloatedClassTest {
         l.add(new File("./src/test/java/smellycodedirectory/SmellyBloatedParamCode.java"));
 
 
+        
         List<SmellDetector> smellDetectors = new ArrayList<>();
         smellDetectors.add(new BloatedClassSmellDetector());
 
