@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class PrimitiveObsessionSmellDetector extends SmellDetector implements JavaParserSmellDetector {
+public class PrimitiveObsessionSmellDetector implements JavaParserSmellDetector, SmellDetector {
 
 
     @Override

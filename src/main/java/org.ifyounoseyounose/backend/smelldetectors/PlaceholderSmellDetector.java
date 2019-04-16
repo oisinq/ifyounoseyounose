@@ -9,7 +9,7 @@ import java.util.HashMap;
 /**
  * A placeholder smell detector with no actual function - only used for testing purposes
  */
-public class PlaceholderSmellDetector extends SmellDetector implements JavaParserSmellDetector {
+public class PlaceholderSmellDetector implements JavaParserSmellDetector, SmellDetector {
     @Override
     public SmellReport detectSmell(HashMap<CompilationUnit, File> compilationUnits) {
 

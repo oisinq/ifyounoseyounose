@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class DataOnlyClassesSmellDetector extends SmellDetector implements JavaParserSmellDetector {
+public class DataOnlyClassesSmellDetector implements JavaParserSmellDetector, SmellDetector {
 
     @Override
     public SmellReport detectSmell(HashMap<CompilationUnit, File> compilationUnits) {

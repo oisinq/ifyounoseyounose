@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 
 
-public class BloatedClassSmellDetector extends LimitableSmellDetector implements ReflectionSmellDetector{
+public class BloatedClassSmellDetector extends LimitableSmellDetector implements ReflectionSmellDetector, SmellDetector {
 
     public BloatedClassSmellDetector(int limit) {
         super(limit);

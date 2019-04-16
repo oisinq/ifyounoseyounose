@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class BloatedParamSmellDetector extends LimitableSmellDetector implements JavaParserSmellDetector {
+public class BloatedParamSmellDetector extends LimitableSmellDetector implements JavaParserSmellDetector, SmellDetector {
 
     public BloatedParamSmellDetector(int limit) {
         super(limit);

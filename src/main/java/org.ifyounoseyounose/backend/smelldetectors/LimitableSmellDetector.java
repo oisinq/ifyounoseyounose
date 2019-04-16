@@ -1,6 +1,6 @@
 package org.ifyounoseyounose.backend.smelldetectors;
 
-public class LimitableSmellDetector extends SmellDetector {
+public class LimitableSmellDetector implements SmellDetector {
     protected int limit;
 
     LimitableSmellDetector(int limit) {

@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class DeadCodeSmellDetector extends SmellDetector implements JavaParserSmellDetector  {
+public class DeadCodeSmellDetector implements JavaParserSmellDetector, SmellDetector  {
 
     public SmellReport detectSmell(HashMap<CompilationUnit, File> compilationUnits){
         SmellReport smells = new SmellReport();

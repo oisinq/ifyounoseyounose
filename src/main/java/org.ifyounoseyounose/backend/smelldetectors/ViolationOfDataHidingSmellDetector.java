@@ -10,7 +10,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.BufferedReader;
 
-public class ViolationOfDataHidingSmellDetector extends SmellDetector implements ReflectionSmellDetector {
+public class ViolationOfDataHidingSmellDetector implements ReflectionSmellDetector, SmellDetector {
 
     @Override
     public SmellReport detectSmell(HashMap<Class, File> classes) {

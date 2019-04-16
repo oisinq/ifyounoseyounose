@@ -6,7 +6,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MessageChainingSmellDetector extends SmellDetector implements ManualParserSmellDetector {
+public class MessageChainingSmellDetector implements ManualParserSmellDetector, SmellDetector {
     @Override
     public SmellReport detectSmell(List<File> sourceCode) {
         SmellReport smells = new SmellReport();// To be returned
