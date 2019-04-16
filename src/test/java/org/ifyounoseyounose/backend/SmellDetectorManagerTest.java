@@ -12,6 +12,7 @@ import org.junit.Test;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import static org.junit.Assert.*;
 
@@ -35,8 +36,11 @@ public class SmellDetectorManagerTest {
         List<SmellDetector> smellDetectors = new ArrayList<>();
         smellDetectors.add(new TooManyLiteralsSmellDetector());
         smellDetectors.add(new PrimitiveObsessionSmellDetector());
+        HashMap<String, Integer> smellDetectorObjects = new HashMap<>();
+        smellDetectorObjects.put("TooManyLiterals", 0);
+        smellDetectorObjects.put("PrimitiveObsession", 0);
 
-        s.detectSmells(smellDetectors, l);
+        s.detectSmells(smellDetectorObjects, l);
         assert(true);
     }
 }

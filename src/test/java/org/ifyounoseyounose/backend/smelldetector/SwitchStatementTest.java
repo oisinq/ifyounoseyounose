@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class SwitchStatementTest {
@@ -20,10 +21,10 @@ public class SwitchStatementTest {
         List<File> l = new ArrayList<>();
         l.add(new File("./src/test/java/smellycodedirectory/SmellySwitchStatements.java"));
 
-        List<SmellDetector> smellDetectors = new ArrayList<>();
-        smellDetectors.add(new SwitchStatementSmellDetector());
+        HashMap<String, Integer> smellDetectorObjects = new HashMap<>();
+        smellDetectorObjects.put("SwitchStatement", 0);
 
-        s.detectSmells(smellDetectors, l);
+        s.detectSmells(smellDetectorObjects, l);
         assert(true);
     }
 }

@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class ViolationOfDataHidingTest {
@@ -24,10 +25,10 @@ public class ViolationOfDataHidingTest {
         l.add(new File("./src/test/java/smellycodedirectory/SmellyLiterals.java"));
         l.add(new File("./src/test/java/smellycodedirectory/SmellyDataHiding.java"));
 
-        List<SmellDetector> smellDetectors = new ArrayList<>();
-        smellDetectors.add(new ViolationOfDataHidingSmellDetector());
+        HashMap<String, Integer> smellDetectorObjects = new HashMap<>();
+        smellDetectorObjects.put("SmellDetectorManager", 0);
 
-        s.detectSmells(smellDetectors, l);
+        s.detectSmells(smellDetectorObjects, l);
         assert(true);
     }
 }

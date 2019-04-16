@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class ArrowheadedIndentationTest {
@@ -21,10 +22,10 @@ public class ArrowheadedIndentationTest {
         l.add(new File("./src/test/java/smellycodedirectory/SmellyArrowheadedIndentation.java"));
 
 
-        List<SmellDetector> smellDetectors = new ArrayList<>();
-        smellDetectors.add(new ArrowheadedIndentationSmellDetector());
+        HashMap<String, Integer> smellDetectorObjects = new HashMap<>();
+        smellDetectorObjects.put("TooManyLiterals", 3);
 
-        s.detectSmells(smellDetectors, l);
+        s.detectSmells(smellDetectorObjects, l);
         assert(true);
     }
 }
