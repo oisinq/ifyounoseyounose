@@ -10,6 +10,9 @@ import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.body.TypeDeclaration;
 import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.expr.AnnotationExpr;
+import com.github.javaparser.ast.expr.BinaryExpr;
+import com.github.javaparser.ast.expr.MethodCallExpr;
+import com.github.javaparser.ast.nodeTypes.NodeWithVariables;
 import com.github.javaparser.ast.visitor.VoidVisitor;
 
 import org.ifyounoseyounose.backend.SmellReport;
@@ -25,8 +28,10 @@ public class TemporaryFieldsSmellDetector implements JavaParserSmellDetector, Sm
     public SmellReport detectSmell(HashMap<CompilationUnit, File> compilationUnits) {
         SmellReport smellReport = new SmellReport();
         VoidVisitor<List<MethodDeclaration>> visitor = new TemporaryFieldsCollector();
+
         for (CompilationUnit compilationUnit : compilationUnits.keySet()) {
             try {
+                boolean occured = false;
                 CompilationUnit cu = StaticJavaParser.parse(compilationUnits.get(compilationUnit));
                 HashMap<VariableDeclarator, Integer> variables = new HashMap<>();
                 for (TypeDeclaration<?> typeDec : cu.getTypes()) {
@@ -39,17 +44,34 @@ public class TemporaryFieldsSmellDetector implements JavaParserSmellDetector, Sm
                         });
                     }
                 }
-                for (TypeDeclaration<?> typeDec : cu.getTypes()) {
-                    for (BodyDeclaration<?> member : typeDec.getMembers()) {
-                        for(Node ax :member.){
-                           for(VariableDeclarator v: variables.keySet()){
-                              // System.out.println(ax);
-                               if(ax.toString().contains(v.getName().toString())){
-                                   System.out.println(ax);
-                               }
-                           }
+                for(MethodDeclaration md:cu.findAll(MethodDeclaration.class)){
+                    occured=false;
+                    for(BinaryExpr be: md.findAll(BinaryExpr.class)){
+                        for (VariableDeclarator v : variables.keySet()) {
+                            List<Node> children = be.getChildNodes();
+                            for (Node chi : children) {
+                                if (chi.toString().equals(v.getNameAsString())&&!occured) {
+                                    occured=true;
+                                    variables.put(v, variables.get(v)+1);
+                                }
+                            }
                         }
                     }
+                    for(MethodCallExpr me: md.findAll(MethodCallExpr.class)){
+                        for (VariableDeclarator v : variables.keySet()) {
+                            List<Node> children = me.getChildNodes();
+                            for (Node chi : children) {
+                                if (chi.toString().equals(v.getNameAsString())&&!occured) {
+                                    occured=true;
+                                    variables.put(v, variables.get(v)+1);
+                                }
+                            }
+
+                        }
+                    }
+                }
+                for(int i: variables.values()){
+                    
                 }
             }
             catch(IOException e){
