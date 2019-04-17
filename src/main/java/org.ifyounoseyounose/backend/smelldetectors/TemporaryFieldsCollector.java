@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public class TemporaryFieldsCollector extends VoidVisitorAdapter<List<Integer>> {
 
-    public void addLineNumbers(Node node, List<Integer> collector) {
+    public void addLineNumbers(Node node, List<Integer> collector) {//Adds line number of field declaration
         Optional<Range> m = node.getRange();
         Range r = m.get();
        collector.add( r.begin.line);
