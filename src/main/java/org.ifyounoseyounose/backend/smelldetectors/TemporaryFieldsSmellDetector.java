@@ -41,9 +41,10 @@ public class TemporaryFieldsSmellDetector implements JavaParserSmellDetector, Sm
                 }
                 for (TypeDeclaration<?> typeDec : cu.getTypes()) {
                     for (BodyDeclaration<?> member : typeDec.getMembers()) {
-                        for(Node ax :member.getChildNodes()){
+                        for(Node ax :member.){
                            for(VariableDeclarator v: variables.keySet()){
-                               if(ax.containsWithin(v)){
+                              // System.out.println(ax);
+                               if(ax.toString().contains(v.getName().toString())){
                                    System.out.println(ax);
                                }
                            }
