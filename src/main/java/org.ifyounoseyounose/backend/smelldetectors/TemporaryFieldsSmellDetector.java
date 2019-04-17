@@ -31,12 +31,11 @@ public class TemporaryFieldsSmellDetector extends LimitableSmellDetector impleme
 
         for (CompilationUnit compilationUnit : compilationUnits.keySet()) {
             try {
-                boolean occured = false;
+                boolean occured = false;//Checks if an instance variable has already occurred in the method
                 CompilationUnit cu = StaticJavaParser.parse(compilationUnits.get(compilationUnit));
-                HashMap<VariableDeclarator, Integer> variables = new HashMap<>();
-                for (TypeDeclaration<?> typeDec : cu.getTypes()) {
+                HashMap<VariableDeclarator, Integer> variables = new HashMap<>();// Stores instance variables and there amount of occurrences
+                for (TypeDeclaration<?> typeDec : cu.getTypes()) {// Finds the instance variables and stores them in a hashmap
                     for (BodyDeclaration<?> member : typeDec.getMembers()) {
-                        //System.out.println(member.toEnumDeclaration());
                         member.toFieldDeclaration().ifPresent(field -> {
                             for (VariableDeclarator variable : field.getVariables()) {
                                 variables.put(variable, 0);
@@ -44,20 +43,20 @@ public class TemporaryFieldsSmellDetector extends LimitableSmellDetector impleme
                         });
                     }
                 }
-                for(MethodDeclaration md:cu.findAll(MethodDeclaration.class)){
+                for(MethodDeclaration md:cu.findAll(MethodDeclaration.class)){// Checks each method
                     occured=false;
-                    for(BinaryExpr be: md.findAll(BinaryExpr.class)){
+                    for(BinaryExpr be: md.findAll(BinaryExpr.class)){// Checks all binary expressions for the instance variable
                         for (VariableDeclarator v : variables.keySet()) {
                             List<Node> children = be.getChildNodes();
                             for (Node chi : children) {
-                                if (chi.toString().equals(v.getNameAsString())&&!occured) {
+                                if (chi.toString().equals(v.getNameAsString())&&!occured) {// If the variable is found iterate but only if its the first cccurence in the method
                                     occured=true;
                                     variables.put(v, variables.get(v)+1);
                                 }
                             }
                         }
                     }
-                    for(MethodCallExpr me: md.findAll(MethodCallExpr.class)){
+                    for(MethodCallExpr me: md.findAll(MethodCallExpr.class)){// Checks all method expressions for the variable
                         for (VariableDeclarator v : variables.keySet()) {
                             List<Node> children = me.getChildNodes();
                             for (Node chi : children) {
@@ -72,7 +71,7 @@ public class TemporaryFieldsSmellDetector extends LimitableSmellDetector impleme
                 }
                 for(VariableDeclarator v: variables.keySet()){
                     List<Integer> lines = new ArrayList<>();
-                    if(variables.get(v)<limit){
+                    if(variables.get(v)<limit){// If less than user set limit add declaration of the variable to the smell report
                         ((TemporaryFieldsCollector) visitor).addLineNumbers(v,lines);
                         smellReport.addToReport(compilationUnits.get(compilationUnit), lines);
                     }

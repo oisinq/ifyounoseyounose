@@ -7,7 +7,7 @@ public class Yeet {
         double i;
         i=1+1;
         i=0;
-        
+
         //lol.ha().ha().ha()
     }
     public int ty()
