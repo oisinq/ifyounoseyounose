@@ -39,4 +39,9 @@ public class MessageChainingSmellDetector implements ManualParserSmellDetector, 
         }
         return smells;
     }
+
+
+    public String getSmellName() {
+        return "MessageChaining";
+    }
 }

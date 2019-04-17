@@ -34,4 +34,8 @@ public class DataOnlyClassesSmellDetector implements JavaParserSmellDetector, Sm
         return smellReport; //returns the lines of the methods although the whole class is problematic
     }
 
+
+    public String getSmellName() {
+        return "DataOnlyClasses";
+    }
 }

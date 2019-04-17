@@ -76,4 +76,9 @@ public class DuplicateCodeSmellDetector extends LimitableSmellDetector implement
         }
         return smells;
     }
+
+
+    public String getSmellName() {
+        return "DuplicateCode";
+    }
 }

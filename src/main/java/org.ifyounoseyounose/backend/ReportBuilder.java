@@ -24,7 +24,8 @@ public class ReportBuilder {
         ArrayList<File> javaFiles = getJavaFiles(directory_files);
 
         SmellDetectorManager manager = new SmellDetectorManager();
-        manager.detectSmells(smells, javaFiles);//TODO this new format has to get passed down the chain
+        List<FileReport> fileReports = manager.detectSmells(smells, javaFiles);
+
 
         return report;
     }

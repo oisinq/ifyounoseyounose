@@ -55,4 +55,9 @@ public class BloatedClassSmellDetector extends LimitableSmellDetector implements
             return smells;
 
     }
+
+
+    public String getSmellName() {
+        return "BloatedClass";
+    }
 }

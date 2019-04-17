@@ -15,4 +15,8 @@ public class PlaceholderSmellDetector implements JavaParserSmellDetector, SmellD
 
         return null;
     }
+
+    public String getSmellName() {
+        return "Placeholder";
+    }
 }

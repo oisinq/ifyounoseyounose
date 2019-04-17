@@ -26,4 +26,8 @@ public class PrimitiveObsessionSmellDetector implements JavaParserSmellDetector,
 
         return smellReport;
     }
+
+    public String getSmellName() {
+        return "PrimitiveObsession";
+    }
 }

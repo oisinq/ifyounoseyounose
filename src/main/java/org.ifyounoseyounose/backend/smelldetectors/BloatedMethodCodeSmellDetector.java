@@ -34,4 +34,8 @@ public class BloatedMethodCodeSmellDetector extends LimitableSmellDetector imple
 
         return smellReport;
     }
+
+    public String getSmellName() {
+        return "BloatedMethodCode";
+    }
 }

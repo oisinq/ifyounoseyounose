@@ -69,5 +69,4 @@ public class DataOnlyClassesCollector extends VoidVisitorAdapter<List<Integer>> 
             collector.add(lineNumber);
         }
     }
-
 }

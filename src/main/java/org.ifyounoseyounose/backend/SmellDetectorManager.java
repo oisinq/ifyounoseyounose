@@ -51,10 +51,13 @@ public class SmellDetectorManager {
             // Check what type of smellDetector it is by seeing what interface it inherits
             // and call smellDetector.detectSmell() on it with the parameters corresponding to its interface
             if (smellDetector instanceof JavaParserSmellDetector) {
-                // I have to do some casting here, I'm not sure if it's necessary
-                results.add(((JavaParserSmellDetector) smellDetector).detectSmell(compUnits));
+                SmellReport result = ((JavaParserSmellDetector) smellDetector).detectSmell(compUnits);
+                result.setSmellName(smellDetector.getSmellName());
+                results.add(result);
             } else if (smellDetector instanceof ManualParserSmellDetector) {
-                results.add(((ManualParserSmellDetector) smellDetector).detectSmell(files));
+                SmellReport result = ((ManualParserSmellDetector) smellDetector).detectSmell(files);
+                result.setSmellName(smellDetector.getSmellName());
+                results.add(result);
             } else if (smellDetector instanceof ReflectionSmellDetector) {
                 compileJavaFiles(files);
 
@@ -77,7 +80,9 @@ public class SmellDetectorManager {
                         classesMap = getListOfClasses(classLoader, compiledClassesDirectory, files);
                     }
 
-                    results.add(((ReflectionSmellDetector) smellDetector).detectSmell(classesMap));
+                    SmellReport result = ((ReflectionSmellDetector) smellDetector).detectSmell(classesMap);
+                    result.setSmellName(smellDetector.getSmellName());
+                    results.add(result);
 
                 }
             }

@@ -74,4 +74,9 @@ public class DeadCodeSmellDetector implements JavaParserSmellDetector, SmellDete
        }
         return smells;
     }
+
+
+    public String getSmellName() {
+        return "DeadCode";
+    }
 }

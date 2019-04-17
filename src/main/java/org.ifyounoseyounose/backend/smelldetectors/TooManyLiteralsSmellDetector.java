@@ -38,5 +38,9 @@ public class TooManyLiteralsSmellDetector extends LimitableSmellDetector impleme
 
         return smellReport;
     }
+
+    public String getSmellName() {
+        return "TooManyLiterals";
+    }
 }
 

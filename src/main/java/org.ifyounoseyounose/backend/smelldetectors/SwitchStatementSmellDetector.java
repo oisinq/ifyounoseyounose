@@ -38,5 +38,9 @@ public class SwitchStatementSmellDetector extends LimitableSmellDetector impleme
 
         return smellReport;
     }
+
+    public String getSmellName() {
+        return "SwitchStatement";
+    }
 }
 

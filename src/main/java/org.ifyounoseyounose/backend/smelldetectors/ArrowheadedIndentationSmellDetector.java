@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class ArrowheadedIndentationSmellDetector extends LimitableSmellDetector implements JavaParserSmellDetector {
+public class ArrowheadedIndentationSmellDetector extends LimitableSmellDetector implements JavaParserSmellDetector, SmellDetector {
 
     public ArrowheadedIndentationSmellDetector(int limit) {
         super(limit);
@@ -33,5 +33,9 @@ public class ArrowheadedIndentationSmellDetector extends LimitableSmellDetector 
         }
 
         return smellReport;
+    }
+
+    public String getSmellName() {
+        return "ArrowheadedIndentation";
     }
 }
