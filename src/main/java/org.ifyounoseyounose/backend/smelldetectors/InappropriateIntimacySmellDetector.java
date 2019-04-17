@@ -18,7 +18,7 @@ import java.util.List;
 public class InappropriateIntimacySmellDetector extends LimitableSmellDetector implements JavaParserSmellDetector {
     public SmellReport detectSmell(HashMap<CompilationUnit, File> compilationUnits){
         SmellReport smells = new SmellReport();
-        VoidVisitor<List<Integer>> visitor1 = new inappropriateIntimacyDeclarationCollector();//Retrieves method declarations
+        VoidVisitor<List<Integer>> visitor1 = new InappropriateIntimacyDeclarationCollector();//Retrieves method declarations
         ReflectionTypeSolver[] ha = new ReflectionTypeSolver[1];
         ha[0] = new ReflectionTypeSolver();
         CombinedTypeSolver combinedTypeSolver = new CombinedTypeSolver(ha);
@@ -27,7 +27,8 @@ public class InappropriateIntimacySmellDetector extends LimitableSmellDetector i
         StaticJavaParser.getConfiguration().setSymbolResolver(symbolSolver);
         int count=0;
         for(CompilationUnit comp: compilationUnits.keySet()){
-            List<MethodCallExpr> temp = new ArrayList();
+                List<MethodCallExpr> temp = new ArrayList();
+                List<Integer> lines= new ArrayList();
             try {
                 CompilationUnit comp1 = StaticJavaParser.parse(compilationUnits.get(comp));
                 temp=comp1.findAll(MethodCallExpr.class);
@@ -37,12 +38,11 @@ public class InappropriateIntimacySmellDetector extends LimitableSmellDetector i
                         count++;
                     }
                     if(count>limit){
-                        List<Integer> lines = new ArrayList<>();
-                        visitor1.visit(comp, lines);
-                        smells.addToReport(compilationUnits.get(comp), lines);
+
+                        ((InappropriateIntimacyDeclarationCollector) visitor1).addLineNumbers(exp, lines);
                     }
                 }
-
+                smells.addToReport(compilationUnits.get(comp), lines);
             }
             catch(FileNotFoundException e){
                 System.out.println("");
