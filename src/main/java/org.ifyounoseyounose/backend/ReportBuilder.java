@@ -42,7 +42,8 @@ public class ReportBuilder {
             if (dir.isDirectory()) {
 
                 getJavaFiles(dir.listFiles());
-
+            } else if(dir.getName().contains("module-info")){
+                continue;//module info can't be parsed and causes a crash if parser tries to get it so we take it out
             } else if (dir.isFile() && dir.getName().endsWith(".java")) {
                 java_files.add(dir);
             }
