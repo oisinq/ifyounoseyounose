@@ -99,6 +99,7 @@ public class SmellDetectorManager {
             for (SmellReport smellReport : results) {
                 FileReport fileReport = new FileReport();
                 fileReport.addSmellDetections(smellReport.getSmellName(),smellReport.getDetectionsByFile(f));
+                fileReport.setFile(f);
                 fileReports.add(fileReport);
             }
         }

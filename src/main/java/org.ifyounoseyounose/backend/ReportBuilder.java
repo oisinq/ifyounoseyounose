@@ -17,7 +17,7 @@ public class ReportBuilder {
 
     //public HashMap<File, HashMap<SmellDetector, List<Integer>>> generateReport(List<SmellDetector> smells, File directory) {
     public FinalReport generateReport(HashMap<String,Integer> smells, File directory) {
-        FinalReport report = new FinalReport();
+        FinalReport finalReport = new FinalReport();
 
         File[] directory_files = directory.listFiles();
 
@@ -26,9 +26,11 @@ public class ReportBuilder {
         SmellDetectorManager manager = new SmellDetectorManager();
         List<FileReport> fileReports = manager.detectSmells(smells, javaFiles);
 
+        for (FileReport report : fileReports) {
+            finalReport.addFileReport(report);
+        }
 
-
-        return report;
+        return finalReport;
     }
 
     /**
