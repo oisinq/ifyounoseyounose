@@ -1,20 +1,19 @@
 package org.ifyounoseyounose.backend.smelldetectors;
+import com.github.javaparser.Range;
 import com.github.javaparser.ast.Node;
 
 import com.github.javaparser.ast.body.MethodDeclaration;
+import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 
 import java.util.List;
+import java.util.Optional;
 
-public class TemporaryFieldsCollector extends VoidVisitorAdapter<List<MethodDeclaration>> {
+public class TemporaryFieldsCollector extends VoidVisitorAdapter<List<Integer>> {
 
-    @Override
-    public void visit(MethodDeclaration md, List<MethodDeclaration> collector) {
-        super.visit(md, collector);
-        List<Node> temp=md.getChildNodes();
-        for(Node child: temp){
-            System.out.println(child);
-        }
-        collector.add(md);
+    public void addLineNumbers(Node node, List<Integer> collector) {
+        Optional<Range> m = node.getRange();
+        Range r = m.get();
+       collector.add( r.begin.line);
     }
 }

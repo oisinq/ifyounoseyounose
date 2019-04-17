@@ -17,7 +17,7 @@ public class TemporaryFieldsTest {
         l.add(new File("./src/test/java/smellycodedirectory/Yeet.java"));
 
         HashMap<String, Integer> smellDetectorObjects = new HashMap<>();
-        smellDetectorObjects.put("TemporaryFields", 0);
+        smellDetectorObjects.put("TemporaryFields", 2);
 
         s.detectSmells(smellDetectorObjects, l);
         assert(true);

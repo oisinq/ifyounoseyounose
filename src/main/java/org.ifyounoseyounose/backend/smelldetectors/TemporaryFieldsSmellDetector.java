@@ -23,11 +23,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class TemporaryFieldsSmellDetector implements JavaParserSmellDetector, SmellDetector {
+public class TemporaryFieldsSmellDetector extends LimitableSmellDetector implements JavaParserSmellDetector, SmellDetector  {
 
     public SmellReport detectSmell(HashMap<CompilationUnit, File> compilationUnits) {
         SmellReport smellReport = new SmellReport();
-        VoidVisitor<List<MethodDeclaration>> visitor = new TemporaryFieldsCollector();
+        VoidVisitor<List<Integer>> visitor = new TemporaryFieldsCollector();
 
         for (CompilationUnit compilationUnit : compilationUnits.keySet()) {
             try {
@@ -70,8 +70,12 @@ public class TemporaryFieldsSmellDetector implements JavaParserSmellDetector, Sm
                         }
                     }
                 }
-                for(int i: variables.values()){
-                    
+                for(VariableDeclarator v: variables.keySet()){
+                    List<Integer> lines = new ArrayList<>();
+                    if(variables.get(v)<limit){
+                        ((TemporaryFieldsCollector) visitor).addLineNumbers(v,lines);
+                        smellReport.addToReport(compilationUnits.get(compilationUnit), lines);
+                    }
                 }
             }
             catch(IOException e){
