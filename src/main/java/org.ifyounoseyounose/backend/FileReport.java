@@ -33,6 +33,10 @@ public class FileReport {
         return relatedFile;
     }
 
+    public HashMap<String, List<Integer>> getSmellDetections() {
+        return newThing;
+    }
+
     public List<Integer> getSmellDetections(String smellName) {
         return newThing.get(smellName);
     }

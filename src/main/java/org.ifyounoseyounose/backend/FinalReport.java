@@ -11,9 +11,9 @@ public class FinalReport {
         data.put(report.getFile(), report);
     }
 
-    public List<Integer> getDetectedLinesForSmell(File f, String smellName) {
+    public HashMap<String, List<Integer>> getDetectedLinesForSmell(File f, String smellName) {
         FileReport report = data.get(f);
-        return report.getSmellDetections(smellName);
+        return report.getSmellDetections();
     }
 
     public FileReport getAllDetectedSmells(File f) {
