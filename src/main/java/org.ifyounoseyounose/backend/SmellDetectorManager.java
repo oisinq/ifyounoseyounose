@@ -97,9 +97,8 @@ public class SmellDetectorManager {
 
         for (File f : files) {
             for (SmellReport smellReport : results) {
-                List<Integer> detectedLines = smellReport.getDetectionsByFile(f);
                 FileReport fileReport = new FileReport();
-                fileReport.addDetections(detectedLines);
+                fileReport.addSmellDetections(smellReport.getSmellName(),smellReport.getDetectionsByFile(f));
                 fileReports.add(fileReport);
             }
         }

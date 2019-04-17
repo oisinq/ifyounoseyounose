@@ -17,4 +17,8 @@ public class FileReport {
             detectedLines.addAll(newLines);
         }
     }
+
+    public void addSmellDetections(String smellName, List<Integer> newLines) {
+        newThing.put(smellName, newLines);
+    }
 }

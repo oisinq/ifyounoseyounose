@@ -27,6 +27,7 @@ public class ReportBuilder {
         List<FileReport> fileReports = manager.detectSmells(smells, javaFiles);
 
 
+
         return report;
     }
 
