@@ -18,26 +18,26 @@ import java.util.List;
 public class InappropriateIntimacySmellDetector extends LimitableSmellDetector implements JavaParserSmellDetector {
     public SmellReport detectSmell(HashMap<CompilationUnit, File> compilationUnits){
         SmellReport smells = new SmellReport();
-        VoidVisitor<List<Integer>> visitor1 = new InappropriateIntimacyDeclarationCollector();//Retrieves method declarations
+        VoidVisitor<List<Integer>> visitor1 = new InappropriateIntimacyDeclarationCollector();//Retrieves declarations
         ReflectionTypeSolver[] ha = new ReflectionTypeSolver[1];
         ha[0] = new ReflectionTypeSolver();
         CombinedTypeSolver combinedTypeSolver = new CombinedTypeSolver(ha);
         // Configure JavaParser to use type resolution
         JavaSymbolSolver symbolSolver = new JavaSymbolSolver(combinedTypeSolver);
         StaticJavaParser.getConfiguration().setSymbolResolver(symbolSolver);
-        int count=0;
+        int count=0;//Used to compare against limit
         for(CompilationUnit comp: compilationUnits.keySet()){
-                List<MethodCallExpr> temp = new ArrayList();
-                List<Integer> lines= new ArrayList();
+                List<MethodCallExpr> temp = new ArrayList();//Holds the method calls
+                List<Integer> lines= new ArrayList();// Stores the line numbers
             try {
                 CompilationUnit comp1 = StaticJavaParser.parse(compilationUnits.get(comp));
-                temp=comp1.findAll(MethodCallExpr.class);
-                for(MethodCallExpr exp: temp)
+                temp=comp1.findAll(MethodCallExpr.class);//Stores the method call expr
+                for(MethodCallExpr exp: temp)// Iterates through all the method call expr in the class
                 {
-                    if(!exp.getClass().equals(compilationUnits.get(comp))) {
+                    if(!exp.getClass().equals(compilationUnits.get(comp))) {//If a method call is not from this class track it
                         count++;
                     }
-                    if(count>limit){
+                    if(count>limit){//If the amount of times a method from another method is called exceeds limit add the line number
 
                         ((InappropriateIntimacyDeclarationCollector) visitor1).addLineNumbers(exp, lines);
                     }

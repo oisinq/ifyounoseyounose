@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class InappropriateIntimacyDeclarationCollector extends VoidVisitorAdapter<List<Integer>> {
-    void addLineNumbers(Node node, List<Integer> collector) {//Gets the line of the method declaration
+    void addLineNumbers(Node node, List<Integer> collector) {//Gets the line of the given declaration
         Optional<Range> m = node.getRange();
         Range r = m.get();
 
