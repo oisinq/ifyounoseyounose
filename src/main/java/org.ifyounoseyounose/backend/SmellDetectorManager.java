@@ -169,6 +169,10 @@ public class SmellDetectorManager {
                     currentSmell = new ViolationOfDataHidingSmellDetector();
                     limit = smellDetectorStrings.get("ViolationOfDataHiding");
                     break;
+                case "TemporaryFields":
+                    currentSmell = new TemporaryFieldsSmellDetector();
+                    limit = smellDetectorStrings.get("TemporaryFields");
+                    break;
                 default:
                     System.err.println("Smell Detector not found!");
             }

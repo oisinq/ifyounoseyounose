@@ -12,6 +12,9 @@ public class TemporaryFieldsCollector extends VoidVisitorAdapter<List<MethodDecl
     public void visit(MethodDeclaration md, List<MethodDeclaration> collector) {
         super.visit(md, collector);
         List<Node> temp=md.getChildNodes();
+        for(Node child: temp){
+            System.out.println(child);
+        }
         collector.add(md);
     }
 }
