@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 
-public class InappropriateIntimacyClassCollector extends VoidVisitorAdapter<List<Integer>> {
+public class inappropriateIntimacyDeclarationCollector extends VoidVisitorAdapter<List<Integer>> {
 
     @Override
     public void visit(ClassOrInterfaceDeclaration cd, List<Integer> collector) {//Gets all method declarations

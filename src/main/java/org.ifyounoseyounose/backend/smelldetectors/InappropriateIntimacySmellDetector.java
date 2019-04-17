@@ -18,7 +18,7 @@ import java.util.List;
 public class InappropriateIntimacySmellDetector extends LimitableSmellDetector implements JavaParserSmellDetector {
     public SmellReport detectSmell(HashMap<CompilationUnit, File> compilationUnits){
         SmellReport smells = new SmellReport();
-        VoidVisitor<List<Integer>> visitor1 = new InappropriateIntimacyClassCollector();//Retrieves method declarations
+        VoidVisitor<List<Integer>> visitor1 = new inappropriateIntimacyDeclarationCollector();//Retrieves method declarations
         ReflectionTypeSolver[] ha = new ReflectionTypeSolver[1];
         ha[0] = new ReflectionTypeSolver();
         CombinedTypeSolver combinedTypeSolver = new CombinedTypeSolver(ha);
