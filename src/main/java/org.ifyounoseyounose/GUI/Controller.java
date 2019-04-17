@@ -8,6 +8,10 @@ import javafx.stage.Stage;
 import com.google.common.eventbus.Subscribe;
 import java.io.File;
 import javafx.scene.control.TextArea;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.BiConsumer;
@@ -41,19 +45,35 @@ public class Controller {
 
     // the initialize method is automatically invoked by the FXMLLoader - it's magic
     public void initialize() {
-        //EventBusFactory.getEventBus().register(new Controller());//TODO TEST IF I NEED THIS
         EventBusFactory.getEventBus().register(new Object() {
             @Subscribe
             public void setInputDirectory(EventBusFactory e){
-                String temp= e.getFileLocation().replace("\\", "/");
-                InputDirectory=temp;
-                displayTreeView(temp);
+                InputDirectory=e.getFileLocation().replace("\\", "/");;
+                displayTreeView(InputDirectory);
             }
         });
         code.setContent(displayCodeTab());
+        treeView.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> {
 
+            try {
+                String classString= Files.readString(Path.of(getPathFromTreeView(v.getValue())));
+                area.replaceText(classString);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
+    //this gets the location from a treeview location
+    public String getPathFromTreeView(TreeItem<String> v){
+        StringBuilder pathBuilder = new StringBuilder();
+        for (TreeItem<String> item = v;
+             item != null ; item = item.getParent()) {
 
+          pathBuilder.insert(0, item.getValue());
+          pathBuilder.insert(0, "/");
+        }
+        return pathBuilder.toString().substring(1);
+    }
     public void setFirstScene(Scene scene) {
         firstScene = scene;
     }
@@ -77,18 +97,15 @@ public class Controller {
 
     public void displayTreeView(String inputDirectoryLocation) {
         TreeItem<String> rootItem = new TreeItem<>(inputDirectoryLocation);
-
-
         File Input = new File(inputDirectoryLocation);
         File fileList[] = Input.listFiles();
 
         // create tree
         for (File file : fileList) {
-            createTree(file, rootItem);
+                createTree(file, rootItem);
         }
         treeView.setRoot(rootItem);
     }
-
 
         private final TextOps<String, TextStyle> styledTextOps = SegmentOps.styledTextOps();
         private final LinkedImageOps<TextStyle> linkedImageOps = new LinkedImageOps<>();
@@ -158,7 +175,7 @@ public class Controller {
         }
 
         private void updateParagraphStyleInSelection(ParStyle mixin,int line) {
-            c(style -> style.updateWith(mixin),line);
+            setLineStyle(style -> style.updateWith(mixin),line);
         }
 
         private void updateParagraphBackground(Color color,int line) {
@@ -167,13 +184,13 @@ public class Controller {
             }
         }
 
-        public void setCodeAreaText(String a,Color color,int line){
-        area.replaceText(a);
+        public void setCodeAreaText(String a,Color color,int line){//TODO Rename as set line smell
+
         //updateParagraphBackground(Color.web("#56cbf9",0.8),0);
         updateParagraphBackground(color,line);
         }
 
-    private void c(Function<ParStyle, ParStyle> updater,int line) {
+    private void setLineStyle(Function<ParStyle, ParStyle> updater,int line) {
             Paragraph<ParStyle, Either<String, LinkedImage>, TextStyle> paragraph = area.getParagraph(line);
             area.setParagraphStyle(line, updater.apply(paragraph.getParagraphStyle()));
     }

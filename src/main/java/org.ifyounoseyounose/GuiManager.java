@@ -10,29 +10,25 @@ import javafx.stage.Stage;
 import org.ifyounoseyounose.GUI.Controller;
 import org.ifyounoseyounose.GUI.EventBusFactory;
 import org.ifyounoseyounose.GUI.SetupController;
+import org.ifyounoseyounose.backend.FinalReport;
 import org.ifyounoseyounose.backend.ReportBuilder;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class GuiManager extends Application {
-    FXMLLoader mainLoader=null;
-    Parent main=null;
-    Controller mainApplicationController=null;
-    Scene mainScene=null;
     @Override
     public void start(Stage primaryStage) throws IOException {
-
         primaryStage.setTitle("Code Smeller");
         final FXMLLoader setupLoader = new FXMLLoader(getClass().getResource("SetupScreen.fxml"));
         final Parent setup =  setupLoader.load();
         final SetupController setupController = setupLoader.getController();
         Scene setupScene=new Scene(setup, 1000,600);
 
-        mainLoader = new FXMLLoader(getClass().getResource("CodeSmeller.fxml"));
-        main =  mainLoader.load();
-        mainApplicationController = mainLoader.getController();
-        mainScene=new Scene(main, 1000,600);
+        FXMLLoader mainLoader = new FXMLLoader(getClass().getResource("CodeSmeller.fxml"));
+        Parent main =  mainLoader.load();
+        Controller mainApplicationController = mainLoader.getController();
+        Scene mainScene=new Scene(main, 1000,600);
 
         primaryStage.setScene(setupScene);
 
@@ -44,8 +40,7 @@ public class GuiManager extends Application {
         EventBusFactory.getEventBus().register(new Object() {
             @Subscribe
             public void setInputDirectory(EventBusFactory e){
-                //HashMap<String,int> pass = ;
-                reportBuilder.generateReport(e.getSmells(),e.getFile());//generate report wants a hashmap (List<SmellDetector> smells, File directory
+                FinalReport finalReport=reportBuilder.generateReport(e.getSmells(),e.getFile());//generate report wants a hashmap (List<SmellDetector> smells, File directory
                 //hashmap with code smell as key, limit as value sure
             }
         });
