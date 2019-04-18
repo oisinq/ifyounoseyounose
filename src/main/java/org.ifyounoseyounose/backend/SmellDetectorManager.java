@@ -142,24 +142,24 @@ public class SmellDetectorManager {
                     limit = smellDetectorStrings.get("ArrowHeaded");
                     break;
                 case "BloatedClass":
-                    currentSmell = new DeadCodeSmellDetector();
+                    currentSmell = new BloatedClassSmellDetector();
                     limit = smellDetectorStrings.get("BloatedClass");
                     break;
                 case "BloatedMethod":
-                    currentSmell = new DeadCodeSmellDetector();
+                    currentSmell = new BloatedMethodCodeSmellDetector();
                     limit = smellDetectorStrings.get("BloatedMethod");
                     break;
                 case "BloatedParameter":
-                    currentSmell = new DeadCodeSmellDetector();
-                    limit = smellDetectorStrings.get("BloatedMethod");
+                    currentSmell = new BloatedParamSmellDetector();
+                    limit = smellDetectorStrings.get("BloatedParameter");
                     break;
                 case "DataOnly":
-                    currentSmell = new DeadCodeSmellDetector();
-                    limit = smellDetectorStrings.get("BloatedMethod");
+                    currentSmell = new DataOnlyClassesSmellDetector();
+                    limit = smellDetectorStrings.get("DataOnly");
                     break;
                 case "DataHiding":
-                    currentSmell = new DeadCodeSmellDetector();
-                    limit = smellDetectorStrings.get("BloatedMethod");
+                    currentSmell = new ViolationOfDataHidingSmellDetector();
+                    limit = smellDetectorStrings.get("DataHiding");
                     break;
                 case "DeadCode":
                     currentSmell = new DeadCodeSmellDetector();
