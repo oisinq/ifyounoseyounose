@@ -23,7 +23,7 @@ public class BloatedClassTest {
 
 
         HashMap<String, Integer> smellDetectorObjects = new HashMap<>();
-        smellDetectorObjects.put("TooManyLiterals", 3);
+        smellDetectorObjects.put("BloatedClass", 20);
 
         s.detectSmells(smellDetectorObjects, l);
         assert(true);

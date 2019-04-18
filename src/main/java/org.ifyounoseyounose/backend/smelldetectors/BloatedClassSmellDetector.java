@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 
 
-public class BloatedClassSmellDetector extends LimitableSmellDetector implements ReflectionSmellDetector, SmellDetector {
+public class BloatedClassSmellDetector extends LimitableSmellDetector implements ManualParserSmellDetector, SmellDetector {
 
     public BloatedClassSmellDetector(int limit) {
         super(limit);
@@ -20,17 +20,17 @@ public class BloatedClassSmellDetector extends LimitableSmellDetector implements
         super(20);
     }
     @Override
-    public SmellReport detectSmell(HashMap<Class, File> classes) {
+    public SmellReport detectSmell(List<File> files) {
 
         SmellReport smells = new SmellReport();
 
 
-        for (Class current : classes.keySet()) {
+        for (File current : files) {
             int lineNumber = 0;
-            List<Integer> lines = new ArrayList<Integer>();
+            List<Integer> lines = new ArrayList<>();
             try {
                 
-                FileReader targetStream = new FileReader(classes.get(current));
+                FileReader targetStream = new FileReader(current);
 
                 BufferedReader bufferedReader =
                         new BufferedReader(targetStream);
@@ -49,7 +49,7 @@ public class BloatedClassSmellDetector extends LimitableSmellDetector implements
 
             }
 
-            smells.addToReport(classes.get(current), lines);
+            smells.addToReport(current, lines);
         }
 
             return smells;
