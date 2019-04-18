@@ -5,16 +5,13 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import org.ifyounoseyounose.GUI.Controller;
 import org.ifyounoseyounose.GUI.EventBusFactory;
 import org.ifyounoseyounose.GUI.SetupController;
-import org.ifyounoseyounose.backend.FinalReport;
+import org.ifyounoseyounose.backend.CompleteReport;
 import org.ifyounoseyounose.backend.ReportBuilder;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 
 public class GuiManager extends Application {
     @Override
@@ -40,7 +37,7 @@ public class GuiManager extends Application {
         EventBusFactory.getEventBus().register(new Object() {
             @Subscribe
             public void setInputDirectory(EventBusFactory e){
-                FinalReport finalReport=reportBuilder.generateReport(e.getSmells(),e.getFile());//generate report wants a hashmap (List<SmellDetector> smells, File directory
+                CompleteReport completeReport =reportBuilder.generateReport(e.getSmells(),e.getFile());//generate report wants a hashmap (List<SmellDetector> smells, File directory
                 //hashmap with code smell as key, limit as value sure
             }
         });

@@ -6,23 +6,12 @@ import java.util.HashMap;
 import java.util.List;
 
 public class FileReport {
-    private List<Integer> detectedLines;
     //Todo need a better variable name for this.
-    private HashMap<String, List<Integer>> newThing;
+    private HashMap<String, List<Integer>> detections = new HashMap<>();
     private File relatedFile;
 
-    FileReport() {
-        detectedLines = new ArrayList<>();
-        newThing = new HashMap<>();
-    }
-    public void addDetections(List<Integer> newLines) {
-        if (newLines != null) {
-            detectedLines.addAll(newLines);
-        }
-    }
-
     public void addSmellDetections(String smellName, List<Integer> newLines) {
-        newThing.put(smellName, newLines);
+        detections.put(smellName, newLines);
     }
 
     public void setFile(File f) {
@@ -34,10 +23,10 @@ public class FileReport {
     }
 
     public HashMap<String, List<Integer>> getSmellDetections() {
-        return newThing;
+        return detections;
     }
 
     public List<Integer> getSmellDetections(String smellName) {
-        return newThing.get(smellName);
+        return detections.get(smellName);
     }
 }

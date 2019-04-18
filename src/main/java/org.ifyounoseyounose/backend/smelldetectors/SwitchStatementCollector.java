@@ -25,7 +25,6 @@ public class SwitchStatementCollector extends VoidVisitorAdapter<List<Integer>> 
         if ((md.getChildNodes().size()-1) > limit) {
             addLineNumbers(md, collector);
         }
-
     }
 
     private void addLineNumbers(Node node, List<Integer> collector) {
