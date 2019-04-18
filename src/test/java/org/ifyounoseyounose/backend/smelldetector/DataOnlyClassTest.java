@@ -23,7 +23,7 @@ public class DataOnlyClassTest {
         l.add(new File("./src/test/java/smellycodedirectory/SmellyData2.java"));
 
         HashMap<String, Integer> smellDetectorObjects = new HashMap<>();
-        smellDetectorObjects.put("TooManyLiterals", 2);
+        smellDetectorObjects.put("DataOnly", 2);
 
         s.detectSmells(smellDetectorObjects, l);
         assert(true);

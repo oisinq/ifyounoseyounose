@@ -20,7 +20,7 @@ public class BloatedMethodTest {
         l.add(new File("./src/test/java/smellycodedirectory/SmellyBloatedParamCode.java"));
 
         HashMap<String, Integer> smellDetectorObjects = new HashMap<>();
-        smellDetectorObjects.put("TooManyLiterals", 3);
+        smellDetectorObjects.put("BloatedMethod", 3);
 
         s.detectSmells(smellDetectorObjects, l);
         assert(true);
