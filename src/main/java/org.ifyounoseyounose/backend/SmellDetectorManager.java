@@ -48,6 +48,7 @@ public class SmellDetectorManager {
 
         // I go through every file, then every SmellDetector and pass each file to the relevant SmellDetector
         for (SmellDetector smellDetector : smellDetectors) {
+            System.out.println("Current smelldetector: " + smellDetector.getSmellName());
             // Check what type of smellDetector it is by seeing what interface it inherits
             // and call smellDetector.detectSmell() on it with the parameters corresponding to its interface
             if (smellDetector instanceof JavaParserSmellDetector) {
@@ -96,11 +97,13 @@ public class SmellDetectorManager {
         List<FileReport> fileReports = new ArrayList<>();
 
         for (File f : files) {
+            FileReport fileReport = new FileReport();
             for (SmellReport smellReport : results) {
-                FileReport fileReport = new FileReport();
-                fileReport.addSmellDetections(smellReport.getSmellName(),smellReport.getDetectionsByFile(f));
-                fileReport.setFile(f);
-                fileReports.add(fileReport);
+                if (!smellReport.isEmptyForFile(f)) {
+                    fileReport.addSmellDetections(smellReport.getSmellName(), smellReport.getDetectionsByFile(f));
+                    fileReport.setFile(f);
+                    fileReports.add(fileReport);
+                }
             }
         }
 

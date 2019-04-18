@@ -8,6 +8,7 @@ public class CompleteReport {
     private HashMap<File, FileReport> data = new HashMap<>();
 
     public void addFileReport(FileReport report) {
+       // System.out.println("Adding this: " + report.toString() + "\n cool? lol");
         data.put(report.getFile(), report);
     }
 
@@ -17,6 +18,7 @@ public class CompleteReport {
     }
 
     public FileReport getAllDetectedSmells(File f) {
+        System.out.println(f.toString() + ", ye");
         return data.get(f);
     }
 }

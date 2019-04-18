@@ -46,7 +46,7 @@ public class Controller {
     public String InputDirectory=null;//
     private Scene firstScene;
     private CompleteReport completeReport;
-    private FileReport report;
+    private FileReport fileReport;
 
     // the initialize method is automatically invoked by the FXMLLoader - it's magic
     public void initialize() {
@@ -65,7 +65,9 @@ public class Controller {
             try {
                 String classString= Files.readString(Path.of(getPathFromTreeView(v.getValue())));
                 area.replaceText(classString);
-                report = completeReport.getAllDetectedSmells(new File(classString));
+                System.out.println("Oisin here - " + getPathFromTreeView(v.getValue()));
+                fileReport = completeReport.getAllDetectedSmells(new File(getPathFromTreeView(v.getValue())));
+                System.out.println("report thing: " + fileReport);
                 setClassColours();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -203,12 +205,12 @@ public class Controller {
         }
 
         public void setClassColours(){
-            HashMap<String,List<Integer>> temp=report.getSmellDetections();
+            HashMap<String,List<Integer>> temp= fileReport.getSmellDetections();
             Set<String> temp2=temp.keySet();
 
             for(String s : temp2){
-                System.out.println(s);
-                //List<Integer> temp3=report.getSmellDetections(s);
+                //System.out.println(s);
+                //List<Integer> temp3=fileReport.getSmellDetections(s);
                 List<Integer> temp3=temp.get(s);
                 for(int i: temp3){
                     setLineColour(Color.BEIGE,i);

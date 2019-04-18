@@ -29,4 +29,8 @@ public class SmellReport {
     public void setSmellName(String name) {
         smellName = name;
     }
+
+    public boolean isEmptyForFile(File f) {
+        return !smells.containsKey(f) || smells.get(f).isEmpty();
+    }
 }

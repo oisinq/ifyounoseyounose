@@ -47,7 +47,6 @@ public class DeadCodeSmellDetector implements JavaParserSmellDetector, SmellDete
 
         for(CompilationUnit comp: compilationUnits.keySet()) {
             try {
-                System.out.println(comp);
                 CompilationUnit comp1 = StaticJavaParser.parse(compilationUnits.get(comp));
                 comp1.findAll(MethodCallExpr.class).forEach(be -> {
                     for (File search : compilationUnits.values()) {//Check against our stored methods

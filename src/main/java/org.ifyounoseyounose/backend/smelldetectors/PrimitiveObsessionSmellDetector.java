@@ -20,7 +20,6 @@ public class PrimitiveObsessionSmellDetector implements JavaParserSmellDetector,
         for (CompilationUnit compilationUnit : compilationUnits.keySet()) {
             List<Integer> collector = new ArrayList<>();
             visitor.visit(compilationUnit, collector);
-            System.err.println(compilationUnits.get(compilationUnit) + " - " + collector.size());
             smellReport.addToReport(compilationUnits.get(compilationUnit),collector);
         }
 

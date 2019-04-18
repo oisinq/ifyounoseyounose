@@ -29,4 +29,13 @@ public class FileReport {
     public List<Integer> getSmellDetections(String smellName) {
         return detections.get(smellName);
     }
+
+    public String toString() {
+        String output = "File: " + getFile().toString() + "\n";
+        output += "Smells: \n";
+        for (String s : detections.keySet()) {
+            output += s + "\n";
+        }
+        return output;
+    }
 }

@@ -29,8 +29,7 @@ public class BloatedParamSmellDetector extends LimitableSmellDetector implements
             collector.add(limit);
             visitor.visit(compilationUnit, collector);
             collector.remove(0);
-            System.err.println(compilationUnits.get(compilationUnit) + " - " + collector.size());
-            smellReport.addToReport(compilationUnits.get(compilationUnit),collector);
+             smellReport.addToReport(compilationUnits.get(compilationUnit),collector);
         }
 
         return smellReport;
