@@ -16,7 +16,7 @@ public class ArrowheadedIndentationSmellDetector extends LimitableSmellDetector 
     }
 
     public ArrowheadedIndentationSmellDetector() {
-        super(4);
+        super(3);
     }
 
     @Override

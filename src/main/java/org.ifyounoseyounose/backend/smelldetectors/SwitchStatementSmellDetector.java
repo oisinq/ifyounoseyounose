@@ -14,10 +14,6 @@ import java.util.List;
  */
 public class SwitchStatementSmellDetector extends LimitableSmellDetector implements JavaParserSmellDetector, SmellDetector {
 
-    public SwitchStatementSmellDetector(int limit) {
-        super(limit);
-    }
-
     public SwitchStatementSmellDetector() {
         super(3);
     }
@@ -30,9 +26,7 @@ public class SwitchStatementSmellDetector extends LimitableSmellDetector impleme
         // We check for literals in each individual CompliationUnit and record the line numbers of instances of literals being used
         for (CompilationUnit compilationUnit : compilationUnits.keySet()) {
             List<Integer> collector = new ArrayList<>();
-            collector.add(limit);
             visitor.visit(compilationUnit, collector);
-            collector.remove(0);
             smellReport.addToReport(compilationUnits.get(compilationUnit),collector);
         }
 

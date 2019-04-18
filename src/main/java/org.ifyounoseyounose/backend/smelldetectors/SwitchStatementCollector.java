@@ -14,11 +14,11 @@ import java.util.Optional;
  * TooManyLiteralsCollector - JavaParser collector for visiting the individual nodes on the Abstract Syntax Tree
  */
 public class SwitchStatementCollector extends VoidVisitorAdapter<List<Integer>> {
+    int limit = 0;
 
     @Override
     public void visit(SwitchStmt md, List<Integer> collector) {
         super.visit(md, collector);
-        int limit = collector.get(0);
 
         // This checks if the number of cases is over the limit. If it is, we add the lines to the list.
         // We subtract one because getChildNodes() also includes the condition of the switch statement
@@ -33,5 +33,11 @@ public class SwitchStatementCollector extends VoidVisitorAdapter<List<Integer>> 
         for (int lineNumber = r.begin.line; lineNumber <= r.end.line; lineNumber++) {
             collector.add(lineNumber);
         }
+    }
+
+
+
+    public void setLimit(int limit) {
+        this.limit = limit;
     }
 }
