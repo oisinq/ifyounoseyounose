@@ -141,6 +141,26 @@ public class SmellDetectorManager {
                     currentSmell = new ArrowheadedIndentationSmellDetector();
                     limit = smellDetectorStrings.get("ArrowHeaded");
                     break;
+                case "BloatedClass":
+                    currentSmell = new DeadCodeSmellDetector();
+                    limit = smellDetectorStrings.get("BloatedClass");
+                    break;
+                case "BloatedMethod":
+                    currentSmell = new DeadCodeSmellDetector();
+                    limit = smellDetectorStrings.get("BloatedMethod");
+                    break;
+                case "BloatedParameter":
+                    currentSmell = new DeadCodeSmellDetector();
+                    limit = smellDetectorStrings.get("BloatedMethod");
+                    break;
+                case "DataOnly":
+                    currentSmell = new DeadCodeSmellDetector();
+                    limit = smellDetectorStrings.get("BloatedMethod");
+                    break;
+                case "DataHiding":
+                    currentSmell = new DeadCodeSmellDetector();
+                    limit = smellDetectorStrings.get("BloatedMethod");
+                    break;
                 case "DeadCode":
                     currentSmell = new DeadCodeSmellDetector();
                     limit = smellDetectorStrings.get("DeadCode");

@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class CompleteReport {
-    HashMap<File, FileReport> data = new HashMap<>();
+    private HashMap<File, FileReport> data = new HashMap<>();
 
     public void addFileReport(FileReport report) {
         data.put(report.getFile(), report);
