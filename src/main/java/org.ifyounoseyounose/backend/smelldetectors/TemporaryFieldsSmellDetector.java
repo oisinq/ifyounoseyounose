@@ -10,6 +10,7 @@ import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.body.TypeDeclaration;
 import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.expr.AnnotationExpr;
+import com.github.javaparser.ast.expr.AssignExpr;
 import com.github.javaparser.ast.expr.BinaryExpr;
 import com.github.javaparser.ast.expr.MethodCallExpr;
 import com.github.javaparser.ast.nodeTypes.NodeWithVariables;
@@ -45,7 +46,7 @@ public class TemporaryFieldsSmellDetector extends LimitableSmellDetector impleme
                 }
                 for(MethodDeclaration md:cu.findAll(MethodDeclaration.class)){// Checks each method
                     occured=false;
-                    for(BinaryExpr be: md.findAll(BinaryExpr.class)){// Checks all binary expressions for the instance variable
+                    for(BinaryExpr be: md.findAll(BinaryExpr.class)){// Checks all binary expressions against the instance variable
                         for (VariableDeclarator v : variables.keySet()) {
                             List<Node> children = be.getChildNodes();
                             for (Node chi : children) {
@@ -56,7 +57,19 @@ public class TemporaryFieldsSmellDetector extends LimitableSmellDetector impleme
                             }
                         }
                     }
-                    for(MethodCallExpr me: md.findAll(MethodCallExpr.class)){// Checks all method expressions for the variable
+                    for(MethodCallExpr me: md.findAll(MethodCallExpr.class)){// Checks all method expressions against the variable
+                        for (VariableDeclarator v : variables.keySet()) {
+                            List<Node> children = me.getChildNodes();
+                            for (Node chi : children) {
+                                if (chi.toString().equals(v.getNameAsString())&&!occured) {
+                                    occured=true;
+                                    variables.put(v, variables.get(v)+1);
+                                }
+                            }
+
+                        }
+                    }
+                    for(AssignExpr me: md.findAll(AssignExpr.class)){// Checks all assignment against the variable
                         for (VariableDeclarator v : variables.keySet()) {
                             List<Node> children = me.getChildNodes();
                             for (Node chi : children) {

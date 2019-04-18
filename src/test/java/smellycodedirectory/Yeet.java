@@ -12,7 +12,7 @@ public class Yeet {
     }
     public int ty()
     {
-        a=a+1;
+        a=1;
         return a;
     }
 
