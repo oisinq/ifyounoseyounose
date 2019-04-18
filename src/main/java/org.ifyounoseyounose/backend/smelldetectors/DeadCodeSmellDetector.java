@@ -45,23 +45,26 @@ public class DeadCodeSmellDetector implements JavaParserSmellDetector, SmellDete
         JavaSymbolSolver symbolSolver = new JavaSymbolSolver(combinedTypeSolver);
         StaticJavaParser.getConfiguration().setSymbolResolver(symbolSolver);
 
-        for(CompilationUnit comp: compilationUnits.keySet())
+        for(CompilationUnit comp: compilationUnits.keySet()) {
             try {
+                System.out.println(comp);
                 CompilationUnit comp1 = StaticJavaParser.parse(compilationUnits.get(comp));
                 comp1.findAll(MethodCallExpr.class).forEach(be -> {
-                    for (File search : compilationUnits.values()){//Check against our stored methods
-                        if(!be.getName().toString().equals("println")&&!be.getName().toString().equals("print")) {//Ignore prints
+                    for (File search : compilationUnits.values()) {//Check against our stored methods
+                        if (!be.getName().toString().equals("println") && !be.getName().toString().equals("print")) {//Ignore prints
                             if (methodHash.get(search).containsKey(be.resolve().getSignature())) {//If used method is in the list remove it
 
                                 methodHash.get(search).remove(be.resolve().getSignature(), methodHash.get(search).get(be.resolve().getSignature()));
                             }
                         }
-                }});
+                    }
+                });
 
 
             } catch (FileNotFoundException e) {
                 System.out.println("No file found");
             }
+        }
        for(File e: methodHash.keySet())
        {
         List<Integer> lines= new ArrayList<>();//Temporary list

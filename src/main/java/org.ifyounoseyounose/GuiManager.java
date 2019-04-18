@@ -12,6 +12,8 @@ import org.ifyounoseyounose.GUI.SetupController;
 import org.ifyounoseyounose.backend.CompleteReport;
 import org.ifyounoseyounose.backend.ReportBuilder;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Set;
 
 public class GuiManager extends Application {
     @Override
@@ -38,6 +40,10 @@ public class GuiManager extends Application {
             @Subscribe
             public void setInputDirectory(EventBusFactory e){
                 CompleteReport completeReport =reportBuilder.generateReport(e.getSmells(),e.getFile());//generate report wants a hashmap (List<SmellDetector> smells, File directory
+                HashMap<String,Integer> test=e.getSmells();
+                Set<String> s=test.keySet();
+                System.out.println(s.toString());
+                mainApplicationController.setCompleteReport(completeReport);
                 //hashmap with code smell as key, limit as value sure
             }
         });

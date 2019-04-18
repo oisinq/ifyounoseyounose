@@ -8,12 +8,13 @@ import javafx.stage.Stage;
 import com.google.common.eventbus.Subscribe;
 import java.io.File;
 import javafx.scene.control.TextArea;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 import javafx.scene.control.IndexRange;
@@ -30,6 +31,8 @@ import org.fxmisc.richtext.model.SegmentOps;
 import org.fxmisc.richtext.model.StyleSpans;
 import org.fxmisc.richtext.model.StyledSegment;
 import org.fxmisc.richtext.model.TextOps;
+import org.ifyounoseyounose.backend.FileReport;
+import org.ifyounoseyounose.backend.CompleteReport;
 import org.reactfx.SuspendableNo;
 import org.reactfx.util.Either;
 import static org.fxmisc.richtext.model.TwoDimensional.Bias.Backward;
@@ -42,6 +45,8 @@ public class Controller {
     @FXML private Tab code;
     public String InputDirectory=null;//
     private Scene firstScene;
+    private CompleteReport completeReport;
+    private FileReport report;
 
     // the initialize method is automatically invoked by the FXMLLoader - it's magic
     public void initialize() {
@@ -52,12 +57,16 @@ public class Controller {
                 displayTreeView(InputDirectory);
             }
         });
+
         code.setContent(displayCodeTab());
+
         treeView.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> {
 
             try {
                 String classString= Files.readString(Path.of(getPathFromTreeView(v.getValue())));
                 area.replaceText(classString);
+                report = completeReport.getAllDetectedSmells(new File(classString));
+                setClassColours();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -74,6 +83,11 @@ public class Controller {
         }
         return pathBuilder.toString().substring(1);
     }
+
+    public void setCompleteReport(CompleteReport report){
+        completeReport=report;
+    }
+
     public void setFirstScene(Scene scene) {
         firstScene = scene;
     }
@@ -184,10 +198,22 @@ public class Controller {
             }
         }
 
-        public void setCodeAreaText(String a,Color color,int line){//TODO Rename as set line smell
-
-        //updateParagraphBackground(Color.web("#56cbf9",0.8),0);
+        public void setLineColour(Color color,int line){//TODO Rename as set line smell
         updateParagraphBackground(color,line);
+        }
+
+        public void setClassColours(){
+            HashMap<String,List<Integer>> temp=report.getSmellDetections();
+            Set<String> temp2=temp.keySet();
+
+            for(String s : temp2){
+                System.out.println(s);
+                //List<Integer> temp3=report.getSmellDetections(s);
+                List<Integer> temp3=temp.get(s);
+                for(int i: temp3){
+                    setLineColour(Color.BEIGE,i);
+                }
+            }
         }
 
     private void setLineStyle(Function<ParStyle, ParStyle> updater,int line) {
