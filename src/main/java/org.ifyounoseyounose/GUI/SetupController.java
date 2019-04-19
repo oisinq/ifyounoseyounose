@@ -23,9 +23,9 @@ public class SetupController {
 
     @FXML private Button browse,settingsDisplay,smellTime;
     @FXML private ScrollPane scrollPane;
-    @FXML private CheckBox ArrowHeaded,BloatedClass,BloatedMethod,BloatedParameter,DataOnly,DataHiding,DeadCode,DuplicateCode,MessageChaining,PrimitiveObsession,SwitchStatement,TooManyLiterals;
-    @FXML private Slider ArrowHeadedSlider,BloatedClassSlider;
-    @FXML private TextField displayDirectory,ArrowHeadedText,BloatedClassText,BloatedMethodText,BloatedParameterText,DataOnlyText,DataHidingText,DeadCodeText,DuplicateCodeText,MessageChainingText,PrimitiveObsessionText,SwitchStatementText,TooManyLiteralsText;
+    @FXML private CheckBox ToggleButtons,ArrowHeaded,BloatedClass,BloatedMethod,BloatedParameter,DataOnly,DataHiding,DeadCode,DuplicateCode,MessageChaining,PrimitiveObsession,SwitchStatement,TooManyLiterals;
+    @FXML private Slider ArrowHeadedSlider,BloatedClassSlider,BloatedMethodSlider,BloatedParameterSlider,MessageChainingSlider,PrimitiveObsessionSlider,SwitchStatementSlider,TooManyLiteralsSlider;
+    @FXML private TextField displayDirectory,ArrowHeadedText,BloatedClassText,BloatedMethodText,BloatedParameterText,DeadCodeText,DuplicateCodeText,MessageChainingText,PrimitiveObsessionText,SwitchStatementText,TooManyLiteralsText;
     Set<CheckBox> checkboxes;
     @FXML private VBox vbox;
     @FXML private AnchorPane ap;
@@ -53,8 +53,8 @@ public class SetupController {
                 put(BloatedClass,BloatedClassText);
                 put(BloatedMethod,BloatedMethodText);
                 put(BloatedParameter,BloatedParameterText);
-                put(DataOnly,DataOnlyText);
-                put(DataHiding,DataHidingText);
+                put(DataOnly,null);
+                put(DataHiding,null);
                 put(DeadCode,DeadCodeText);
                 put(DuplicateCode,DuplicateCodeText);
                 put(MessageChaining,MessageChainingText);
@@ -71,23 +71,25 @@ public class SetupController {
         //};
 
         //set all to be true by default
-        for(CheckBox a: checkboxes){
-            a.setSelected(true);
-        }
+        ToggleButtons.selectedProperty().setValue(true);
+        toggleButtons();
+
+        ToggleButtons.selectedProperty().addListener((ChangeListener) (arg0, arg1, arg2) -> {
+            toggleButtons();
+        });
         /*this has all the button listeners pretty much*/
         setSettingsDisplay();//call once on intialise to set settings buttons as hidden
 
         ArrowHeadedSlider.valueProperty().addListener((ChangeListener) (arg0, arg1, arg2) -> {
             ArrowHeadedText.setText(String.valueOf(((int) ArrowHeadedSlider.getValue())));
         });
-
         BloatedClassSlider.valueProperty().addListener((ChangeListener) (arg0, arg1, arg2) -> {
             BloatedClassText.setText(String.valueOf(((int) BloatedClassSlider.getValue())));
         });
+        BloatedMethodSlider.valueProperty().addListener((ChangeListener) (arg0, arg1, arg2) -> {
+            BloatedMethodText.setText(String.valueOf(((int) BloatedMethodSlider.getValue())));
+        });
 
-        //ArrowHeadedSlider.valueProperty().addListener((ChangeListener) (arg0, arg1, arg2) -> {
-        //    ArrowHeadedText.setText(String.valueOf(((int) ArrowHeadedSlider.getValue())));
-        //});
         settingsDisplay.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -129,5 +131,11 @@ public class SetupController {
             }
         }
         return toReturn;
+    }
+
+    public void toggleButtons(){
+        for(CheckBox a: checkboxes){
+            a.setSelected(ToggleButtons.isSelected());
+        }
     }
 }
