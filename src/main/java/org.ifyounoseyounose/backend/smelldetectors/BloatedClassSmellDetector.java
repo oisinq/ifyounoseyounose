@@ -17,7 +17,7 @@ public class BloatedClassSmellDetector extends LimitableSmellDetector implements
     }
 
     public BloatedClassSmellDetector() {
-        super(20);
+        super(250);
     }
     @Override
     public SmellReport detectSmell(List<File> files) {
