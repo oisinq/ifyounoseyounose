@@ -45,7 +45,7 @@ public class BloatedClassSmellDetector extends LimitableSmellDetector implements
             }
 
             if (limit < lineNumber) {
-                lines.add(0); //add zero to highlight the class declaration
+                lines.add(1); //highlight line 1 (to signify that the class is smelly)
 
             }
 
