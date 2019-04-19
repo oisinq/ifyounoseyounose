@@ -1,5 +1,6 @@
 package org.ifyounoseyounose.GUI;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -43,17 +44,20 @@ public class Controller {
     @FXML private TextArea txtView ;
     @FXML private TreeView<String> treeView;
     @FXML private Tab code;
+    @FXML private MenuItem backToSetup;
     public String InputDirectory=null;//
     private Scene firstScene;
     private CompleteReport completeReport;
     private FileReport fileReport;
+    private static Boolean JavaToggle;
 
     // the initialize method is automatically invoked by the FXMLLoader - it's magic
     public void initialize() {
         EventBusFactory.getEventBus().register(new Object() {
             @Subscribe
             public void setInputDirectory(EventBusFactory e){
-                InputDirectory=e.getFileLocation().replace("\\", "/");;
+                InputDirectory=e.getFileLocation().replace("\\", "/");
+                JavaToggle=e.getDisplayJava();
                 displayTreeView(InputDirectory);
             }
         });
@@ -73,8 +77,11 @@ public class Controller {
                 e.printStackTrace();
             }
         });
+
+        //backToSetup.setOnAction(this::openFirstScene);//TODO this lets you go back , but doesn't clear everything
+
     }
-    //this gets the location from a treeview location
+    //this gets the filepath of a object from its treeview location
     public String getPathFromTreeView(TreeItem<String> v){
         StringBuilder pathBuilder = new StringBuilder();
         for (TreeItem<String> item = v;
@@ -95,7 +102,7 @@ public class Controller {
     }
 
     public void openFirstScene(ActionEvent actionEvent) {
-        Stage primaryStage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
+        Stage primaryStage = (Stage) treeView.getScene().getWindow();
         primaryStage.setScene(firstScene);
     }
 
@@ -106,7 +113,12 @@ public class Controller {
             for (File f : file.listFiles()) {
                 createTree(f, treeItem);
             }
-        } else {
+        }else if(JavaToggle){
+            if (file.getName().endsWith(".java")) {
+                parent.getChildren().add(new TreeItem<>(file.getName()));
+            }
+        }
+        else {
             parent.getChildren().add(new TreeItem<>(file.getName()));
         }
     }
@@ -146,32 +158,6 @@ public class Controller {
     public Node displayCodeTab(){
 
             area.setEditable(false);
-            area.beingUpdatedProperty().addListener((o, old, beingUpdated) -> {
-                if(!beingUpdated) {
-                    Color backgroundColor;
-
-                    IndexRange selection = area.getSelection();
-                    if(selection.getLength() != 0) {
-                        StyleSpans<TextStyle> styles = area.getStyleSpans(selection);
-                        Color[] backgrounds = styles.styleStream().map(s -> s.backgroundColor.orElse(null)).distinct().toArray(i -> new Color[i]);
-                        backgroundColor = backgrounds.length == 1 ? backgrounds[0] : null;
-                    } else {
-                        int p = area.getCurrentParagraph();
-                        int col = area.getCaretColumn();
-                        TextStyle style = area.getStyleAtPosition(p, col);
-                        backgroundColor = style.backgroundColor.orElse(null);
-                    }
-
-                    int startPar = area.offsetToPosition(selection.getStart(), Forward).getMajor();
-                    int endPar = area.offsetToPosition(selection.getEnd(), Backward).getMajor();
-                    List<Paragraph<ParStyle, Either<String, LinkedImage>, TextStyle>> pars = area.getParagraphs().subList(startPar, endPar + 1);
-
-                    @SuppressWarnings("unchecked")
-                    Optional<Color>[] paragraphBackgrounds = pars.stream().map(p -> p.getParagraphStyle().backgroundColor).distinct().toArray(Optional[]::new);
-                    Optional<Color> paragraphBackground = paragraphBackgrounds.length == 1 ? paragraphBackgrounds[0] : Optional.empty();
-
-                }
-            });
 
             VirtualizedScrollPane<GenericStyledArea<ParStyle, Either<String, LinkedImage>, TextStyle>> vsPane = new VirtualizedScrollPane<>(area);
             VBox vbox = new VBox();

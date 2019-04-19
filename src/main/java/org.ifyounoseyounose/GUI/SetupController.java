@@ -23,7 +23,7 @@ public class SetupController {
 
     @FXML private Button browse,settingsDisplay,smellTime;
     @FXML private ScrollPane scrollPane;
-    @FXML private CheckBox ToggleButtons,ArrowHeaded,BloatedClass,BloatedMethod,BloatedParameter,DataOnly,DataHiding,DeadCode,DuplicateCode,MessageChaining,PrimitiveObsession,SwitchStatement,TooManyLiterals;
+    @FXML private CheckBox JavaToggle,ToggleButtons,ArrowHeaded,BloatedClass,BloatedMethod,BloatedParameter,DataOnly,DataHiding,DeadCode,DuplicateCode,MessageChaining,PrimitiveObsession,SwitchStatement,TooManyLiterals;
     @FXML private Slider ArrowHeadedSlider,BloatedClassSlider,BloatedMethodSlider,BloatedParameterSlider,MessageChainingSlider,PrimitiveObsessionSlider,SwitchStatementSlider,TooManyLiteralsSlider;
     @FXML private TextField displayDirectory,ArrowHeadedText,BloatedClassText,BloatedMethodText,BloatedParameterText,DeadCodeText,DuplicateCodeText,MessageChainingText,PrimitiveObsessionText,SwitchStatementText,TooManyLiteralsText;
     Set<CheckBox> checkboxes;
@@ -77,6 +77,8 @@ public class SetupController {
         ToggleButtons.selectedProperty().addListener((ChangeListener) (arg0, arg1, arg2) -> {
             toggleButtons();
         });
+
+
         /*this has all the button listeners pretty much*/
         setSettingsDisplay();//call once on intialise to set settings buttons as hidden
 
@@ -114,7 +116,7 @@ public class SetupController {
             public void handle(ActionEvent event) {
                 HashMap<String,Integer> smells=getSmellsToTest();
                 if(selectedDirectoryString!=null&&smells!=null) {
-                    eventBus.post(new EventBusFactory(smells,displayDirectory.getText(), selectedDirectory));
+                    eventBus.post(new EventBusFactory(smells,displayDirectory.getText(), selectedDirectory,JavaToggle.selectedProperty().get()));
                     Stage stage = (Stage) ((Node) event.getTarget()).getScene().getWindow();
                     stage.setScene(secondScene);
                 }

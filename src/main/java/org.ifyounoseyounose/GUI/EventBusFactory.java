@@ -10,13 +10,15 @@ public class EventBusFactory {
     String fileLocation;
     File file;
     HashMap<String,Integer> smells;
+    Boolean displayJava;
 
     private static EventBus eventBus = new AsyncEventBus(Executors.newCachedThreadPool());
 
-    EventBusFactory(HashMap<String,Integer> smell,String fileLocation,File file){
+    EventBusFactory(HashMap<String,Integer> smell,String fileLocation,File file,Boolean displayJava){
         this.smells=smell;
         this.fileLocation=fileLocation;
         this.file=file;
+        this.displayJava=displayJava;
     }
 
     public static EventBus getEventBus() {
@@ -33,5 +35,9 @@ public class EventBusFactory {
 
     public HashMap<String, Integer> getSmells() {
         return smells;
+    }
+
+    public Boolean getDisplayJava() {
+        return displayJava;
     }
 }
