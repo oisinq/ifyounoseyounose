@@ -11,14 +11,23 @@ public class SmellyArrowheadedIndentation {
                 }
                 System.out.println("lol");
                 while (h < 333) {
-                    System.out.println("ye lol");
+                    for (int j = 0; j < j; j++) {
+                        System.out.println("This should be smelly!");
+                    }
                 }
             }
         }
         while (true) {
             if (true) {
                 if (false) {
-                    h = 223;
+                    if (!true || false) {
+                        h = 2;
+                    } else {
+                        h = 223;
+                        for (int i = 0; i < -1; i++) {
+                            System.out.println("I love loops!");
+                        }
+                    }
                 }
             }
         }

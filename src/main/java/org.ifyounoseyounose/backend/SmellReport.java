@@ -19,7 +19,7 @@ public class SmellReport {
     }
 
     public String toString() {
-        return Arrays.asList(smells).toString();
+        return getSmellName() + ": \n" + Arrays.asList(smells).toString();
     }
 
     public String getSmellName() {

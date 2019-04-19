@@ -32,10 +32,29 @@ public class SmellDetectorManager {
     public List<FileReport> detectSmells(HashMap<String,Integer> smellDetectorStrings, List<File> files) {
 
         List <SmellDetector> smellDetectors = getSmellDetectors(smellDetectorStrings);
-
-        List<SmellReport> results = new ArrayList<>();
         HashMap<CompilationUnit, File> compUnits = new HashMap<>();
 
+        getCompilationUnits(files, compUnits);
+
+        List<SmellReport> results = new ArrayList<>();
+
+        // For each SmellDetector, we run it with the
+        for (SmellDetector smellDetector : smellDetectors) {
+            SmellReport smellReport = runCodeSmellDetector(smellDetector, files, compUnits);
+            results.add(smellReport);
+        }
+
+        printSmellDetectorResults(results);
+
+        return generateFileReports(files, results);
+    }
+
+    /**
+     * Creates CompilationUnit, File pairs for each File passed through
+     * @param files Files we want to create compilation units from
+     * @param compUnits HashMap that stores the File, CompilationUnit combination
+     */
+    private void getCompilationUnits(List<File> files, HashMap<CompilationUnit, File> compUnits) {
         // For each file, we add a CompilationUnit to the compUnits hashmap, with the File as the key
         // This makes creating SmellReports much easier
         for (File f : files) {
@@ -45,75 +64,12 @@ public class SmellDetectorManager {
                 System.err.println("Cannot find file " + f.getPath());
             }
         }
-
-        // I go through every file, then every SmellDetector and pass each file to the relevant SmellDetector
-        for (SmellDetector smellDetector : smellDetectors) {
-            System.out.println("Current smelldetector: " + smellDetector.getSmellName());
-            // Check what type of smellDetector it is by seeing what interface it inherits
-            // and call smellDetector.detectSmell() on it with the parameters corresponding to its interface
-            if (smellDetector instanceof JavaParserSmellDetector) {
-                SmellReport result = ((JavaParserSmellDetector) smellDetector).detectSmell(compUnits);
-                result.setSmellName(smellDetector.getSmellName());
-                results.add(result);
-            } else if (smellDetector instanceof ManualParserSmellDetector) {
-                SmellReport result = ((ManualParserSmellDetector) smellDetector).detectSmell(files);
-                result.setSmellName(smellDetector.getSmellName());
-                results.add(result);
-            } else if (smellDetector instanceof ReflectionSmellDetector) {
-                compileJavaFiles(files);
-
-                HashMap<Class, File> classesMap = new HashMap<>();
-
-                File compiledClassesDirectory = new File(".compiled_classes/");
-                URL[] urlList = new URL[1];
-                URLClassLoader classLoader = null;
-
-                try {
-                    urlList[0] = compiledClassesDirectory.toURI().toURL();
-                    classLoader = URLClassLoader.newInstance(urlList);
-                } catch (Exception e) {
-                    System.err.println("Failed to add .class files to the ClassLoader");
-                }
-
-                if (classLoader != null) {
-                    // Todo I have no idea why this is in a for loop. I'm scared to break it.
-                    for (File f : files) {
-                        classesMap = getListOfClasses(classLoader, compiledClassesDirectory, files);
-                    }
-
-                    SmellReport result = ((ReflectionSmellDetector) smellDetector).detectSmell(classesMap);
-                    result.setSmellName(smellDetector.getSmellName());
-                    results.add(result);
-
-                }
-            }
-        }
-        System.out.println("****SmellDetectorManager results:****");
-        for (SmellReport s : results) {
-            System.out.println(s);
-        }
-
-        // We take the list of SmellReports and convert them into FileReports and return this
-        List<FileReport> fileReports = new ArrayList<>();
-
-        for (File f : files) {
-            FileReport fileReport = new FileReport();
-            for (SmellReport smellReport : results) {
-                if (!smellReport.isEmptyForFile(f)) {
-                    fileReport.addSmellDetections(smellReport.getSmellName(), smellReport.getDetectionsByFile(f));
-                    fileReport.setFile(f);
-                    fileReports.add(fileReport);
-                }
-            }
-        }
-
-        return fileReports;
     }
-
     /**
      * Takes a list of .java files, compiles them .class files and puts them in the .compiled_classes folder
      * @param files List of .java files
      */
+
     private void compileJavaFiles(List<File> files) {
         String[] st = new String[files.size()+2];
 
@@ -233,7 +189,7 @@ public class SmellDetectorManager {
                 output = output.replaceAll("\\.class", "");
                 output = output.replaceAll("/", ".");
 
-                for(File f:files){
+                for(File f:files) {
                     // find the file to which the compiled class corresponds
                     if(fullPath.contains(f.getName().replaceAll(".java", ""))){
                         classesMap.put(classLoader.loadClass(output), f); // add the class and file to hashMap to be returned
@@ -248,5 +204,119 @@ public class SmellDetectorManager {
 
 
         return classesMap;
+    }
+
+    /**
+     * Prints the results of all the SmellDetectors
+     * @param results A list of SmellReports
+     */
+    private void printSmellDetectorResults(List<SmellReport> results) {
+        System.out.println("****SmellDetectorManager results:****");
+        for (SmellReport s : results) {
+            System.out.println(s);
+        }
+    }
+
+    /**
+     * Generates a list of FileReports, using the files and SmellReports
+     * @param files List of files we are analyzing
+     * @param results List of SmellReports generated by each SmellDetector object
+     * @return
+     */
+    private List<FileReport> generateFileReports(List<File> files, List<SmellReport> results) {
+        List<FileReport> fileReports = new ArrayList<>();
+        for (File f : files) {
+            FileReport fileReport = new FileReport();
+            // Each fileReport contains info about multiple SmellDetectors, so we need to extract that data here
+            for (SmellReport smellReport : results) {
+                // If there were no smelly lines detected, we don't need to add it to the FileReport
+                if (!smellReport.isEmptyForFile(f)) {
+                    fileReport.addSmellDetections(smellReport.getSmellName(), smellReport.getDetectionsByFile(f));
+                    fileReport.setFile(f);
+                    fileReports.add(fileReport);
+                }
+            }
+        }
+        return fileReports;
+    }
+
+    /**
+     * Detects which type of SmellDetector we are dealing with, and calls the appropriate method to execute it
+     * @param smellDetector The SmellDetector we want to call
+     * @param files The files we want to analyze
+     * @param compUnits The CompilationUnit and File pairs that we need to use with JavaParser SmellDetectors
+     */
+    private SmellReport runCodeSmellDetector(SmellDetector smellDetector, List<File> files, HashMap<CompilationUnit, File> compUnits) {
+        System.out.println("Current smelldetector: " + smellDetector.getSmellName());
+        SmellReport smellReport = null;
+        // Check what type of smellDetector it is by seeing what interface it inherits
+        // and call smellDetector.detectSmell() on it with the parameters corresponding to its interface
+        if (smellDetector instanceof JavaParserSmellDetector) {
+            smellReport = executeJavaParserSmellDetector(smellDetector,compUnits);
+        } else if (smellDetector instanceof ManualParserSmellDetector) {
+            smellReport = executeManualParserSmellDetector(smellDetector,files);
+        } else if (smellDetector instanceof ReflectionSmellDetector) {
+            smellReport = executeReflectionSmellDetector(smellDetector,files);
+        }
+        return smellReport;
+    }
+
+    /**
+     * Executes the detectSmell() method on a SmellDetector object that implements the JavaParserSmellDetector interface
+     * and saves the resulting SmellReport in the results List
+     * @param smellDetector A SmellDetector object that implements the JavaParserSmellDetector interface
+     * @param compUnits The CompilationUnit and File pairs that we need to use with JavaParser SmellDetectors
+     */
+    private SmellReport executeJavaParserSmellDetector(SmellDetector smellDetector, HashMap<CompilationUnit, File> compUnits) {
+        SmellReport result = ((JavaParserSmellDetector) smellDetector).detectSmell(compUnits);
+        result.setSmellName(smellDetector.getSmellName());
+        return result;
+    }
+
+    /**
+     * Executes the detectSmell() method on a SmellDetector object that implements the JavaParserSmellDetector interface
+     * and saves the resulting SmellReport in the results List
+     * @param smellDetector A SmellDetector object that implements the JavaParserSmellDetector interface
+     * @param files The list of files that are being analyzed
+     */
+    private SmellReport executeManualParserSmellDetector(SmellDetector smellDetector, List<File> files) {
+        SmellReport result = ((ManualParserSmellDetector) smellDetector).detectSmell(files);
+        result.setSmellName(smellDetector.getSmellName());
+        return result;
+    }
+
+    /**
+     * Executes the detectSmell() method on a SmellDetector object that implements the JavaParserSmellDetector interface
+     * and saves the resulting SmellReport in the results List
+     * @param smellDetector A SmellDetector object that implements the JavaParserSmellDetector interface
+     * @param files The list of files that are being analyzed
+     */
+    private SmellReport executeReflectionSmellDetector(SmellDetector smellDetector, List<File> files) {
+        compileJavaFiles(files);
+
+        HashMap<Class, File> classesMap = new HashMap<>();
+
+        File compiledClassesDirectory = new File(".compiled_classes/");
+        URL[] urlList = new URL[1];
+        URLClassLoader classLoader = null;
+
+        SmellReport result = new SmellReport();
+        try {
+            urlList[0] = compiledClassesDirectory.toURI().toURL();
+            classLoader = URLClassLoader.newInstance(urlList);
+        } catch (Exception e) {
+            System.err.println("Failed to add .class files to the ClassLoader");
+        }
+
+        if (classLoader != null) {
+            // Todo I have no idea why this is in a for loop. I'm scared to break it.
+            for (File f : files) {
+                classesMap = getListOfClasses(classLoader, compiledClassesDirectory, files);
+            }
+
+            result = ((ReflectionSmellDetector) smellDetector).detectSmell(classesMap);
+            result.setSmellName(smellDetector.getSmellName());
+        }
+        return result;
     }
 }
