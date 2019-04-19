@@ -191,6 +191,7 @@
                         <TextField fx:id="ArrowHeadedText" prefHeight="26.0" prefWidth="60.0" text="4" GridPane.columnIndex="14" GridPane.rowIndex="1" />
                         <CheckBox fx:id="ToggleButtons" mnemonicParsing="false" text="Toggle All Smells" GridPane.columnIndex="1" GridPane.columnSpan="3" />
                         <CheckBox fx:id="JavaToggle" mnemonicParsing="false" text="Display Only Java Files" GridPane.columnIndex="4" GridPane.columnSpan="3" />
+                        <TextField fx:id="HiddenText" opacity="0.0" prefHeight="26.0" prefWidth="60.0" text="0" />
                      </children>
                   </GridPane>
                </content>

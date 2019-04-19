@@ -113,13 +113,8 @@ public class Controller {
             for (File f : file.listFiles()) {
                 createTree(f, treeItem);
             }
-        }else if(JavaToggle){
-            if (file.getName().endsWith(".java")) {
+        }else if(!JavaToggle || file.getName().endsWith(".java")){
                 parent.getChildren().add(new TreeItem<>(file.getName()));
-            }
-        }
-        else {
-            parent.getChildren().add(new TreeItem<>(file.getName()));
         }
     }
 

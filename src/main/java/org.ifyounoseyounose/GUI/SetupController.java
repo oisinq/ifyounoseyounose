@@ -1,5 +1,4 @@
 package org.ifyounoseyounose.GUI;
-
 import com.google.common.eventbus.EventBus;
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
@@ -13,10 +12,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import java.io.File;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Set;
 
 public class SetupController {
@@ -25,7 +21,7 @@ public class SetupController {
     @FXML private ScrollPane scrollPane;
     @FXML private CheckBox JavaToggle,ToggleButtons,ArrowHeaded,BloatedClass,BloatedMethod,BloatedParameter,DataOnly,DataHiding,DeadCode,DuplicateCode,MessageChaining,PrimitiveObsession,SwitchStatement,TooManyLiterals;
     @FXML private Slider ArrowHeadedSlider,BloatedClassSlider,BloatedMethodSlider,BloatedParameterSlider,MessageChainingSlider,PrimitiveObsessionSlider,SwitchStatementSlider,TooManyLiteralsSlider;
-    @FXML private TextField displayDirectory,ArrowHeadedText,BloatedClassText,BloatedMethodText,BloatedParameterText,DeadCodeText,DuplicateCodeText,MessageChainingText,PrimitiveObsessionText,SwitchStatementText,TooManyLiteralsText;
+    @FXML private TextField HiddenText,displayDirectory,ArrowHeadedText,BloatedClassText,BloatedMethodText,BloatedParameterText,DeadCodeText,DuplicateCodeText,MessageChainingText,PrimitiveObsessionText,SwitchStatementText,TooManyLiteralsText;
     Set<CheckBox> checkboxes;
     @FXML private VBox vbox;
     @FXML private AnchorPane ap;
@@ -53,9 +49,9 @@ public class SetupController {
                 put(BloatedClass,BloatedClassText);
                 put(BloatedMethod,BloatedMethodText);
                 put(BloatedParameter,BloatedParameterText);
-                put(DataOnly,null);
-                put(DataHiding,null);
-                put(DeadCode,DeadCodeText);
+                put(DataOnly,HiddenText);
+                put(DataHiding,HiddenText);
+                put(DeadCode,HiddenText);
                 put(DuplicateCode,DuplicateCodeText);
                 put(MessageChaining,MessageChainingText);
                 put(PrimitiveObsession,PrimitiveObsessionText);
