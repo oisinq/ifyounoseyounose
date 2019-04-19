@@ -258,6 +258,7 @@ public class SmellDetectorManager {
         } else if (smellDetector instanceof ReflectionSmellDetector) {
             smellReport = executeReflectionSmellDetector(smellDetector,files);
         }
+        smellReport.setSmellName(smellDetector.getSmellName());
         return smellReport;
     }
 
@@ -269,7 +270,6 @@ public class SmellDetectorManager {
      */
     private SmellReport executeJavaParserSmellDetector(SmellDetector smellDetector, HashMap<CompilationUnit, File> compUnits) {
         SmellReport result = ((JavaParserSmellDetector) smellDetector).detectSmell(compUnits);
-        result.setSmellName(smellDetector.getSmellName());
         return result;
     }
 
@@ -281,7 +281,6 @@ public class SmellDetectorManager {
      */
     private SmellReport executeManualParserSmellDetector(SmellDetector smellDetector, List<File> files) {
         SmellReport result = ((ManualParserSmellDetector) smellDetector).detectSmell(files);
-        result.setSmellName(smellDetector.getSmellName());
         return result;
     }
 
@@ -315,7 +314,6 @@ public class SmellDetectorManager {
             }
 
             result = ((ReflectionSmellDetector) smellDetector).detectSmell(classesMap);
-            result.setSmellName(smellDetector.getSmellName());
         }
         return result;
     }
