@@ -63,6 +63,11 @@
             <MenuItem mnemonicParsing="false" text="About MyHelloApp" />
           </items>
         </Menu>
+            <Menu fx:id="backToSetup" mnemonicParsing="false" text="Back To Setup">
+               <items>
+                  <MenuItem fx:id="backToSetup" mnemonicParsing="false" text="Back To Setup" />
+               </items>
+            </Menu>
       </menus>
     </MenuBar>
     <SplitPane dividerPositions="0.2505567928730512" focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
@@ -72,9 +77,9 @@
                   <TreeView fx:id="treeView" layoutY="101.0" prefHeight="551.2" prefWidth="222.4" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
           </children>
         </AnchorPane>
-            <TabPane prefHeight="550.0" prefWidth="656.0" tabClosingPolicy="UNAVAILABLE" fx:id="tabPane">
+            <TabPane fx:id="tabPane" prefHeight="550.0" prefWidth="656.0" tabClosingPolicy="UNAVAILABLE">
               <tabs>
-                <Tab text="Code" fx:id="code">
+                <Tab fx:id="code" text="Code">
                      <content>
 
                      </content></Tab>

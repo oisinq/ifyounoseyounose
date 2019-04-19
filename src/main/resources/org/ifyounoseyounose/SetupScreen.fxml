@@ -95,13 +95,14 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
         <TextField fx:id="displayDirectory" prefHeight="0.0" prefWidth="228.0" GridPane.columnIndex="5" GridPane.columnSpan="6" GridPane.rowIndex="3" />
         <Button fx:id="browse" mnemonicParsing="false" text="Browse" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
         <Button fx:id="smellTime" mnemonicParsing="false" text="Smell Time" GridPane.columnIndex="11" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
         <Button fx:id="settingsDisplay" mnemonicParsing="false" styleClass="fill-btn" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="5" />
-            <ScrollPane fx:id="scrollPane" prefHeight="248.0" prefWidth="903.0" vbarPolicy="ALWAYS" GridPane.columnSpan="16" GridPane.rowIndex="7" GridPane.rowSpan="10">
+            <ScrollPane fx:id="scrollPane" prefHeight="248.0" prefWidth="903.0" vbarPolicy="ALWAYS" GridPane.columnSpan="16" GridPane.rowIndex="8" GridPane.rowSpan="10">
                <content>
                   <GridPane prefHeight="337.0">
                      <columnConstraints>
@@ -156,7 +157,7 @@
                         <CheckBox fx:id="BloatedClass" mnemonicParsing="false" text="Bloated Class" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="LEFT" GridPane.rowIndex="2" />
                         <Slider fx:id="ArrowHeadedSlider" blockIncrement="13.0" majorTickUnit="5.0" max="10.0" minorTickCount="2" showTickLabels="true" showTickMarks="true" value="4.0" GridPane.columnIndex="11" GridPane.columnSpan="2" GridPane.rowIndex="1" GridPane.valignment="BOTTOM" />
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Nest Limit:" GridPane.columnIndex="9" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Explanation:" GridPane.columnIndex="9" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="9" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Chained Calls:" GridPane.columnIndex="9" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="9" />
                         <CheckBox fx:id="BloatedMethod" mnemonicParsing="false" text="Bloated Method" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="3" />
                         <CheckBox fx:id="BloatedParameter" mnemonicParsing="false" text="Bloated Parameter list" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="4" />
                         <CheckBox fx:id="DeadCode" mnemonicParsing="false" text="Dead Code" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="7" />
@@ -170,25 +171,27 @@
                               <Insets />
                            </GridPane.margin>
                         </Slider>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Explanation:" GridPane.columnIndex="9" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="8" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Explanation:" GridPane.columnIndex="9" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="10" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Explanation:" GridPane.columnIndex="9" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="11" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Explanation:" GridPane.columnIndex="9" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="12" />
-                        <Slider fx:id="DuplicateCodeSlider" GridPane.columnIndex="11" GridPane.columnSpan="2" GridPane.rowIndex="8" />
-                        <Slider fx:id="MessageChainingSlider" GridPane.columnIndex="11" GridPane.columnSpan="2" GridPane.rowIndex="9" />
-                        <Slider fx:id="SwitchStatementSlider" GridPane.columnIndex="11" GridPane.columnSpan="2" GridPane.rowIndex="10" />
-                        <Slider fx:id="TooManyLiteralsSlider" GridPane.columnIndex="11" GridPane.columnSpan="2" GridPane.rowIndex="11" />
-                        <Slider fx:id="PrimitiveObsessionSlider" GridPane.columnIndex="11" GridPane.columnSpan="2" GridPane.rowIndex="12" />
-                        <TextField fx:id="DuplicateCodeText" prefHeight="26.0" prefWidth="60.0" GridPane.columnIndex="14" GridPane.rowIndex="8" />
-                        <TextField fx:id="MessageChainingText" prefHeight="26.0" prefWidth="60.0" GridPane.columnIndex="14" GridPane.rowIndex="9" />
-                        <TextField fx:id="SwitchStatementText" prefHeight="26.0" prefWidth="60.0" GridPane.columnIndex="14" GridPane.rowIndex="10" />
-                        <TextField fx:id="TooManyLiteralsText" prefHeight="26.0" prefWidth="60.0" GridPane.columnIndex="14" GridPane.rowIndex="11" />
-                        <TextField fx:id="PrimitiveObsessionText" prefHeight="26.0" prefWidth="60.0" GridPane.columnIndex="14" GridPane.rowIndex="12" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Appearance Limit:" GridPane.columnIndex="9" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="8" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Case Limit:" GridPane.columnIndex="9" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="10" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Literal Limit:" GridPane.columnIndex="9" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="11" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Primitive Limit:" GridPane.columnIndex="9" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="12" />
+                        <Slider fx:id="DuplicateCodeSlider" majorTickUnit="5.0" max="10.0" minorTickCount="2" showTickLabels="true" showTickMarks="true" value="3.0" GridPane.columnIndex="11" GridPane.columnSpan="2" GridPane.rowIndex="8" />
+                        <Slider fx:id="MessageChainingSlider" blockIncrement="1.0" majorTickUnit="5.0" max="10.0" minorTickCount="2" showTickLabels="true" showTickMarks="true" value="3.0" GridPane.columnIndex="11" GridPane.columnSpan="2" GridPane.rowIndex="9" />
+                        <Slider fx:id="SwitchStatementSlider" majorTickUnit="5.0" max="10.0" minorTickCount="2" showTickLabels="true" showTickMarks="true" value="5.0" GridPane.columnIndex="11" GridPane.columnSpan="2" GridPane.rowIndex="10" />
+                        <Slider fx:id="TooManyLiteralsSlider" majorTickUnit="5.0" max="10.0" minorTickCount="2" showTickLabels="true" showTickMarks="true" GridPane.columnIndex="11" GridPane.columnSpan="2" GridPane.rowIndex="11" />
+                        <Slider fx:id="PrimitiveObsessionSlider" max="50.0" showTickLabels="true" showTickMarks="true" value="15.0" GridPane.columnIndex="11" GridPane.columnSpan="2" GridPane.rowIndex="12" />
+                        <TextField fx:id="DuplicateCodeText" prefHeight="26.0" prefWidth="60.0" text="3" GridPane.columnIndex="14" GridPane.rowIndex="8" />
+                        <TextField fx:id="MessageChainingText" prefHeight="26.0" prefWidth="60.0" text="3" GridPane.columnIndex="14" GridPane.rowIndex="9" />
+                        <TextField fx:id="SwitchStatementText" prefHeight="26.0" prefWidth="60.0" text="5" GridPane.columnIndex="14" GridPane.rowIndex="10" />
+                        <TextField fx:id="TooManyLiteralsText" prefHeight="26.0" prefWidth="60.0" text="0" GridPane.columnIndex="14" GridPane.rowIndex="11" />
+                        <TextField fx:id="PrimitiveObsessionText" prefHeight="26.0" prefWidth="60.0" text="15" GridPane.columnIndex="14" GridPane.rowIndex="12" />
                         <TextField fx:id="BloatedParameterText" prefHeight="26.0" prefWidth="60.0" text="5" GridPane.columnIndex="14" GridPane.rowIndex="4" />
                         <TextField fx:id="BloatedMethodText" prefHeight="26.0" prefWidth="60.0" text="20" GridPane.columnIndex="14" GridPane.rowIndex="3" />
                         <TextField fx:id="BloatedClassText" prefHeight="26.0" prefWidth="60.0" text="250" GridPane.columnIndex="14" GridPane.rowIndex="2" />
                         <TextField fx:id="ArrowHeadedText" prefHeight="26.0" prefWidth="60.0" text="4" GridPane.columnIndex="14" GridPane.rowIndex="1" />
-                        <CheckBox fx:id="ToggleButtons" mnemonicParsing="false" text="Toggle All" GridPane.columnIndex="1" GridPane.columnSpan="3" />
+                        <CheckBox fx:id="ToggleButtons" mnemonicParsing="false" text="Toggle All Smells" GridPane.columnIndex="1" GridPane.columnSpan="3" />
+                        <CheckBox fx:id="JavaToggle" mnemonicParsing="false" text="Display Only Java Files" GridPane.columnIndex="4" GridPane.columnSpan="3" />
+                        <TextField fx:id="HiddenText" opacity="0.0" prefHeight="26.0" prefWidth="60.0" text="0" />
                      </children>
                   </GridPane>
                </content>
