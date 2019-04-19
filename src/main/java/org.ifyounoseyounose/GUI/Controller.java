@@ -213,7 +213,7 @@ public class Controller {
                 //List<Integer> temp3=fileReport.getSmellDetections(s);
                 List<Integer> temp3=temp.get(s);
                 for(int i: temp3){
-                    setLineColour(Color.BEIGE,i);
+                    setLineColour(Color.BEIGE,i-1);
                 }
             }
         }
