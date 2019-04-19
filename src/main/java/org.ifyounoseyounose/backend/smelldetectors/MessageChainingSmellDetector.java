@@ -6,7 +6,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MessageChainingSmellDetector implements ManualParserSmellDetector, SmellDetector {
+public class MessageChainingSmellDetector  extends LimitableSmellDetector implements ManualParserSmellDetector, SmellDetector {
     @Override
     public SmellReport detectSmell(List<File> sourceCode) {
         SmellReport smells = new SmellReport();// To be returned
@@ -14,16 +14,18 @@ public class MessageChainingSmellDetector implements ManualParserSmellDetector, 
         for(File f : sourceCode) {// Iterates through files
             List<Integer> current = new ArrayList<>();// Smelly line numbers
             String line = null;
-            count=0;
+            count=1;
             try {
                 FileReader targetStream = new FileReader(f);
                 BufferedReader bufferedReader =
                         new BufferedReader(targetStream);
                 while((line = bufferedReader.readLine()) != null) {
-                    if(line.matches(".*(\\..*\\(.*\\)){3,}"))// Regular expression check
+
+                    if(!line.trim().startsWith("/")){
+                    if(line.matches(".*(\\..*\\(.*\\)){"+limit+",};"))// Regular expression check
                     {
-                        System.out.println("here");
                         current.add(count);
+                    }
                     }
                     count++;
                 }

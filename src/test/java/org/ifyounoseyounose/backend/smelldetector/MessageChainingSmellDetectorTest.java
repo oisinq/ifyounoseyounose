@@ -23,7 +23,7 @@ public class MessageChainingSmellDetectorTest {
         l.add(new File("./src/test/java/smellycodedirectory/seq/Yeet3.java"));
 
         HashMap<String, Integer> smellDetectorObjects = new HashMap<>();
-        smellDetectorObjects.put("MessageChaining", 0);
+        smellDetectorObjects.put("MessageChaining", 2);
 
         s.detectSmells(smellDetectorObjects, l);
         assert(true);
