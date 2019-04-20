@@ -32,8 +32,7 @@ public class BloatedMethodCollector extends VoidVisitorAdapter<List<Integer>> {
           for(Comment comment:comments){
               commentNumber++;
           }
-            System.out.print(commentNumber + " ");
-            System.out.println( md.getBody());
+          
 
           if(linesCount-commentNumber >= limit){
             addLineNumbers(md, collector);
