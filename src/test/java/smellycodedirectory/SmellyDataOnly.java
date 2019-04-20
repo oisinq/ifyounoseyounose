@@ -4,7 +4,6 @@ public class SmellyDataOnly {
 private int temp=0;
 
     public int getData(int temp){
-
         //test
 
         return temp;
@@ -20,7 +19,7 @@ private int temp=0;
     }
 
     public void data(int temp){
-        //yeow
+        //y
         this.temp =temp;
     }
 

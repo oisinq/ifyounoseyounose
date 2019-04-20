@@ -20,12 +20,16 @@ public class DataOnlyClassesCollector extends VoidVisitorAdapter<List<Integer>> 
         super.visit(md, collector);
         //converting md to a string removes any whitespace
 
-        String mdString =md.getBody().toString();
+        String mdString;
         //mdString only contains the body of the method with removed blank lines & comments removed
-       for (Comment child : md.getAllContainedComments()) {
-             md.remove(child);
-           mdString = md.getBody().toString();
+        for (Comment child : md.getAllContainedComments()) {
+            md.remove(child);
         }
+        for (Comment child : md.getOrphanComments()) {
+            md.remove(child);
+        }
+
+        mdString = md.getBody().toString();
 
          if (mdString.contains("this." ) && md.getType().isVoidType()){
              addLineNumbers(md, collector);
@@ -50,8 +54,12 @@ public class DataOnlyClassesCollector extends VoidVisitorAdapter<List<Integer>> 
         //mdString only contains the body of the method with removed blank lines & comments removed
         for (Comment child : cd.getAllContainedComments()) {
             cd.remove(child);
-            mdString = cd.getBody().toString();
         }
+        for (Comment child : cd.getOrphanComments()) {
+            cd.remove(child);
+        }
+
+        mdString = cd.getBody().toString();
 
         if(mdString.contains("this." )){
             addLineNumbers(cd, collector);

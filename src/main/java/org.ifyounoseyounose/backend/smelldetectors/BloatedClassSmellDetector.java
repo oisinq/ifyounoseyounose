@@ -16,17 +16,16 @@ public class BloatedClassSmellDetector extends LimitableSmellDetector implements
         super(limit);
     }
 
-    public BloatedClassSmellDetector() {
-        super(250);
+    public BloatedClassSmellDetector() {super(34);
     }
     @Override
     public SmellReport detectSmell(List<File> files) {
 
         SmellReport smells = new SmellReport();
 
-
         for (File current : files) {
             int lineNumber = 0;
+            int removeLines = 0;
             List<Integer> lines = new ArrayList<>();
             try {
                 FileReader targetStream = new FileReader(current);
@@ -34,20 +33,26 @@ public class BloatedClassSmellDetector extends LimitableSmellDetector implements
                 BufferedReader bufferedReader =
                         new BufferedReader(targetStream);
                 String line = bufferedReader.readLine();
+
                 while (line != null) {
+
+                    if(line.startsWith("//")  ){
+                        removeLines++;
+                    }
+
                     line = bufferedReader.readLine();
                     lineNumber++;
+
                  }
 
             } catch (Exception e) {
                 System.err.println("Invalid file" + e.toString());
             }
 
-            if (limit < lineNumber) {
+            if (limit <= lineNumber-removeLines) {
                 lines.add(1); // highlight line 1 (to signify that the class is smelly)
 
             }
-
             smells.addToReport(current, lines);
         }
 
