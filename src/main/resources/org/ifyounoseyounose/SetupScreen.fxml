@@ -155,7 +155,7 @@
                         <CheckBox fx:id="DataOnly" mnemonicParsing="false" text="Data only" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="LEFT" GridPane.rowIndex="5" />
                         <CheckBox fx:id="DataHiding" mnemonicParsing="false" text="Data Hiding Violation" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="6" />
                         <CheckBox fx:id="BloatedClass" mnemonicParsing="false" text="Bloated Class" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="LEFT" GridPane.rowIndex="2" />
-                        <Slider fx:id="ArrowHeadedSlider" blockIncrement="13.0" majorTickUnit="5.0" max="10.0" minorTickCount="2" showTickLabels="true" showTickMarks="true" value="4.0" GridPane.columnIndex="11" GridPane.columnSpan="2" GridPane.rowIndex="1" GridPane.valignment="BOTTOM" />
+                        <Slider fx:id="ArrowHeadedSlider" blockIncrement="1.0" majorTickUnit="1.0" max="10.0" min="1.0" minorTickCount="0" showTickLabels="true" showTickMarks="true" value="4.0" GridPane.columnIndex="11" GridPane.columnSpan="2" GridPane.rowIndex="1" GridPane.valignment="BOTTOM" />
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Nest Limit:" GridPane.columnIndex="9" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Chained Calls:" GridPane.columnIndex="9" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="9" />
                         <CheckBox fx:id="BloatedMethod" mnemonicParsing="false" text="Bloated Method" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="3" />

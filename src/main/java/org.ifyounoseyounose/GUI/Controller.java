@@ -182,7 +182,14 @@ public class Controller {
         }
 
         public void setLineColour(Color color,int line){//TODO Rename as set line smell
-        updateParagraphBackground(color,line);
+            if (line==0){
+                updateParagraphBackground(color, line);//this is to set line 0
+                for (int i=1;i<area.getLength();i++){
+                    setLineColour(color,i);
+                }
+            }else {
+                updateParagraphBackground(color, line);
+            }
         }
 
         public void setClassColours(){
