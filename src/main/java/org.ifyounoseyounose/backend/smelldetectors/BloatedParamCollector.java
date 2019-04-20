@@ -1,8 +1,10 @@
 package org.ifyounoseyounose.backend.smelldetectors;
 
 
+import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.MethodDeclaration;
 
+import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 
 
@@ -14,12 +16,16 @@ public class BloatedParamCollector extends VoidVisitorAdapter<List<Integer>> {
         public void visit(MethodDeclaration md, List<Integer> collector){
             super.visit(md, collector);
             int limit = collector.get(0);
+            NodeList<Parameter> param = md.getParameters();
+            int paramCount = 0;
+            for(Parameter parameter:param) {
+                paramCount++;
+            }
 
-            if(md.getParameters().toString().length()>=limit){
+            if (paramCount >= limit) {
                 //giving the line of the method declaration
                 collector.add(md.getRange().get().begin.line);
             }
-
         }
 
 
