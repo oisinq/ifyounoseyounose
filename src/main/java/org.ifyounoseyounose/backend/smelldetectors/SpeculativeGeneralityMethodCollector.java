@@ -16,7 +16,7 @@ public class SpeculativeGeneralityMethodCollector extends VoidVisitorAdapter<Lis
         super.visit(md, collector);
 
         String s = md.getBody().toString().substring(10, md.getBody().toString().length() - 2);//Gets the simple string version of method
-        if ((s.trim().length() == 0) || s.contains("TO DO") || s.contains("TODO") || s.contains("todo") || s.contains("to do")) {//Checks if the method is empty of contains to do 
+        if ((s.trim().length() == 0) || s.contains("TO DO") || s.contains("TODO") || s.contains("todo") || s.contains("to do")) {//Checks if the method is empty of contains to do
             addLineNumbers(md, collector);//Collects the line numbers
         }
     }

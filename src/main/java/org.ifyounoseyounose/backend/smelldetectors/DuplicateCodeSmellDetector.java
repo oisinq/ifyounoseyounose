@@ -29,23 +29,24 @@ public class DuplicateCodeSmellDetector extends LimitableSmellDetector implement
                 // This conditional gets the next line from bufferedReader, assigns its value to line then ensures it's not null
                 while((line = bufferedReader.readLine()) != null) {
                     line = line.trim();
+                    if(!line.startsWith("/")) {
+                        if (!line.equals("}") && !line.equals("{") && !line.equals("")) { // Checks lines are irrelevant
 
-                    if (!line.equals("}") && !line.equals("{") && !line.equals("")) { // Checks lines are irrelevant
+                            HashMap<File, List<Integer>> innerHashMap = outerHashMap.get(line); //see if you already have a hashmap for current key
 
-                        HashMap<File, List<Integer>> innerHashMap = outerHashMap.get(line); //see if you already have a hashmap for current key
+                            if (innerHashMap == null) { // If not, create one and put it in the map
+                                innerHashMap = new HashMap<>();
+                                outerHashMap.put(line, innerHashMap);
+                            }
 
-                        if (innerHashMap == null) { // If not, create one and put it in the map
-                            innerHashMap = new HashMap<>();
-                            outerHashMap.put(line, innerHashMap);
+                            List<Integer> list = (outerHashMap.get(line)).get(file); // See if you already have a list for current key
+
+                            if (list == null) { // If not, create one and put it in the map
+                                list = new ArrayList<>();
+                                outerHashMap.get(line).put(file, list);
+                            }
+                            outerHashMap.get(line).get(file).add(lineNumber); // Adds the line number to the inner hashmap
                         }
-
-                        List<Integer> list = (outerHashMap.get(line)).get(file); // See if you already have a list for current key
-
-                        if (list == null) { // If not, create one and put it in the map
-                            list = new ArrayList<>();
-                            outerHashMap.get(line).put(file, list);
-                        }
-                        outerHashMap.get(line).get(file).add(lineNumber); // Adds the line number to the inner hashmap
                     }
                     lineNumber++;
                 }
