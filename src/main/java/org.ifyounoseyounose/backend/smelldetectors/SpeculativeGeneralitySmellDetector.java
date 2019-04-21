@@ -24,6 +24,8 @@ public class SpeculativeGeneralitySmellDetector extends SmellDetector implements
         return smells;
         }
 
-
+    public String getSmellName() {
+        return "SpeculativeGenerality";
+    }
     }
 
