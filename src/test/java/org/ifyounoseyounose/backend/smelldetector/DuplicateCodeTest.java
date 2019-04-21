@@ -23,7 +23,7 @@ public class DuplicateCodeTest {
 
 
         HashMap<String, Integer> smellDetectorObjects = new HashMap<>();
-        smellDetectorObjects.put("TooManyLiterals", 0);
+        smellDetectorObjects.put("DuplicateCode", 0);
 
         s.detectSmells(smellDetectorObjects, l);
         assert(true);

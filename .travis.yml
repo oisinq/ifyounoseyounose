@@ -1,6 +1,6 @@
 language: java
 jdk:
-  - openjdk11
+  - oraclejdk11
 
 notifications:
   slack: ifyounoseyounose:5bLFWZHE2QqqNdU3SNheRz38

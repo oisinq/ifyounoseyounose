@@ -14,10 +14,6 @@ import java.util.List;
  */
 public class TooManyLiteralsSmellDetector extends LimitableSmellDetector implements JavaParserSmellDetector, SmellDetector {
 
-    public TooManyLiteralsSmellDetector(int limit) {
-        super(limit);
-    }
-
     public TooManyLiteralsSmellDetector() {
         super(3);
     }

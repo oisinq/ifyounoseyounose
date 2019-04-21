@@ -50,4 +50,9 @@ public class TooManyLiteralsCollector extends VoidVisitorAdapter<List<Integer>> 
     public void visit(VariableDeclarator dec, List<Integer> collector) {
 
     }
+
+    @Override
+    public void visit(AssignExpr dec, List<Integer> collector) {
+
+    }
 }

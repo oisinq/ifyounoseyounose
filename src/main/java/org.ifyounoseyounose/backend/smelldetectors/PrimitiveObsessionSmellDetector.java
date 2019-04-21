@@ -9,8 +9,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class PrimitiveObsessionSmellDetector implements JavaParserSmellDetector, SmellDetector {
+public class PrimitiveObsessionSmellDetector extends LimitableSmellDetector implements JavaParserSmellDetector, SmellDetector {
 
+
+    public PrimitiveObsessionSmellDetector(int limit) {
+        super(limit);
+    }
+
+    public PrimitiveObsessionSmellDetector() {
+        super(15);
+    }
 
     @Override
     public SmellReport detectSmell(HashMap<CompilationUnit, File> compilationUnits) {
@@ -20,8 +28,14 @@ public class PrimitiveObsessionSmellDetector implements JavaParserSmellDetector,
         for (CompilationUnit compilationUnit : compilationUnits.keySet()) {
             List<Integer> collector = new ArrayList<>();
             visitor.visit(compilationUnit, collector);
-            System.err.println(compilationUnits.get(compilationUnit) + " - " + collector.size());
-            smellReport.addToReport(compilationUnits.get(compilationUnit),collector);
+            if(collector.size()<=limit) {
+                collector.clear();
+                smellReport.addToReport(compilationUnits.get(compilationUnit), collector);
+            }
+            else {
+                smellReport.addToReport(compilationUnits.get(compilationUnit), collector);
+            }
+
         }
 
         return smellReport;

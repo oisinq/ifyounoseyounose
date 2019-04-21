@@ -19,7 +19,7 @@ public class SmellReport {
     }
 
     public String toString() {
-        return Arrays.asList(smells).toString();
+        return getSmellName() + ": \n" + Arrays.asList(smells).toString();
     }
 
     public String getSmellName() {
@@ -28,5 +28,9 @@ public class SmellReport {
 
     public void setSmellName(String name) {
         smellName = name;
+    }
+
+    public boolean isEmptyForFile(File f) {
+        return !smells.containsKey(f) || smells.get(f).isEmpty();
     }
 }

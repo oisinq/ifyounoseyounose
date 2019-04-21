@@ -1,5 +1,6 @@
 package org.ifyounoseyounose.GUI;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -8,8 +9,13 @@ import javafx.stage.Stage;
 import com.google.common.eventbus.Subscribe;
 import java.io.File;
 import javafx.scene.control.TextArea;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 import javafx.scene.control.IndexRange;
@@ -26,6 +32,8 @@ import org.fxmisc.richtext.model.SegmentOps;
 import org.fxmisc.richtext.model.StyleSpans;
 import org.fxmisc.richtext.model.StyledSegment;
 import org.fxmisc.richtext.model.TextOps;
+import org.ifyounoseyounose.backend.FileReport;
+import org.ifyounoseyounose.backend.CompleteReport;
 import org.reactfx.SuspendableNo;
 import org.reactfx.util.Either;
 import static org.fxmisc.richtext.model.TwoDimensional.Bias.Backward;
@@ -36,22 +44,57 @@ public class Controller {
     @FXML private TextArea txtView ;
     @FXML private TreeView<String> treeView;
     @FXML private Tab code;
+    @FXML private MenuItem backToSetup;
     public String InputDirectory=null;//
     private Scene firstScene;
+    private CompleteReport completeReport;
+    private FileReport fileReport;
+    private static Boolean JavaToggle;
 
     // the initialize method is automatically invoked by the FXMLLoader - it's magic
     public void initialize() {
-        //EventBusFactory.getEventBus().register(new Controller());//TODO TEST IF I NEED THIS
         EventBusFactory.getEventBus().register(new Object() {
             @Subscribe
             public void setInputDirectory(EventBusFactory e){
-                String temp= e.getFileLocation().replace("\\", "/");
-                InputDirectory=temp;
-                displayTreeView(temp);
+                InputDirectory=e.getFileLocation().replace("\\", "/");
+                JavaToggle=e.getDisplayJava();
+                displayTreeView(InputDirectory);
             }
         });
+
         code.setContent(displayCodeTab());
 
+        treeView.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> {
+
+            try {
+                String classString= Files.readString(Path.of(getPathFromTreeView(v.getValue())));
+                area.replaceText(classString);
+                System.out.println("Oisin here - " + getPathFromTreeView(v.getValue()));
+                fileReport = completeReport.getAllDetectedSmells(new File(getPathFromTreeView(v.getValue())));
+                System.out.println("report thing: " + fileReport);
+                setClassColours();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+        //backToSetup.setOnAction(this::openFirstScene);//TODO this lets you go back , but doesn't clear everything
+
+    }
+    //this gets the filepath of a object from its treeview location
+    public String getPathFromTreeView(TreeItem<String> v){
+        StringBuilder pathBuilder = new StringBuilder();
+        for (TreeItem<String> item = v;
+             item != null ; item = item.getParent()) {
+
+          pathBuilder.insert(0, item.getValue());
+          pathBuilder.insert(0, "/");
+        }
+        return pathBuilder.toString().substring(1);
+    }
+
+    public void setCompleteReport(CompleteReport report){
+        completeReport=report;
     }
 
     public void setFirstScene(Scene scene) {
@@ -59,7 +102,7 @@ public class Controller {
     }
 
     public void openFirstScene(ActionEvent actionEvent) {
-        Stage primaryStage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
+        Stage primaryStage = (Stage) treeView.getScene().getWindow();
         primaryStage.setScene(firstScene);
     }
 
@@ -70,25 +113,22 @@ public class Controller {
             for (File f : file.listFiles()) {
                 createTree(f, treeItem);
             }
-        } else {
-            parent.getChildren().add(new TreeItem<>(file.getName()));
+        }else if(!JavaToggle || file.getName().endsWith(".java")){
+                parent.getChildren().add(new TreeItem<>(file.getName()));
         }
     }
 
     public void displayTreeView(String inputDirectoryLocation) {
         TreeItem<String> rootItem = new TreeItem<>(inputDirectoryLocation);
-
-
         File Input = new File(inputDirectoryLocation);
         File fileList[] = Input.listFiles();
 
         // create tree
         for (File file : fileList) {
-            createTree(file, rootItem);
+                createTree(file, rootItem);
         }
         treeView.setRoot(rootItem);
     }
-
 
         private final TextOps<String, TextStyle> styledTextOps = SegmentOps.styledTextOps();
         private final LinkedImageOps<TextStyle> linkedImageOps = new LinkedImageOps<>();
@@ -113,32 +153,6 @@ public class Controller {
     public Node displayCodeTab(){
 
             area.setEditable(false);
-            area.beingUpdatedProperty().addListener((o, old, beingUpdated) -> {
-                if(!beingUpdated) {
-                    Color backgroundColor;
-
-                    IndexRange selection = area.getSelection();
-                    if(selection.getLength() != 0) {
-                        StyleSpans<TextStyle> styles = area.getStyleSpans(selection);
-                        Color[] backgrounds = styles.styleStream().map(s -> s.backgroundColor.orElse(null)).distinct().toArray(i -> new Color[i]);
-                        backgroundColor = backgrounds.length == 1 ? backgrounds[0] : null;
-                    } else {
-                        int p = area.getCurrentParagraph();
-                        int col = area.getCaretColumn();
-                        TextStyle style = area.getStyleAtPosition(p, col);
-                        backgroundColor = style.backgroundColor.orElse(null);
-                    }
-
-                    int startPar = area.offsetToPosition(selection.getStart(), Forward).getMajor();
-                    int endPar = area.offsetToPosition(selection.getEnd(), Backward).getMajor();
-                    List<Paragraph<ParStyle, Either<String, LinkedImage>, TextStyle>> pars = area.getParagraphs().subList(startPar, endPar + 1);
-
-                    @SuppressWarnings("unchecked")
-                    Optional<Color>[] paragraphBackgrounds = pars.stream().map(p -> p.getParagraphStyle().backgroundColor).distinct().toArray(Optional[]::new);
-                    Optional<Color> paragraphBackground = paragraphBackgrounds.length == 1 ? paragraphBackgrounds[0] : Optional.empty();
-
-                }
-            });
 
             VirtualizedScrollPane<GenericStyledArea<ParStyle, Either<String, LinkedImage>, TextStyle>> vsPane = new VirtualizedScrollPane<>(area);
             VBox vbox = new VBox();
@@ -158,7 +172,7 @@ public class Controller {
         }
 
         private void updateParagraphStyleInSelection(ParStyle mixin,int line) {
-            c(style -> style.updateWith(mixin),line);
+            setLineStyle(style -> style.updateWith(mixin),line);
         }
 
         private void updateParagraphBackground(Color color,int line) {
@@ -167,13 +181,32 @@ public class Controller {
             }
         }
 
-        public void setCodeAreaText(String a,Color color,int line){
-        area.replaceText(a);
-        //updateParagraphBackground(Color.web("#56cbf9",0.8),0);
-        updateParagraphBackground(color,line);
+        public void setLineColour(Color color,int line){//TODO Rename as set line smell
+            if (line==0){
+                updateParagraphBackground(color, line);//this is to set line 0
+                for (int i=1;i<area.getLength();i++){
+                    setLineColour(color,i);
+                }
+            }else {
+                updateParagraphBackground(color, line);
+            }
         }
 
-    private void c(Function<ParStyle, ParStyle> updater,int line) {
+        public void setClassColours(){
+            HashMap<String,List<Integer>> temp= fileReport.getSmellDetections();
+            Set<String> temp2=temp.keySet();
+
+            for(String s : temp2){
+                //System.out.println(s);
+                //List<Integer> temp3=fileReport.getSmellDetections(s);
+                List<Integer> temp3=temp.get(s);
+                for(int i: temp3){
+                    setLineColour(Color.BEIGE,i-1);
+                }
+            }
+        }
+
+    private void setLineStyle(Function<ParStyle, ParStyle> updater,int line) {
             Paragraph<ParStyle, Either<String, LinkedImage>, TextStyle> paragraph = area.getParagraph(line);
             area.setParagraphStyle(line, updater.apply(paragraph.getParagraphStyle()));
     }

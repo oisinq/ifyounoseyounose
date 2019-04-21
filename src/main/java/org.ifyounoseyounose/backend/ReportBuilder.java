@@ -1,7 +1,5 @@
 package org.ifyounoseyounose.backend;
 
-import org.ifyounoseyounose.backend.smelldetectors.SmellDetector;
-
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,8 +14,8 @@ public class ReportBuilder {
     private ArrayList<File> java_files = new ArrayList<>();
 
     //public HashMap<File, HashMap<SmellDetector, List<Integer>>> generateReport(List<SmellDetector> smells, File directory) {
-    public FinalReport generateReport(HashMap<String,Integer> smells, File directory) {
-        FinalReport finalReport = new FinalReport();
+    public CompleteReport generateReport(HashMap<String,Integer> smells, File directory) {
+        CompleteReport completeReport = new CompleteReport();
 
         File[] directory_files = directory.listFiles();
 
@@ -27,10 +25,10 @@ public class ReportBuilder {
         List<FileReport> fileReports = manager.detectSmells(smells, javaFiles);
 
         for (FileReport report : fileReports) {
-            finalReport.addFileReport(report);
+            completeReport.addFileReport(report);
         }
 
-        return finalReport;
+        return completeReport;
     }
 
     /**
@@ -51,7 +49,7 @@ public class ReportBuilder {
         return java_files;
     }
 
-    private void addStats(FinalReport report) {
+    private void addStats(CompleteReport report) {
         // Todo
     }
 }

@@ -10,46 +10,50 @@ import java.util.HashMap;
 import java.util.List;
 
 
-public class BloatedClassSmellDetector extends LimitableSmellDetector implements ReflectionSmellDetector, SmellDetector {
+public class BloatedClassSmellDetector extends LimitableSmellDetector implements ManualParserSmellDetector, SmellDetector {
 
     public BloatedClassSmellDetector(int limit) {
         super(limit);
     }
 
-    public BloatedClassSmellDetector() {
-        super(20);
+    public BloatedClassSmellDetector() {super(34);
     }
     @Override
-    public SmellReport detectSmell(HashMap<Class, File> classes) {
+    public SmellReport detectSmell(List<File> files) {
 
         SmellReport smells = new SmellReport();
 
-
-        for (Class current : classes.keySet()) {
+        for (File current : files) {
             int lineNumber = 0;
-            List<Integer> lines = new ArrayList<Integer>();
+            int removeLines = 0;
+            List<Integer> lines = new ArrayList<>();
             try {
-                
-                FileReader targetStream = new FileReader(classes.get(current));
+                FileReader targetStream = new FileReader(current);
 
                 BufferedReader bufferedReader =
                         new BufferedReader(targetStream);
                 String line = bufferedReader.readLine();
+
                 while (line != null) {
+
+                    if(line.startsWith("//")  ){
+                        removeLines++;
+                    }
+
                     line = bufferedReader.readLine();
                     lineNumber++;
-                        }
+
+                 }
 
             } catch (Exception e) {
                 System.err.println("Invalid file" + e.toString());
             }
 
-            if (limit < lineNumber) {
-                lines.add(0); //add zero to highlight the class declaration
+            if (limit <= lineNumber-removeLines) {
+                lines.add(1); // highlight line 1 (to signify that the class is smelly)
 
             }
-
-            smells.addToReport(classes.get(current), lines);
+            smells.addToReport(current, lines);
         }
 
             return smells;

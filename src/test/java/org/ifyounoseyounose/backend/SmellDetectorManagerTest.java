@@ -27,8 +27,8 @@ public class SmellDetectorManagerTest {
         l.add(new File("./src/test/java/smellycodedirectory/SmellyPrimitives.java"));
 
         HashMap<String, Integer> smellDetectorObjects = new HashMap<>();
-        smellDetectorObjects.put("TooManyLiterals", 0);
-        smellDetectorObjects.put("PrimitiveObsession", 0);
+        smellDetectorObjects.put("TooManyLiterals", 3);
+        smellDetectorObjects.put("PrimitiveObsession", 5);
 
         s.detectSmells(smellDetectorObjects, l);
         assert(true);
