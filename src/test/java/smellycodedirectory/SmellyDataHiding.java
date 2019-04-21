@@ -8,6 +8,5 @@ public class SmellyDataHiding {
 
     public static void main(String[] args) {
 
-
     }
 }

@@ -32,7 +32,7 @@ public class BloatedMethodCollector extends VoidVisitorAdapter<List<Integer>> {
           for(Comment comment:comments){
               commentNumber++;
           }
-          
+
 
           if(linesCount-commentNumber >= limit){
             addLineNumbers(md, collector);
