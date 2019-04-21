@@ -21,7 +21,7 @@ public class MessageChainingSmellDetector  extends LimitableSmellDetector implem
                         new BufferedReader(targetStream);
                 while((line = bufferedReader.readLine()) != null) {
 
-                    if(!line.trim().startsWith("/")){
+                    if(!line.trim().startsWith("/")&&!line.startsWith("*")){
                     if(line.matches(".*(\\..*\\(.*\\)){"+limit+",};"))// Regular expression check
                     {
                         current.add(count);
