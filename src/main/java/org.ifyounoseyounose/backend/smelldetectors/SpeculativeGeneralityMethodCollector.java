@@ -15,17 +15,17 @@ public class SpeculativeGeneralityMethodCollector extends VoidVisitorAdapter<Lis
     public void visit(MethodDeclaration md, List<Integer> collector) {// Collects method declarations and returns their lines
         super.visit(md, collector);
 
-            String s = md.getBody().toString().substring(10, md.getBody().toString().length() - 2);//Gets the simple string version of method
-            if ((s.trim().length() == 0) || s.contains("TO DO") || s.contains("TODO") || s.contains("todo") || s.contains("to do")) {//Checks if the method is empty of contains todo
-                addLineNumbers(md, collector);//Collects the line numbers
-            }
+        String s = md.getBody().toString().substring(10, md.getBody().toString().length() - 2);//Gets the simple string version of method
+        if ((s.trim().length() == 0) || s.contains("TO DO") || s.contains("TODO") || s.contains("todo") || s.contains("to do")) {//Checks if the method is empty of contains to do 
+            addLineNumbers(md, collector);//Collects the line numbers
         }
+    }
 
-    private void addLineNumbers(Node node, List<Integer> collector) {//Gets line number of the method declaration 
+    private void addLineNumbers(Node node, List<Integer> collector) {//Gets line number of the method declaration
         Optional<Range> m = node.getRange();
         Range r = m.get();
 
-            collector.add(r.begin.line);
+        collector.add(r.begin.line);
 
     }
 }
