@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class SpeculativeGeneralityTest {
@@ -20,10 +21,9 @@ public class SpeculativeGeneralityTest {
         l.add(new File("./src/test/java/smellycodedirectory/Yeet2.java"));
         l.add(new File("./src/test/java/smellycodedirectory/SpeculativeGenerality.java"));
 
-        List<SmellDetector> smellDetectors = new ArrayList<>();
-        smellDetectors.add(new SpeculativeGeneralitySmellDetector());
-
-        s.detectSmells(smellDetectors, l);
+        HashMap<String, Integer> smellDetectorObjects = new HashMap<>();
+        smellDetectorObjects.put("SpeculativeGenerality", 0);
+        s.detectSmells(smellDetectorObjects, l);
         assert(true);
     }
 }
