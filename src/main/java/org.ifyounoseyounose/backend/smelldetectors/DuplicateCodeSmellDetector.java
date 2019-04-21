@@ -29,7 +29,6 @@ public class DuplicateCodeSmellDetector extends LimitableSmellDetector implement
                 // This conditional gets the next line from bufferedReader, assigns its value to line then ensures it's not null
                 while((line = bufferedReader.readLine()) != null) {
                     line = line.trim();
-                    if(!line.startsWith("/")) {
                         if (!line.equals("}") && !line.equals("{") && !line.equals("") && !line.startsWith("/") &!line.startsWith("*")) { // Checks lines are irrelevant
 
 
