@@ -32,7 +32,7 @@ public class DataOnlyClassesCollector extends VoidVisitorAdapter<List<Integer>> 
         mdString = md.getBody().toString();
           int param =  md.getParameters().size();
           int thisNumber = mdString.length() - mdString.replace("this.", "this.").length();
-          System.out.println(param + " " + thisNumber);
+          
             if (thisNumber==param ) {
                 addLineNumbers(md, collector);
                 if(md.getRange().get().end.line - md.getRange().get().begin.line <=2) {
