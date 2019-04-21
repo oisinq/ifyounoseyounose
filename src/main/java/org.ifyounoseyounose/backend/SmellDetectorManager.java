@@ -152,6 +152,10 @@ public class SmellDetectorManager {
                     currentSmell = new TemporaryFieldsSmellDetector();
                     limit = smellDetectorStrings.get("TemporaryFields");
                     break;
+                case "SpeculativeGenerality":
+                    currentSmell = new SpeculativeGeneralitySmellDetector();
+                    limit = smellDetectorStrings.get("SpeculativeGenerality");
+                    break;
                 default:
                     System.err.println("Smell Detector not found!");
             }
