@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class SpeculativeGeneralitySmellDetector extends SmellDetector implements JavaParserSmellDetector{
+public class SpeculativeGeneralitySmellDetector implements JavaParserSmellDetector, SmellDetector{
 
     public SmellReport detectSmell(HashMap<CompilationUnit, File> compilationUnits){
 
