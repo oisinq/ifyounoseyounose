@@ -1,7 +1,5 @@
 package org.ifyounoseyounose.backend;
 
-import org.ifyounoseyounose.backend.smelldetectors.SmellDetector;
-
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,21 +11,24 @@ import java.io.File;
  */
 public class ReportBuilder {
 
-    public ArrayList<File> java_files = new ArrayList<>();
+    private ArrayList<File> java_files = new ArrayList<>();
 
-    public HashMap<File, HashMap<SmellDetector, List<Integer>>> generateReport(List<SmellDetector> smells, File directory) {
-
-        HashMap<SmellDetector, List<Integer>> linesMap = new HashMap<>();
-        HashMap<File, HashMap<SmellDetector, List<Integer>>> detectMap = new HashMap<>();
+    //public HashMap<File, HashMap<SmellDetector, List<Integer>>> generateReport(List<SmellDetector> smells, File directory) {
+    public CompleteReport generateReport(HashMap<String,Integer> smells, File directory) {
+        CompleteReport completeReport = new CompleteReport();
 
         File[] directory_files = directory.listFiles();
-        ArrayList<File> javaFiles;
-        javaFiles = getJavaFiles(directory_files);
+
+        ArrayList<File> javaFiles = getJavaFiles(directory_files);
 
         SmellDetectorManager manager = new SmellDetectorManager();
-        manager.detectSmells(smells, javaFiles);
+        List<FileReport> fileReports = manager.detectSmells(smells, javaFiles);
 
-        return detectMap;
+        for (FileReport report : fileReports) {
+            completeReport.addFileReport(report);
+        }
+
+        return completeReport;
     }
 
     /**
@@ -39,7 +40,8 @@ public class ReportBuilder {
             if (dir.isDirectory()) {
 
                 getJavaFiles(dir.listFiles());
-
+            } else if(dir.getName().contains("module-info")){
+                continue;//module info can't be parsed and causes a crash if parser tries to get it so we take it out
             } else if (dir.isFile() && dir.getName().endsWith(".java")) {
                 java_files.add(dir);
             }
@@ -47,4 +49,7 @@ public class ReportBuilder {
         return java_files;
     }
 
+    private void addStats(CompleteReport report) {
+        // Todo
+    }
 }

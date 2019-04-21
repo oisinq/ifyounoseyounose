@@ -10,7 +10,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.BufferedReader;
 
-public class ViolationOfDataHidingSmellDetector extends SmellDetector implements ReflectionSmellDetector {
+public class ViolationOfDataHidingSmellDetector implements ReflectionSmellDetector, SmellDetector {
 
     @Override
     public SmellReport detectSmell(HashMap<Class, File> classes) {
@@ -18,9 +18,11 @@ public class ViolationOfDataHidingSmellDetector extends SmellDetector implements
         SmellReport smells = new SmellReport();
 
         for (Class current : classes.keySet()) {    //iterate through all the classes in the hashmap
+
             List<String> publicFields = new ArrayList<>();
             Set<Integer> lines = new HashSet<>(); //list of line numbers where smell was found
             Field[] fields = current.getDeclaredFields();
+
             for (Field f : fields) {
                 int modifiers = f.getModifiers();
 
@@ -28,6 +30,7 @@ public class ViolationOfDataHidingSmellDetector extends SmellDetector implements
                     publicFields.add(f.getName());
                 }
 
+            }
                 try {
                     int lineNumber = 1;
                     FileReader targetStream = new FileReader(classes.get(current));
@@ -36,21 +39,25 @@ public class ViolationOfDataHidingSmellDetector extends SmellDetector implements
                             new BufferedReader(targetStream);
                     String line = bufferedReader.readLine();
 
-                    while (line != null) {
-                        for (String name : publicFields) {
-                            if (line.contains(name) && line.contains("public")) { //if the line is a public declaration
 
-                                //publicFields.remove(name); //remove the field from the list to avoid duplicates
-                                lines.add(lineNumber); //add to line number list
+                    while (line != null) {
+
+                            for (String name : publicFields) {
+                                if (line.contains(name) && line.contains("public")) { //if the line is a public declaration
+                                    lines.add(lineNumber); //add to line number list
+                                }
                             }
+
+                            line = bufferedReader.readLine();
+                            lineNumber++;
                         }
-                        line = bufferedReader.readLine();
-                        lineNumber++;
-                    }
+
+
                 } catch (Exception e) {
                     System.err.println("Invalid file" + e.toString());
+
                 }
-            }
+
 
             ArrayList<Integer> finalLines = new ArrayList<>(lines);
 
@@ -58,5 +65,9 @@ public class ViolationOfDataHidingSmellDetector extends SmellDetector implements
         }
 
         return smells;
+    }
+
+    public String getSmellName() {
+        return "ViolationOfDataHiding";
     }
 }

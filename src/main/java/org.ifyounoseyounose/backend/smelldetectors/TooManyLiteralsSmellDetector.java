@@ -12,11 +12,7 @@ import java.util.List;
 /**
  * TooManyLiteralsSmellDetector - Returns every line in which a literal int, double, float or char is referenced, apart from variable assignments
  */
-public class TooManyLiteralsSmellDetector extends LimitableSmellDetector implements JavaParserSmellDetector {
-
-    public TooManyLiteralsSmellDetector(int limit) {
-        super(limit);
-    }
+public class TooManyLiteralsSmellDetector extends LimitableSmellDetector implements JavaParserSmellDetector, SmellDetector {
 
     public TooManyLiteralsSmellDetector() {
         super(3);
@@ -37,6 +33,10 @@ public class TooManyLiteralsSmellDetector extends LimitableSmellDetector impleme
         }
 
         return smellReport;
+    }
+
+    public String getSmellName() {
+        return "TooManyLiterals";
     }
 }
 

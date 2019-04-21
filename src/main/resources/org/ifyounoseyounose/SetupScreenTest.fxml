@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<VBox fx:id="vbox" minHeight="500.0" minWidth="800.0" prefHeight="600.0" prefWidth="1000.0" stylesheets="@stylesheet.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.ifyounoseyounose.GUI.SetupController">
+  <children>
+    <MenuBar VBox.vgrow="NEVER">
+      <menus>
+        <Menu mnemonicParsing="false" text="File">
+          <items>
+            <MenuItem mnemonicParsing="false" text="New" />
+            <MenuItem mnemonicParsing="false" text="Open…" />
+            <Menu mnemonicParsing="false" text="Open Recent" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Close" />
+            <MenuItem mnemonicParsing="false" text="Save" />
+            <MenuItem mnemonicParsing="false" text="Save As…" />
+            <MenuItem mnemonicParsing="false" text="Revert" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Preferences…" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Quit" />
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Edit">
+          <items>
+            <MenuItem mnemonicParsing="false" text="Undo" />
+            <MenuItem mnemonicParsing="false" text="Redo" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Cut" />
+            <MenuItem mnemonicParsing="false" text="Copy" />
+            <MenuItem mnemonicParsing="false" text="Paste" />
+            <MenuItem mnemonicParsing="false" text="Delete" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Select All" />
+            <MenuItem mnemonicParsing="false" text="Unselect All" />
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Help">
+          <items>
+            <MenuItem mnemonicParsing="false" text="About MyHelloApp" />
+          </items>
+        </Menu>
+      </menus>
+    </MenuBar>
+      <GridPane prefHeight="15.0" prefWidth="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" VBox.vgrow="ALWAYS">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="62.5" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="62.5" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="0.0" prefWidth="62.5" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="62.5" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="62.5" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="62.5" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="62.5" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="62.5" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="62.5" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="62.5" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="62.5" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="62.5" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="62.5" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="62.5" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="62.5" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="62.5" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+        <TextField fx:id="displayDirectory" prefHeight="0.0" prefWidth="228.0" GridPane.columnIndex="5" GridPane.columnSpan="6" GridPane.rowIndex="3" />
+        <Button fx:id="browse" mnemonicParsing="false" text="Browse" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+        <Button fx:id="smellTime" mnemonicParsing="false" text="Smell Time" GridPane.columnIndex="11" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+        <Button fx:id="settingsDisplay" mnemonicParsing="false" styleClass="fill-btn" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="5" />
+            <ScrollPane fx:id="scrollPane" prefHeight="248.0" prefWidth="903.0" vbarPolicy="ALWAYS" GridPane.columnSpan="16" GridPane.rowIndex="7" GridPane.rowSpan="10">
+               <content>
+                  <GridPane prefHeight="337.0">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="62.5" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="62.5" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="0.0" prefWidth="62.5" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="62.5" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="62.5" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="62.5" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="62.5" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="62.5" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="62.5" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="62.5" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="62.5" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="62.5" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="62.5" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="62.5" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="62.5" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="62.5" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="62.5" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="40.0" prefHeight="0.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="40.0" prefHeight="0.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="40.0" prefHeight="60.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="40.0" prefHeight="60.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="40.0" prefHeight="60.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="40.0" prefHeight="60.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="40.0" prefHeight="60.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="40.0" prefHeight="60.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="40.0" prefHeight="60.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="40.0" prefHeight="60.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="40.0" prefHeight="60.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="40.0" prefHeight="60.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="40.0" prefHeight="60.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="40.0" prefHeight="60.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="40.0" prefHeight="60.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <CheckBox fx:id="DuplicateCode1" mnemonicParsing="false" text="Duplicate Code" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="LEFT" GridPane.rowIndex="7">
+                           <GridPane.margin>
+                              <Insets />
+                           </GridPane.margin>
+                        </CheckBox>
+                        <CheckBox fx:id="MessageChaining1" mnemonicParsing="false" text="Message Chaining" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.halignment="LEFT" GridPane.rowIndex="8" />
+                        <CheckBox fx:id="PrimitiveObsession" mnemonicParsing="false" text="Primitive Obsession" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.halignment="LEFT" GridPane.rowIndex="11" />
+                        <CheckBox fx:id="SwitchStatement1" mnemonicParsing="false" text="Switch Statement" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="LEFT" GridPane.rowIndex="9" />
+                        <CheckBox fx:id="TooManyLiterals1" layoutX="450.0" layoutY="328.0" mnemonicParsing="false" text="Too Many Literals" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.halignment="LEFT" GridPane.rowIndex="10" />
+                        <Slider GridPane.columnIndex="11" GridPane.columnSpan="2" GridPane.rowIndex="5" GridPane.valignment="CENTER" />
+                        <TextField prefHeight="26.0" prefWidth="60.0" GridPane.columnIndex="14" GridPane.columnSpan="2" GridPane.halignment="RIGHT" GridPane.rowIndex="5" GridPane.valignment="CENTER">
+                           <GridPane.margin>
+                              <Insets left="45.0" right="45.0" />
+                           </GridPane.margin>
+                        </TextField>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Explanation:" GridPane.columnIndex="9" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER" />
+                        <Slider GridPane.columnIndex="11" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="7" GridPane.valignment="CENTER" />
+                        <TextField prefHeight="26.0" prefWidth="60.0" GridPane.columnIndex="14" GridPane.columnSpan="2" GridPane.rowIndex="7">
+                           <GridPane.margin>
+                              <Insets left="45.0" right="45.0" />
+                           </GridPane.margin>
+                        </TextField>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Explanation:" GridPane.columnIndex="9" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="7" />
+                        <CheckBox fx:id="ArrowHeaded" mnemonicParsing="false" text="Arrow Headed Indentation" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="1" />
+                        <CheckBox fx:id="DataOnly" mnemonicParsing="false" text="Data only" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="LEFT" GridPane.rowIndex="5" />
+                        <CheckBox fx:id="DataHiding" mnemonicParsing="false" text="Data Hiding Violation" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="6" />
+                        <CheckBox fx:id="BloatedParameter" mnemonicParsing="false" text="Bloated Class" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="LEFT" GridPane.rowIndex="2" />
+                        <Slider GridPane.columnIndex="11" GridPane.columnSpan="2" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                        <TextField prefHeight="26.0" prefWidth="60.0" GridPane.columnIndex="14" GridPane.columnSpan="2" GridPane.rowIndex="1">
+                           <GridPane.margin>
+                              <Insets left="45.0" right="45.0" />
+                           </GridPane.margin>
+                        </TextField>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Nest Limit:" GridPane.columnIndex="9" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Explanation:" GridPane.columnIndex="9" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="9" />
+                        <CheckBox fx:id="BloatedMethod" mnemonicParsing="false" text="Bloated Method" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="3" />
+                        <CheckBox fx:id="DuplicateCode21111" mnemonicParsing="false" text="Bloated Parameter list" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="4" />
+                     </children>
+                  </GridPane>
+               </content>
+               <GridPane.margin>
+                  <Insets right="10.0" />
+               </GridPane.margin>
+            </ScrollPane>
+         </children>
+      </GridPane>
+  </children>
+</VBox>

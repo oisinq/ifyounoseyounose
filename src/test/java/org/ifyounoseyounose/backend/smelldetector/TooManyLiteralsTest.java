@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class TooManyLiteralsTest {
@@ -22,10 +23,10 @@ public class TooManyLiteralsTest {
         l.add(new File("./src/test/java/smellycodedirectory/seq/Yeet3.java"));
         l.add(new File("./src/test/java/smellycodedirectory/SmellyLiterals.java"));
 
-        List<SmellDetector> smellDetectors = new ArrayList<>();
-        smellDetectors.add(new TooManyLiteralsSmellDetector(2));
+        HashMap<String, Integer> smellDetectorObjects = new HashMap<>();
+        smellDetectorObjects.put("TooManyLiterals", 2);
 
-        s.detectSmells(smellDetectors, l);
+        s.detectSmells(smellDetectorObjects, l);
         assert(true);
     }
 }
