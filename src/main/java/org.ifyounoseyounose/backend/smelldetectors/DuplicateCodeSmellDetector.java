@@ -30,7 +30,7 @@ public class DuplicateCodeSmellDetector extends LimitableSmellDetector implement
                 while((line = bufferedReader.readLine()) != null) {
                     line = line.trim();
                     if(!line.startsWith("/")) {
-                        if (!line.equals("}") && !line.equals("{") && !line.equals("") && !line.trim().startsWith("/")) { // Checks lines are irrelevant
+                        if (!line.equals("}") && !line.equals("{") && !line.equals("") && !line.startsWith("/") &!line.startsWith("*")) { // Checks lines are irrelevant
 
                             HashMap<File, List<Integer>> innerHashMap = outerHashMap.get(line); //see if you already have a hashmap for current key
 
