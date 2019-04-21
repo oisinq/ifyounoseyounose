@@ -16,18 +16,11 @@ public class DataOnlyClassesSmellDetector implements JavaParserSmellDetector, Sm
         SmellReport smellReport = new SmellReport();
         VoidVisitor<List<Integer>> visitor = new DataOnlyClassesCollector();
 
-        int count = 0; //keeps count of the number methods that are checked
         for (CompilationUnit compilationUnit : compilationUnits.keySet()) {
-            List<Integer> collector = new ArrayList<>();
 
-            if (count > 0 && collector.isEmpty()) {
-                smellReport.addToReport(compilationUnits.get(compilationUnit), collector);
-            }
-                
-                collector.add(0);
+                List<Integer> collector = new ArrayList<>();
                 visitor.visit(compilationUnit, collector);
                 smellReport.addToReport(compilationUnits.get(compilationUnit), collector);
-                count++;
 
         }
 

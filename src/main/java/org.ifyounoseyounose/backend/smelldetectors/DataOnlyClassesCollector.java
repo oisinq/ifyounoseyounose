@@ -30,27 +30,26 @@ public class DataOnlyClassesCollector extends VoidVisitorAdapter<List<Integer>> 
         }
 
         mdString = md.getBody().toString();
-
-         if (mdString.contains("this." ) && md.getType().isVoidType()){
-             addLineNumbers(md, collector);
-         } else if (mdString.contains("return") && !md.getType().isVoidType()) {
-             addLineNumbers(md, collector);
-         }
-
-      else if ((md.getName().toString().contains("get") && !md.getType().isVoidType()) ||
-                    (md.getName().toString().contains("set") && md.getType().isVoidType())) {
-                 addLineNumbers(md, collector);
+          int param =  md.getParameters().size();
+          int thisNumber = mdString.length() - mdString.replace("this.", "this.").length();
+          System.out.println(param + " " + thisNumber);
+            if (thisNumber==param ) {
+                addLineNumbers(md, collector);
+                if(md.getRange().get().end.line - md.getRange().get().begin.line <=2) {
+            } else if (mdString.contains("return") && !md.getType().isVoidType()) {
+                addLineNumbers(md, collector);
             }
-         else {
-            collector.clear(); //list is emptied if it is not a data only method
-        }
+            } else if ((md.getName().toString().contains("get") && !md.getType().isVoidType()) ||
+                    (md.getName().toString().contains("set") && md.getType().isVoidType())) {
+                addLineNumbers(md, collector);
+            }
 
     }
 
     //need to check constructors also
     @Override
     public void visit(ConstructorDeclaration cd, List<Integer> collector) {
-        String mdString =cd.getBody().toString();
+        String mdString;
         //mdString only contains the body of the method with removed blank lines & comments removed
         for (Comment child : cd.getAllContainedComments()) {
             cd.remove(child);
@@ -64,9 +63,7 @@ public class DataOnlyClassesCollector extends VoidVisitorAdapter<List<Integer>> 
         if(mdString.contains("this." )){
             addLineNumbers(cd, collector);
         }
-        else {
-            collector.clear(); //list is emptied if it is not a data only method
-        }
+
 
     }
 
