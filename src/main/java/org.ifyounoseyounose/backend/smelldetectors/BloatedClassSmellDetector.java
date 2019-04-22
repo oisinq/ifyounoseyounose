@@ -35,8 +35,8 @@ public class BloatedClassSmellDetector extends LimitableSmellDetector implements
                 String line = bufferedReader.readLine();
 
                 while (line != null) {
-
-                    if(line.startsWith("//")  ){
+                    line = line.trim();
+                    if(line.startsWith("//") || line.startsWith("*") || line.length() == 0){
                         removeLines++;
                     }
 
@@ -50,7 +50,7 @@ public class BloatedClassSmellDetector extends LimitableSmellDetector implements
             }
 
             if (limit <= lineNumber-removeLines) {
-                lines.add(1); // highlight line 1 (to signify that the class is smelly)
+                lines.add(0); // highlight line 1 (to signify that the class is smelly)
 
             }
             smells.addToReport(current, lines);

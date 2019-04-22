@@ -34,7 +34,7 @@ public class FileReport {
         String output = "File: " + getFile().toString() + "\n";
         output += "Smells: \n";
         for (String s : detections.keySet()) {
-            output += s + "\n";
+            output += s + "\n" + detections.get(s).toString() + "\n";
         }
         return output;
     }

@@ -262,7 +262,6 @@ public class SmellDetectorManager {
         } else if (smellDetector instanceof ReflectionSmellDetector) {
             smellReport = executeReflectionSmellDetector(smellDetector,files);
         }
-        smellReport.setSmellName(smellDetector.getSmellName());
         return smellReport;
     }
 
