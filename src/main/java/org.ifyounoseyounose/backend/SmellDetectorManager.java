@@ -19,7 +19,8 @@ import java.util.List;
 import java.util.stream.Stream;
 
 /**
- * SmellDetectorManager - class that asks each SmellDetector to detect code smells in a list of files
+ * SmellDetectorManager - class that creates SmellDetector objectsasks each SmellDetector to detect code smells in a
+ * list of files
  */
 public class SmellDetectorManager {
 
@@ -64,23 +65,6 @@ public class SmellDetectorManager {
                 System.err.println("Cannot find file " + f.getPath());
             }
         }
-    }
-    /**
-     * Takes a list of .java files, compiles them .class files and puts them in the .compiled_classes folder
-     * @param files List of .java files
-     */
-
-    private void compileJavaFiles(List<File> files) {
-        String[] st = new String[files.size()+2];
-
-        st[0] = "-d";
-        st[1] = ".compiled_classes";
-        for (int i = 2; i < st.length; i++) {
-            st[i] = files.get(i-2).getPath();
-        }
-
-        JavaCompiler compile = ToolProvider.getSystemJavaCompiler();
-        compile.run(null, null,null, st);
     }
 
     /**
@@ -284,8 +268,6 @@ public class SmellDetectorManager {
     private SmellReport executeReflectionSmellDetector(SmellDetector smellDetector, List<File> files) {
         compileJavaFiles(files);
 
-        HashMap<Class, File> classesMap = new HashMap<>();
-
         File compiledClassesDirectory = new File(".compiled_classes/");
         URL[] urlList = new URL[1];
         URLClassLoader classLoader = null;
@@ -299,13 +281,26 @@ public class SmellDetectorManager {
         }
 
         if (classLoader != null) {
-            // Todo I have no idea why this is in a for loop. I'm scared to break it.
-            for (File f : files) {
-                classesMap = getListOfClasses(classLoader, compiledClassesDirectory, files);
-            }
-
+            HashMap<Class, File> classesMap = getListOfClasses(classLoader, compiledClassesDirectory, files);
             result = ((ReflectionSmellDetector) smellDetector).detectSmell(classesMap);
         }
         return result;
+    }
+
+    /**
+     * Takes a list of .java files, compiles them .class files and puts them in the .compiled_classes folder
+     * @param files List of .java files
+     */
+    private void compileJavaFiles(List<File> files) {
+        String[] st = new String[files.size()+2];
+
+        st[0] = "-d";
+        st[1] = ".compiled_classes";
+        for (int i = 2; i < st.length; i++) {
+            st[i] = files.get(i-2).getPath();
+        }
+
+        JavaCompiler compile = ToolProvider.getSystemJavaCompiler();
+        compile.run(null, null,null, st);
     }
 }

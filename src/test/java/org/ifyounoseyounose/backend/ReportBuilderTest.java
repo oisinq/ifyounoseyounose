@@ -1,15 +1,10 @@
 package org.ifyounoseyounose.backend;
 
-import org.ifyounoseyounose.backend.smelldetectors.MessageChainingSmellDetector;
-import org.ifyounoseyounose.backend.smelldetectors.PlaceholderSmellDetector;
-import org.ifyounoseyounose.backend.smelldetectors.SmellDetector;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class ReportBuilderTest {
 
@@ -24,9 +19,10 @@ public class ReportBuilderTest {
         File directory = new File("./src/test/java/smellycodedirectory/");
 
         HashMap<String, Integer> smellDetectorObjects = new HashMap<>();
-        smellDetectorObjects.put("MessageChaining", 0);
+        smellDetectorObjects.put("ArrowHeaded", 2);
 
-        r.generateReport(smellDetectorObjects, directory);
+        CompleteReport re = r.generateReport(smellDetectorObjects, directory);
+        System.err.println(re);
         assert(true);
     }
 }
