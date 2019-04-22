@@ -26,9 +26,7 @@ public class BloatedMethodCodeSmellDetector extends LimitableSmellDetector imple
 
         for (CompilationUnit compilationUnit : compilationUnits.keySet()) {
             List<Integer> collector = new ArrayList<>();
-            collector.add(limit);
             visitor.visit(compilationUnit, collector);
-            collector.remove(0);
             smellReport.addToReport(compilationUnits.get(compilationUnit),collector);
         }
 

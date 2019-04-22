@@ -11,10 +11,6 @@ import java.util.List;
 
 public class BloatedParamSmellDetector extends LimitableSmellDetector implements JavaParserSmellDetector, SmellDetector {
 
-    public BloatedParamSmellDetector(int limit) {
-        super(limit);
-    }
-
     public BloatedParamSmellDetector() {
         super(20);
     }
@@ -26,10 +22,8 @@ public class BloatedParamSmellDetector extends LimitableSmellDetector implements
 
         for (CompilationUnit compilationUnit : compilationUnits.keySet()) {
             List<Integer> collector = new ArrayList<>();
-            collector.add(limit);
             visitor.visit(compilationUnit, collector);
-            collector.remove(0);
-             smellReport.addToReport(compilationUnits.get(compilationUnit),collector);
+            smellReport.addToReport(compilationUnits.get(compilationUnit),collector);
         }
 
         return smellReport;
