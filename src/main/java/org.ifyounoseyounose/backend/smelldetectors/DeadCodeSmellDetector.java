@@ -4,9 +4,6 @@ import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.expr.MethodCallExpr;
-import com.github.javaparser.ast.visitor.VoidVisitor;
-
-import com.github.javaparser.resolution.types.ResolvedType;
 import com.github.javaparser.symbolsolver.JavaSymbolSolver;
 import com.github.javaparser.symbolsolver.resolution.typesolvers.CombinedTypeSolver;
 import com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver;
@@ -22,7 +19,7 @@ public class DeadCodeSmellDetector implements JavaParserSmellDetector, SmellDete
 
     public SmellReport detectSmell(HashMap<CompilationUnit, File> compilationUnits){
         SmellReport smells = new SmellReport();
-        VoidVisitor<List<MethodDeclaration>> visitor1 = new DeadCodeMethodCollector();//Retrieves method declarations
+        DeadCodeMethodCollector visitor1 = new DeadCodeMethodCollector();//Retrieves method declarations
         HashMap<File, HashMap<String, MethodDeclaration>> methodHash = new HashMap<>();// Stores method declarations and their string variations
 
         for(CompilationUnit comp: compilationUnits.keySet()){
@@ -69,7 +66,7 @@ public class DeadCodeSmellDetector implements JavaParserSmellDetector, SmellDete
         List<Integer> lines= new ArrayList<>();//Temporary list
         for (MethodDeclaration m: methodHash.get(e).values()) {//Iterate through method declarations that havent been used
             if(!"main".equals(m.getName().asString())) {//Ignore main
-                 ((DeadCodeMethodCollector) visitor1).addLineNumbers(m, lines);// Add there line number to that classes list
+                 visitor1.addLineNumbers(m, lines);// Add there line number to that classes list
             }
         }
          smells.addToReport(e, lines);

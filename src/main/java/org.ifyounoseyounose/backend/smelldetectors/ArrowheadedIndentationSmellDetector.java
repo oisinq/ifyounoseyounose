@@ -1,7 +1,6 @@
 package org.ifyounoseyounose.backend.smelldetectors;
 
 import com.github.javaparser.ast.CompilationUnit;
-import com.github.javaparser.ast.visitor.VoidVisitor;
 import org.ifyounoseyounose.backend.SmellReport;
 
 import java.io.File;
@@ -10,10 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 
 public class ArrowheadedIndentationSmellDetector extends LimitableSmellDetector implements JavaParserSmellDetector, SmellDetector {
-
-    public ArrowheadedIndentationSmellDetector(int limit) {
-        super(limit);
-    }
 
     public ArrowheadedIndentationSmellDetector() {
         super(3);

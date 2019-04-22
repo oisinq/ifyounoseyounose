@@ -1,7 +1,6 @@
 package org.ifyounoseyounose.backend;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -10,7 +9,7 @@ public class FileReport {
     private HashMap<String, List<Integer>> detections = new HashMap<>();
     private File relatedFile;
 
-    public void addSmellDetections(String smellName, List<Integer> newLines) {
+    void addSmellDetections(String smellName, List<Integer> newLines) {
         detections.put(smellName, newLines);
     }
 
@@ -26,16 +25,11 @@ public class FileReport {
         return detections;
     }
 
-    public List<Integer> getSmellDetections(String smellName) {
-        return detections.get(smellName);
-    }
-
     public String toString() {
-        String output = "File: " + getFile().toString() + "\n";
-        output += "Smells: \n";
+        StringBuilder output = new StringBuilder("File: " + getFile().toString() + "\n" + "Smells: \n");
         for (String s : detections.keySet()) {
-            output += s + "\n" + detections.get(s).toString() + "\n";
+            output.append(s).append("\n").append(detections.get(s).toString()).append("\n");
         }
-        return output;
+        return output.toString();
     }
 }

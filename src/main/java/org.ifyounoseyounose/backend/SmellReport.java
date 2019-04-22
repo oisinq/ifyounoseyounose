@@ -1,12 +1,12 @@
 package org.ifyounoseyounose.backend;
 
 import java.io.File;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
 public class SmellReport {
-    String smellName = "";
+    private String smellName = "";
 
     private HashMap<File, List<Integer>> smells = new HashMap<>(); // Contains a list of smelly lines for each class
 
@@ -14,23 +14,23 @@ public class SmellReport {
         smells.put(current, lines);
     }
 
-    public List<Integer> getDetectionsByFile(File file) {
+    List<Integer> getDetectionsByFile(File file) {
         return smells.get(file);
     }
 
     public String toString() {
-        return getSmellName() + ": \n" + Arrays.asList(smells).toString();
+        return getSmellName() + ": \n" + Collections.singletonList(smells).toString();
     }
 
     public String getSmellName() {
         return smellName;
     }
 
-    public void setSmellName(String name) {
+    void setSmellName(String name) {
         smellName = name;
     }
 
-    public boolean isEmptyForFile(File f) {
+    boolean isEmptyForFile(File f) {
         return !smells.containsKey(f) || smells.get(f).isEmpty();
     }
 }

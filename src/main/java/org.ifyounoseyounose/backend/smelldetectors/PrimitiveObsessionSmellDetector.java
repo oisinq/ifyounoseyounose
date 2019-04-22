@@ -11,11 +11,6 @@ import java.util.List;
 
 public class PrimitiveObsessionSmellDetector extends LimitableSmellDetector implements JavaParserSmellDetector, SmellDetector {
 
-
-    public PrimitiveObsessionSmellDetector(int limit) {
-        super(limit);
-    }
-
     public PrimitiveObsessionSmellDetector() {
         super(15);
     }

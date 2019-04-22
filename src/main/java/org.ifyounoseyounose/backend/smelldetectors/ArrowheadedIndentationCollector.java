@@ -8,7 +8,6 @@ import com.github.javaparser.ast.stmt.WhileStmt;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 
 import java.util.List;
-import java.util.Optional;
 
 public class ArrowheadedIndentationCollector extends VoidVisitorAdapter<List<Integer>> {
     // This records the current depth, increasing as it enters if, while and for statements
@@ -53,10 +52,11 @@ public class ArrowheadedIndentationCollector extends VoidVisitorAdapter<List<Int
     }
 
     private void addLineNumbers(Node node, List<Integer> collector) {
-        Optional<Range> m = node.getRange();
-        Range r = m.get();
-        for (int lineNumber = r.begin.line; lineNumber <= r.end.line; lineNumber++) {
-            collector.add(lineNumber);
+        if (node.getRange().isPresent()) {
+            Range r = node.getRange().get();
+            for (int lineNumber = r.begin.line; lineNumber <= r.end.line; lineNumber++) {
+                collector.add(lineNumber);
+            }
         }
     }
 }

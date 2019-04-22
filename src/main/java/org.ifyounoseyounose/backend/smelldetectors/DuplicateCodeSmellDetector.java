@@ -31,13 +31,8 @@ public class DuplicateCodeSmellDetector extends LimitableSmellDetector implement
                     line = line.trim();
                         if (!line.equals("}") && !line.equals("{") && !line.equals("") && !line.startsWith("/") &!line.startsWith("*")) { // Checks lines are irrelevant
 
-
-                            HashMap<File, List<Integer>> innerHashMap = outerHashMap.get(line); //see if you already have a hashmap for current key
-
-                            if (innerHashMap == null) { // If not, create one and put it in the map
-                                innerHashMap = new HashMap<>();
-                                outerHashMap.put(line, innerHashMap);
-                            }
+                            // Adds a hashmap if one does not exist
+                            outerHashMap.computeIfAbsent(line, k -> new HashMap<>());
 
                             List<Integer> list = (outerHashMap.get(line)).get(file); // See if you already have a list for current key
 

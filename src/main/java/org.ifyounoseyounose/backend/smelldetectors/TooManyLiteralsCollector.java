@@ -7,7 +7,6 @@ import com.github.javaparser.ast.expr.*;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * TooManyLiteralsCollector - JavaParser collector for visiting the individual nodes on the Abstract Syntax Tree
@@ -32,14 +31,6 @@ public class TooManyLiteralsCollector extends VoidVisitorAdapter<List<Integer>> 
         addLineNumbers(md, collector);
     }
 
-    private void addLineNumbers(Node node, List<Integer> collector) {
-        Optional<Range> m = node.getRange();
-        Range r = m.get();
-        for (int lineNumber = r.begin.line; lineNumber <= r.end.line; lineNumber++) {
-            collector.add(lineNumber);
-        }
-    }
-
     // If we visit a declaration, we don't want to count any declaration as literals, so we ignore its child nodes
     @Override
     public void visit(VariableDeclarationExpr dec, List<Integer> collector) {
@@ -54,5 +45,14 @@ public class TooManyLiteralsCollector extends VoidVisitorAdapter<List<Integer>> 
     @Override
     public void visit(AssignExpr dec, List<Integer> collector) {
 
+    }
+
+    private void addLineNumbers(Node node, List<Integer> collector) {
+        if (node.getRange().isPresent()) {
+            Range r = node.getRange().get();
+            for (int lineNumber = r.begin.line; lineNumber <= r.end.line; lineNumber++) {
+                collector.add(lineNumber);
+            }
+        }
     }
 }

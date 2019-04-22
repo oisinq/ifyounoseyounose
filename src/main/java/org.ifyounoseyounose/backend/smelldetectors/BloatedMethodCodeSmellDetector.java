@@ -11,10 +11,6 @@ import java.util.List;
 
 public class BloatedMethodCodeSmellDetector extends LimitableSmellDetector implements JavaParserSmellDetector, SmellDetector {
 
-    public BloatedMethodCodeSmellDetector(int limit) {
-        super(limit);
-    }
-
     public BloatedMethodCodeSmellDetector() {
         super(20);
     }

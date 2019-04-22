@@ -68,10 +68,11 @@ public class DataOnlyClassesCollector extends VoidVisitorAdapter<List<Integer>> 
     }
 
     private void addLineNumbers(Node node, List<Integer> collector) {
-        Optional<Range> m = node.getRange();
-        Range r = m.get();
-        for (int lineNumber = r.begin.line; lineNumber <= r.end.line; lineNumber++) {
-            collector.add(lineNumber);
+        if (node.getRange().isPresent()) {
+            Range r = node.getRange().get();
+            for (int lineNumber = r.begin.line; lineNumber <= r.end.line; lineNumber++) {
+                collector.add(lineNumber);
+            }
         }
     }
 }

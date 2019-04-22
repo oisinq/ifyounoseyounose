@@ -6,15 +6,10 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 
 public class BloatedClassSmellDetector extends LimitableSmellDetector implements ManualParserSmellDetector, SmellDetector {
-
-    public BloatedClassSmellDetector(int limit) {
-        super(limit);
-    }
 
     public BloatedClassSmellDetector() {super(34);
     }

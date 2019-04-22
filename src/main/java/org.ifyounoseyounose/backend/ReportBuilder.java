@@ -13,19 +13,20 @@ public class ReportBuilder {
 
     private ArrayList<File> java_files = new ArrayList<>();
 
-    //public HashMap<File, HashMap<SmellDetector, List<Integer>>> generateReport(List<SmellDetector> smells, File directory) {
     public CompleteReport generateReport(HashMap<String,Integer> smells, File directory) {
         CompleteReport completeReport = new CompleteReport();
 
         File[] directory_files = directory.listFiles();
 
-        ArrayList<File> javaFiles = getJavaFiles(directory_files);
+        if (directory_files != null) {
+            ArrayList<File> javaFiles = getJavaFiles(directory_files);
 
-        SmellDetectorManager manager = new SmellDetectorManager();
-        List<FileReport> fileReports = manager.detectSmells(smells, javaFiles);
+            SmellDetectorManager manager = new SmellDetectorManager();
+            List<FileReport> fileReports = manager.detectSmells(smells, javaFiles);
 
-        for (FileReport report : fileReports) {
-            completeReport.addFileReport(report);
+            for (FileReport report : fileReports) {
+                completeReport.addFileReport(report);
+            }
         }
 
         return completeReport;
@@ -38,11 +39,9 @@ public class ReportBuilder {
 
         for (File dir : directory) {
             if (dir.isDirectory()) {
-
                 getJavaFiles(dir.listFiles());
-            } else if(dir.getName().contains("module-info")){
-                continue;//module info can't be parsed and causes a crash if parser tries to get it so we take it out
-            } else if (dir.isFile() && dir.getName().endsWith(".java")) {
+            } else if(dir.isFile() && dir.getName().endsWith(".java") && !dir.getName().contains("module-info")){
+                //module info can't be parsed and causes a crash if parser tries to get it so we take it out
                 java_files.add(dir);
             }
         }
