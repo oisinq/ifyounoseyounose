@@ -65,7 +65,6 @@ public class Controller {
         code.setContent(displayCodeTab());
 
         treeView.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> {
-
             try {
                 String classString = Files.readString(Path.of(getPathFromTreeView(v.getValue())));
                 area.replaceText(classString);
@@ -153,7 +152,6 @@ public class Controller {
 
 
     public Node displayCodeTab() {
-
         area.setEditable(false);
 
         VirtualizedScrollPane<GenericStyledArea<ParStyle, Either<String, LinkedImage>, TextStyle>> vsPane = new VirtualizedScrollPane<>(area);
@@ -195,18 +193,17 @@ public class Controller {
     }
 
     public void setClassColours() {
-        HashMap<String, List<Integer>> temp = fileReport.getSmellDetections();
-        Set<String> temp2 = temp.keySet();
+        HashMap<String, List<Integer>> fileReportHashMap = fileReport.getSmellDetections();
+        Set<String> smellDetectors = fileReportHashMap.keySet();
 
-        for (String s : temp2) {
+        for (String s : smellDetectors) {
             //System.out.println(s);
-            //List<Integer> temp3=fileReport.getSmellDetections(s);
-            List<Integer> temp3 = temp.get(s);
-            for (int i : temp3) {
+            //List<Integer> smellyLines=fileReport.getSmellDetections(s);
+            List<Integer> smellyLines = fileReportHashMap.get(s);
+            for (int i : smellyLines) {
                 if (i == 0) {
                     setLineColour(Color.BEIGE, i);
                 } else {
-
                     setLineColour(Color.BEIGE, i - 1);
                 }
             }
