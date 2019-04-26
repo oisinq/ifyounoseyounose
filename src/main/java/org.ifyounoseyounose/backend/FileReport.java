@@ -21,7 +21,7 @@ public class FileReport {
         return relatedFile;
     }
 
-    public Map<String, List<Integer>> getSmellDetections() {
+    public HashMap<String, List<Integer>> getSmellDetections() {
         return detections;
     }
 
