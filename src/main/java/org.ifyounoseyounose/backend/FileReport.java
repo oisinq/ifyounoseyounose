@@ -47,7 +47,7 @@ public class FileReport {
         return 0.0;
     }
 
-    public Map<String, Integer> getSmellyLineCountPerSmile() {
+    public Map<String, Integer> getSmellyLineCountPerSmell() {
         Map<String, Integer> lineCountPerSmell = new HashMap<>();
         for (String smellName : detections.keySet()) {
             lineCountPerSmell.put(smellName, detections.get(smellName).size());
