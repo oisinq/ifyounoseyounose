@@ -20,7 +20,7 @@ public class SetupController {
     @FXML private Button browse,settingsDisplay,smellTime;
     @FXML private ScrollPane scrollPane;
     @FXML private CheckBox JavaToggle,ToggleButtons,ArrowHeaded,BloatedClass,BloatedMethod,BloatedParameter,DataOnly,DataHiding,DeadCode,DuplicateCode,MessageChaining,PrimitiveObsession,SwitchStatement,TooManyLiterals;
-    @FXML private Slider ArrowHeadedSlider,BloatedClassSlider,BloatedMethodSlider,BloatedParameterSlider,MessageChainingSlider,PrimitiveObsessionSlider,SwitchStatementSlider,TooManyLiteralsSlider;
+    @FXML private Slider ArrowHeadedSlider,BloatedClassSlider,BloatedMethodSlider,BloatedParameterSlider,DuplicateCodeSlider,MessageChainingSlider,PrimitiveObsessionSlider,SwitchStatementSlider,TooManyLiteralsSlider;
     @FXML private TextField HiddenText,displayDirectory,ArrowHeadedText,BloatedClassText,BloatedMethodText,BloatedParameterText,DeadCodeText,DuplicateCodeText,MessageChainingText,PrimitiveObsessionText,SwitchStatementText,TooManyLiteralsText;
     Set<CheckBox> checkboxes;
     @FXML private VBox vbox;
@@ -43,8 +43,7 @@ public class SetupController {
     }
 
     public void initialize() {
-        connectidkidc=new HashMap<>(){
-            {
+        connectidkidc=new HashMap<>(){{
                 put(ArrowHeaded, ArrowHeadedText);
                 put(BloatedClass,BloatedClassText);
                 put(BloatedMethod,BloatedMethodText);
@@ -57,14 +56,9 @@ public class SetupController {
                 put(PrimitiveObsession,PrimitiveObsessionText);
                 put(SwitchStatement,SwitchStatementText);
                 put(TooManyLiterals,TooManyLiteralsText);
-            }
-        };
+            }};
+        
         checkboxes=connectidkidc.keySet();
-        //checkboxes=new ArrayList<CheckBox>(){
-        //    {
-        //        add(ArrowHeaded); add(BloatedClass); add(BloatedMethod); add(BloatedParameter); add(DataOnly); add(DataHiding); add(DeadCode); add(DuplicateCode); add(MessageChaining); add(PrimitiveObsession); add(SwitchStatement); add(TooManyLiterals);
-        //    }
-        //};
 
         //set all to be true by default
         ToggleButtons.selectedProperty().setValue(true);
@@ -87,6 +81,28 @@ public class SetupController {
         BloatedMethodSlider.valueProperty().addListener((ChangeListener) (arg0, arg1, arg2) -> {
             BloatedMethodText.setText(String.valueOf(((int) BloatedMethodSlider.getValue())));
         });
+        BloatedParameterSlider.valueProperty().addListener((ChangeListener) (arg0, arg1, arg2) -> {
+            BloatedParameterText.setText(String.valueOf(((int) BloatedParameterSlider.getValue())));
+        });
+        DuplicateCodeSlider.valueProperty().addListener((ChangeListener) (arg0, arg1, arg2) -> {
+            DuplicateCodeText.setText(String.valueOf(((int) DuplicateCodeSlider.getValue())));
+        });
+        MessageChainingSlider.valueProperty().addListener((ChangeListener) (arg0, arg1, arg2) -> {
+            MessageChainingText.setText(String.valueOf(((int) MessageChainingSlider.getValue())));
+        });
+        SwitchStatementSlider.valueProperty().addListener((ChangeListener) (arg0, arg1, arg2) -> {
+            SwitchStatementText.setText(String.valueOf(((int) SwitchStatementSlider.getValue())));
+        });
+        TooManyLiteralsSlider.valueProperty().addListener((ChangeListener) (arg0, arg1, arg2) -> {
+            TooManyLiteralsText.setText(String.valueOf(((int) TooManyLiteralsSlider.getValue())));
+        });
+        PrimitiveObsessionSlider.valueProperty().addListener((ChangeListener) (arg0, arg1, arg2) -> {
+            PrimitiveObsessionText.setText(String.valueOf(((int)PrimitiveObsessionSlider.getValue())));
+        });
+
+        //ArrowHeadedText.textProperty().addListener((observable, oldValue, newValue) -> {
+        //    ArrowHeadedSlider.setValue(Double.parseDouble(ArrowHeadedText.getText()));
+        //});
 
         settingsDisplay.setOnAction(new EventHandler<ActionEvent>() {
             @Override
