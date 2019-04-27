@@ -76,9 +76,9 @@ public class Controller {
         treeView.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> {
             try {
                 //area.clear();
-                area.clearStyle(0,area.getLength());
                 String classString = Files.readString(Path.of(getPathFromTreeView(v.getValue())));
                 area.replaceText(classString);
+                area.clearStyle(0,area.getLength());
                 fileReport = completeReport.getAllDetectedSmells(new File(getPathFromTreeView(v.getValue())));
                 setClassColours();
             } catch (IOException e) {
