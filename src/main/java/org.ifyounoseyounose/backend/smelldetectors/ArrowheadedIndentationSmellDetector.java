@@ -31,6 +31,6 @@ public class ArrowheadedIndentationSmellDetector extends LimitableSmellDetector 
     }
 
     public String getSmellName() {
-        return "ArrowheadedIndentation";
+        return "ArrowHeaded";
     }
 }

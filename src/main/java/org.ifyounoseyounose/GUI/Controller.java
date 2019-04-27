@@ -245,6 +245,7 @@ public class Controller {
 
         for (String s : smellDetectors) {
             List<Integer> smellyLines = fileReportHashMap.get(s);
+            System.out.println("SmellyLines for " + s + ": " + smellyLines.toString());
             for (int i : smellyLines) {
                 setLineColour(colourPicker.get(s), i - 1);
             }

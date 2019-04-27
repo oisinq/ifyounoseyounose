@@ -50,6 +50,6 @@ public class DataOnlyClassesSmellDetector extends LimitableSmellDetector impleme
 
 
     public String getSmellName() {
-        return "DataOnlyClasses";
+        return "DataOnly";
     }
 }

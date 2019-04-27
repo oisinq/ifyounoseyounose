@@ -30,6 +30,6 @@ public class BloatedMethodCodeSmellDetector extends LimitableSmellDetector imple
     }
 
     public String getSmellName() {
-        return "BloatedMethodCode";
+        return "BloatedMethod";
     }
 }
