@@ -97,7 +97,6 @@ public class Controller {
         colourPicker.put("PrimitiveObsession", Color.rgb(65, 178, 219));
         colourPicker.put("SwitchStatement", Color.rgb(127, 193, 127));
         colourPicker.put("TooManyLiterals", Color.rgb(167, 229, 87));
-        colourPicker.put("ViolationOfDataHiding", Color.rgb(221, 205, 28));
         colourPicker.put("TemporaryFields", Color.rgb(237, 107, 64));
         colourPicker.put("SpeculativeGenerality", Color.rgb(83,255,189));
     }

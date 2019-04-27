@@ -128,10 +128,6 @@ public class SmellDetectorManager {
                     currentSmell = new TooManyLiteralsSmellDetector();
                     limit = smellDetectorStrings.get("TooManyLiterals");
                     break;
-                case "ViolationOfDataHiding":
-                    currentSmell = new ViolationOfDataHidingSmellDetector();
-                    limit = smellDetectorStrings.get("ViolationOfDataHiding");
-                    break;
                 case "TemporaryFields":
                     currentSmell = new TemporaryFieldsSmellDetector();
                     limit = smellDetectorStrings.get("TemporaryFields");
