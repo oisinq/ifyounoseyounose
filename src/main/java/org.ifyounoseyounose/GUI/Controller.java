@@ -50,6 +50,7 @@ public class Controller {
     private CompleteReport completeReport;
     private FileReport fileReport;
     private static Boolean JavaToggle;
+    private HashMap<String, Color> colourPicker = new HashMap<>();
 
     // the initialize method is automatically invoked by the FXMLLoader - it's magic
     public void initialize() {
@@ -61,6 +62,8 @@ public class Controller {
                 displayTreeView(InputDirectory);
             }
         });
+
+        initializeColourPicker();
 
         code.setContent(displayCodeTab());
 
@@ -79,6 +82,24 @@ public class Controller {
 
         //backToSetup.setOnAction(this::openFirstScene);//TODO this lets you go back , but doesn't clear everything
 
+    }
+
+    private void initializeColourPicker() {
+        colourPicker.put("ArrowHeaded", Color.rgb(83,255,189));
+        colourPicker.put("BloatedClass", Color.rgb(178, 207, 255));
+        colourPicker.put("BloatedMethod", Color.rgb(117, 169, 255));
+        colourPicker.put("BloatedParameter", Color.rgb(141, 158, 186));
+        colourPicker.put("DataOnly", Color.rgb(208, 244, 137));
+        colourPicker.put("DataHiding", Color.rgb(242, 190, 87));
+        colourPicker.put("DeadCode", Color.rgb(255, 180, 140));
+        colourPicker.put("DuplicateCode", Color.rgb(249, 187, 184));
+        colourPicker.put("MessageChaining", Color.rgb(185, 158, 193));
+        colourPicker.put("PrimitiveObsession", Color.rgb(65, 178, 219));
+        colourPicker.put("SwitchStatement", Color.rgb(127, 193, 127));
+        colourPicker.put("TooManyLiterals", Color.rgb(167, 229, 87));
+        colourPicker.put("ViolationOfDataHiding", Color.rgb(221, 205, 28));
+        colourPicker.put("TemporaryFields", Color.rgb(237, 107, 64));
+        colourPicker.put("SpeculativeGenerality", Color.rgb(83,255,189));
     }
 
     //this gets the filepath of a object from its treeview location
@@ -202,9 +223,9 @@ public class Controller {
             List<Integer> smellyLines = fileReportHashMap.get(s);
             for (int i : smellyLines) {
                 if (i == 0) {
-                    setLineColour(Color.BEIGE, i);
+                    setLineColour(colourPicker.get(s), i);
                 } else {
-                    setLineColour(Color.BEIGE, i - 1);
+                    setLineColour(colourPicker.get(s), i - 1);
                 }
             }
         }
