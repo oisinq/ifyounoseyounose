@@ -13,6 +13,7 @@ import java.io.File;
 import javafx.scene.control.TextArea;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
@@ -51,6 +52,10 @@ public class Controller {
     private FileReport fileReport;
     private static Boolean JavaToggle;
     private HashMap<String, Color> colourPicker = new HashMap<>();
+    @FXML private ColorPicker ArrowHeadedColour,BloatedClassColour,BloatedMethodColour,BloatedParameterColour,
+            DataOnlyColour,DataHidingColour,DeadCodeColour,DuplicateCodeColour,MessageChainingColour,
+            PrimitiveObsessionColour,SwitchStatementColour,ToomanyLiteralsColour;
+    private HashMap<String,ColorPicker> colorPickers = new HashMap<>();
 
     // the initialize method is automatically invoked by the FXMLLoader - it's magic
     public void initialize() {
@@ -64,24 +69,29 @@ public class Controller {
         });
 
         initializeColourPicker();
-
+        initializeColorPickers();
+        setColourButtons();
         code.setContent(displayCodeTab());
 
         treeView.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> {
             try {
                 String classString = Files.readString(Path.of(getPathFromTreeView(v.getValue())));
                 area.replaceText(classString);
-                System.out.println("Oisin here - " + getPathFromTreeView(v.getValue()));
                 fileReport = completeReport.getAllDetectedSmells(new File(getPathFromTreeView(v.getValue())));
-                System.out.println("report thing: " + fileReport);
                 setClassColours();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         });
-
         //backToSetup.setOnAction(this::openFirstScene);//TODO this lets you go back , but doesn't clear everything
+    }
 
+    private void setColourButtons(){
+        Set<String> s = colorPickers.keySet();
+        for (String a: s){
+            //colourPicker.get(a);
+            colorPickers.get(a).setValue(colourPicker.get(a));
+        }
     }
 
     private void initializeColourPicker() {
@@ -95,18 +105,36 @@ public class Controller {
         colourPicker.put("DuplicateCode", Color.rgb(249, 187, 184));
         colourPicker.put("MessageChaining", Color.rgb(185, 158, 193));
         colourPicker.put("PrimitiveObsession", Color.rgb(65, 178, 219));
+        //colourPicker.put("SpeculativeGenerality", Color.rgb(83,255,189));
         colourPicker.put("SwitchStatement", Color.rgb(127, 193, 127));
+        //colourPicker.put("TemporaryFields", Color.rgb(237, 107, 64));
         colourPicker.put("TooManyLiterals", Color.rgb(167, 229, 87));
-        colourPicker.put("TemporaryFields", Color.rgb(237, 107, 64));
-        colourPicker.put("SpeculativeGenerality", Color.rgb(83,255,189));
+        //colourPicker.put("DataHiding", Color.rgb(221, 205, 28));
+
     }
+
+    private void initializeColorPickers(){
+        colorPickers.put("ArrowHeaded",ArrowHeadedColour);
+        colorPickers.put("BloatedClass", BloatedClassColour);
+        colorPickers.put("BloatedMethod",BloatedMethodColour);
+        colorPickers.put("BloatedParameter",BloatedParameterColour);
+        colorPickers.put("DataOnly",DataOnlyColour);
+        colorPickers.put("DeadCode",DeadCodeColour);
+        colorPickers.put("DuplicateCode",DuplicateCodeColour);
+        colorPickers.put("MessageChaining",MessageChainingColour);
+        colorPickers.put("PrimitiveObsession",PrimitiveObsessionColour);
+        //colorPickers.put("SpeculativeGenerality",SpeculativeGeneralityColour),
+        colorPickers.put("SwitchStatement",SwitchStatementColour);
+        colorPickers.put("TooManyLiterals",ToomanyLiteralsColour);
+        colorPickers.put("DataHiding",DataHidingColour);
+    }
+
 
     //this gets the filepath of a object from its treeview location
     public String getPathFromTreeView(TreeItem<String> v) {
         StringBuilder pathBuilder = new StringBuilder();
         for (TreeItem<String> item = v;
              item != null; item = item.getParent()) {
-
             pathBuilder.insert(0, item.getValue());
             pathBuilder.insert(0, "/");
         }
@@ -142,8 +170,6 @@ public class Controller {
         TreeItem<String> rootItem = new TreeItem<>(inputDirectoryLocation);
         File Input = new File(inputDirectoryLocation);
         File fileList[] = Input.listFiles();
-
-        // create tree
         for (File file : fileList) {
             createTree(file, rootItem);
         }
@@ -160,7 +186,6 @@ public class Controller {
                     TextStyle.EMPTY.updateFontSize(12).updateFontFamily("Serif").updateTextColor(Color.BLACK),  // default segment style
                     styledTextOps._or(linkedImageOps, (s1, s2) -> Optional.empty()),                            // segment operations
                     seg -> createNode(seg, (text, style) -> text.setStyle(style.toCss())));                     // Node creator and segment style setter
-
     {
         area.setWrapText(true);
         area.setStyleCodecs(
@@ -217,8 +242,6 @@ public class Controller {
         Set<String> smellDetectors = fileReportHashMap.keySet();
 
         for (String s : smellDetectors) {
-            //System.out.println(s);
-            //List<Integer> smellyLines=fileReport.getSmellDetections(s);
             List<Integer> smellyLines = fileReportHashMap.get(s);
             for (int i : smellyLines) {
                 if (i == 0) {
