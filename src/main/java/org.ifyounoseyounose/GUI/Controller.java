@@ -75,12 +75,14 @@ public class Controller {
 
         treeView.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> {
             try {
+                //area.clear();
+                area.clearStyle(0,area.getLength());
                 String classString = Files.readString(Path.of(getPathFromTreeView(v.getValue())));
                 area.replaceText(classString);
                 fileReport = completeReport.getAllDetectedSmells(new File(getPathFromTreeView(v.getValue())));
                 setClassColours();
             } catch (IOException e) {
-                e.printStackTrace();
+                //e.printStackTrace();
             }
         });
         //backToSetup.setOnAction(this::openFirstScene);//TODO this lets you go back , but doesn't clear everything
@@ -227,12 +229,12 @@ public class Controller {
     }
 
     public void setLineColour(Color color, int line) {//TODO Rename as set line smell
-        if (line == 0) {
+        if (line==0){
             updateParagraphBackground(color, line);//this is to set line 0
-            for (int i = 1; i < area.getLength(); i++) {
-                setLineColour(color, i);
+            for (int i=1;i<area.getLength();i++){
+                setLineColour(color,i);
             }
-        } else {
+        }else {
             updateParagraphBackground(color, line);
         }
     }
@@ -244,14 +246,11 @@ public class Controller {
         for (String s : smellDetectors) {
             List<Integer> smellyLines = fileReportHashMap.get(s);
             for (int i : smellyLines) {
-                if (i == 0) {
-                    setLineColour(colourPicker.get(s), i);
-                } else {
-                    setLineColour(colourPicker.get(s), i - 1);
-                }
+                setLineColour(colourPicker.get(s), i - 1);
             }
         }
     }
+
 
     private void setLineStyle(Function<ParStyle, ParStyle> updater, int line) {
         Paragraph<ParStyle, Either<String, LinkedImage>, TextStyle> paragraph = area.getParagraph(line);
