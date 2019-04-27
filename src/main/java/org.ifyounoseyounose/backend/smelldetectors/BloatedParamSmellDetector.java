@@ -30,6 +30,6 @@ public class BloatedParamSmellDetector extends LimitableSmellDetector implements
     }
 
     public String getSmellName() {
-        return "BloatedParam";
+        return "BloatedParameter";
     }
 }

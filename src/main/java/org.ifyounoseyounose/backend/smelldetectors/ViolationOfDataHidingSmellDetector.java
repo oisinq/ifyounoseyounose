@@ -68,6 +68,6 @@ public class ViolationOfDataHidingSmellDetector implements ReflectionSmellDetect
     }
 
     public String getSmellName() {
-        return "ViolationOfDataHiding";
+        return "DataHiding";
     }
 }
