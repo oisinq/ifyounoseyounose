@@ -26,7 +26,7 @@ public class ViolationOfDataHidingTest {
         l.add(new File("./src/main/java/org.ifyounoseyounose/backend/smelldetectors/DataOnlyClassesSmellDetector.java"));
 
         HashMap<String, Integer> smellDetectorObjects = new HashMap<>();
-        smellDetectorObjects.put("ViolationOfDataHiding", 0);
+        smellDetectorObjects.put("DataHiding", 0);
 
         s.detectSmells(smellDetectorObjects, l);
         assert(true);
