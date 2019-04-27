@@ -29,7 +29,7 @@ public class DeadCodeSmellDetector implements JavaParserSmellDetector, SmellDete
             HashMap<String, MethodDeclaration> temp=new HashMap<>(); //Temporary storage of string and method declaration
 
             for(MethodDeclaration m: methodList) {//Adds every element from the temp methods list to the hashmap
-                temp.put(m.getSignature().toString(), m);
+                temp.put(m.getName().asString(), m);
             }
             methodHash.put(compilationUnits.get(comp), temp);//Places in the overall hashmap
         }
@@ -43,29 +43,23 @@ public class DeadCodeSmellDetector implements JavaParserSmellDetector, SmellDete
         StaticJavaParser.getConfiguration().setSymbolResolver(symbolSolver);
 
         for(CompilationUnit comp: compilationUnits.keySet()) {
-            try {
-                CompilationUnit comp1 = StaticJavaParser.parse(compilationUnits.get(comp));
-                comp1.findAll(MethodCallExpr.class).forEach(be -> {
+                comp.findAll(MethodCallExpr.class).forEach(be -> {
                     for (File search : compilationUnits.values()) {//Check against our stored methods
-                        if (!be.getName().toString().equals("println") && !be.getName().toString().equals("print")) {//Ignore prints
-                            if (methodHash.get(search).containsKey(be.resolve().getSignature())) {//If used method is in the list remove it
+                            if (methodHash.get(search).containsKey(be.getNameAsString())) {//If used method is in the list remove it
 
-                                methodHash.get(search).remove(be.resolve().getSignature(), methodHash.get(search).get(be.resolve().getSignature()));
+                                methodHash.get(search).remove(be.getNameAsString(), methodHash.get(search).get(be.getNameAsString()));
                             }
-                        }
                     }
                 });
 
 
-            } catch (FileNotFoundException e) {
-                System.out.println("No file found");
-            }
+
         }
        for(File e: methodHash.keySet())
        {
         List<Integer> lines= new ArrayList<>();//Temporary list
         for (MethodDeclaration m: methodHash.get(e).values()) {//Iterate through method declarations that havent been used
-            if(!"main".equals(m.getName().asString())) {//Ignore main
+            if(!"main".equals(m.getName().asString())&&!"initialize".equals(m.getName().asString())) {//Ignore main
                  visitor1.addLineNumbers(m, lines);// Add there line number to that classes list
             }
         }
