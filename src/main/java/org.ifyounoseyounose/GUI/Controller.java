@@ -229,19 +229,30 @@ public class Controller {
     }
 
     public void setLineColour(Color color, int line) {//TODO Rename as set line smell
-        if (line==0){
-            updateParagraphBackground(color, line);//this is to set line 0
-            for (int i=1;i<area.getLength();i++){
-                setLineColour(color,i);
+        if (line==-1){
+            System.out.println("Class smell time!");
+            //updateParagraphBackground(color, line);//this is to set line 0
+            for (int i = 0; i < area.getText().split("\n").length; i++) {
+                updateParagraphBackground(color, i);
             }
-        }else {
+        } else {
             updateParagraphBackground(color, line);
+        }
+    }
+
+    public void resetAllLines() {
+        System.out.println("Resetting background to white");
+        for (int i = 0; i < area.getText().split("\n").length; i++) {
+            updateParagraphBackground(Color.WHITE, i);
         }
     }
 
     public void setClassColours() {
         HashMap<String, List<Integer>> fileReportHashMap = fileReport.getSmellDetections();
         Set<String> smellDetectors = fileReportHashMap.keySet();
+
+        resetAllLines();
+        System.out.println("File: " + fileReport.getFile().getName());
 
         for (String s : smellDetectors) {
             List<Integer> smellyLines = fileReportHashMap.get(s);

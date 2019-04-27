@@ -24,25 +24,21 @@ public class DataOnlyClassesSmellDetector extends LimitableSmellDetector impleme
 
             List<Integer> collector = new ArrayList<>();
 
-                visitorClass.visit(compilationUnit,collector);
-                  limit= collector.get(0);
-                  collector.clear();
-                visitorData.visit(compilationUnit, collector);
+            visitorClass.visit(compilationUnit, collector);
+            limit = collector.get(0);
+            collector.clear();
+            visitorData.visit(compilationUnit, collector);
             LinkedHashSet<Integer> hashSet = new LinkedHashSet<>(collector);
             ArrayList<Integer> listWithoutDuplicates = new ArrayList<>(hashSet);
-           // System.out.println(limit + " " + listWithoutDuplicates.size());
-            if(listWithoutDuplicates.size() == limit){
+            // System.out.println(limit + " " + listWithoutDuplicates.size());
+            if (listWithoutDuplicates.size() == limit) {
                 listWithoutDuplicates.clear();
-                listWithoutDuplicates.add(1);
-            }
-            else{
+                listWithoutDuplicates.add(0);
+            } else {
                 listWithoutDuplicates.clear();
-
             }
-                smellReport.addToReport(compilationUnits.get(compilationUnit), listWithoutDuplicates );
 
-
-
+            smellReport.addToReport(compilationUnits.get(compilationUnit), listWithoutDuplicates);
         }
 
         return smellReport; //returns the lines of the methods although the whole class is problematic
