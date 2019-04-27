@@ -1,5 +1,6 @@
 package org.ifyounoseyounose.backend.smelldetectors;
 
+
 import com.github.javaparser.Range;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.ConstructorDeclaration;
@@ -10,14 +11,16 @@ import com.github.javaparser.ast.comments.*;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 
 import java.util.List;
-import java.util.Optional;
+
 
 public class DataOnlyClassesCollector extends VoidVisitorAdapter<List<Integer>> {
 
+    boolean fullClass = false;
 
     @Override
     public void visit(MethodDeclaration md, List<Integer> collector) {
         super.visit(md, collector);
+
         //converting md to a string removes any whitespace
 
         String mdString;
@@ -30,26 +33,26 @@ public class DataOnlyClassesCollector extends VoidVisitorAdapter<List<Integer>> 
         }
 
         mdString = md.getBody().toString();
-          int param =  md.getParameters().size();
-          int thisNumber = mdString.length() - mdString.replace("this.", "this.").length();
-          
-            if (thisNumber==param ) {
-                addLineNumbers(md, collector);
-                if(md.getRange().get().end.line - md.getRange().get().begin.line <=2) {
-            } else if (mdString.contains("return") && !md.getType().isVoidType()) {
-                addLineNumbers(md, collector);
-            }
-            } else if ((md.getName().toString().contains("get") && !md.getType().isVoidType()) ||
-                    (md.getName().toString().contains("set") && md.getType().isVoidType())) {
-                addLineNumbers(md, collector);
-            }
 
-    }
+
+        if ((md.getName().toString().contains("get") && !md.getType().isVoidType()) ||
+                (md.getName().toString().contains("set") && md.getType().isVoidType())) {
+            collector.add(md.getRange().get().begin.line);
+        }
+
+        if (mdString.contains("this.") && md.getType().isVoidType())  {
+                        collector.add(md.getRange().get().begin.line);
+                }
+
+        }
+
+
 
     //need to check constructors also
     @Override
     public void visit(ConstructorDeclaration cd, List<Integer> collector) {
         String mdString;
+
         //mdString only contains the body of the method with removed blank lines & comments removed
         for (Comment child : cd.getAllContainedComments()) {
             cd.remove(child);
@@ -60,19 +63,18 @@ public class DataOnlyClassesCollector extends VoidVisitorAdapter<List<Integer>> 
 
         mdString = cd.getBody().toString();
 
-        if(mdString.contains("this." )){
-            addLineNumbers(cd, collector);
+        if (mdString.contains("this.")) {
+            collector.add(cd.getRange().get().begin.line);
         }
 
 
     }
 
-    private void addLineNumbers(Node node, List<Integer> collector) {
+    void addLineNumbers(Node node, List<Integer> collector) {
         if (node.getRange().isPresent()) {
             Range r = node.getRange().get();
-            for (int lineNumber = r.begin.line; lineNumber <= r.end.line; lineNumber++) {
-                collector.add(lineNumber);
-            }
+            collector.add(r.begin.line);
         }
     }
+
 }
