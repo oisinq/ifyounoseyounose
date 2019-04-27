@@ -1,6 +1,8 @@
 package org.ifyounoseyounose.GUI;
 
 import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -42,20 +44,25 @@ import org.reactfx.util.Either;
 
 public class Controller {
 
-    @FXML private TextArea txtView;
-    @FXML private TreeView<String> treeView;
-    @FXML private Tab code;
-    @FXML private MenuItem backToSetup;
+    @FXML
+    private TextArea txtView;
+    @FXML
+    private TreeView<String> treeView;
+    @FXML
+    private Tab code;
+    @FXML
+    private MenuItem backToSetup;
     public String InputDirectory = null;//
     private Scene firstScene;
     private CompleteReport completeReport;
     private FileReport fileReport;
     private static Boolean JavaToggle;
     private HashMap<String, Color> colourPicker = new HashMap<>();
-    @FXML private ColorPicker ArrowHeadedColour,BloatedClassColour,BloatedMethodColour,BloatedParameterColour,
-            DataOnlyColour,DataHidingColour,DeadCodeColour,DuplicateCodeColour,MessageChainingColour,
-            PrimitiveObsessionColour,SwitchStatementColour,ToomanyLiteralsColour;
-    private HashMap<String,ColorPicker> colorPickers = new HashMap<>();
+    @FXML
+    private ColorPicker ArrowHeadedColour, BloatedClassColour, BloatedMethodColour, BloatedParameterColour,
+            DataOnlyColour, DataHidingColour, DeadCodeColour, DuplicateCodeColour, MessageChainingColour,
+            PrimitiveObsessionColour, SwitchStatementColour, ToomanyLiteralsColour;
+    private HashMap<String, ColorPicker> colorPickers = new HashMap<>();
 
     // the initialize method is automatically invoked by the FXMLLoader - it's magic
     public void initialize() {
@@ -73,12 +80,77 @@ public class Controller {
         setColourButtons();
         code.setContent(displayCodeTab());
 
+        ArrowHeadedColour.setOnAction(new EventHandler() {
+            public void handle(Event t) {
+                colourPicker.replace("ArrowHeaded", ArrowHeadedColour.getValue());
+                setClassColours();
+            }
+        });
+        BloatedClassColour.setOnAction(new EventHandler() {
+            public void handle(Event t) {
+                colourPicker.replace("ArrowHeaded", BloatedClassColour.getValue());
+                setClassColours();
+            }
+        });
+        BloatedMethodColour.setOnAction(new EventHandler() {
+            public void handle(Event t) {
+                colourPicker.replace("ArrowHeaded", BloatedMethodColour.getValue());
+                setClassColours();
+            }
+        });
+        DataOnlyColour.setOnAction(new EventHandler() {
+            public void handle(Event t) {
+                colourPicker.replace("ArrowHeaded", DataOnlyColour.getValue());
+                setClassColours();
+            }
+        });
+        DataHidingColour.setOnAction(new EventHandler() {
+            public void handle(Event t) {
+                colourPicker.replace("ArrowHeaded", DataOnlyColour.getValue());
+                setClassColours();
+            }
+        });
+        DeadCodeColour.setOnAction(new EventHandler() {
+            public void handle(Event t) {
+                colourPicker.replace("ArrowHeaded", DataOnlyColour.getValue());
+                setClassColours();
+            }
+        });
+        DuplicateCodeColour.setOnAction(new EventHandler() {
+            public void handle(Event t) {
+                colourPicker.replace("ArrowHeaded", DuplicateCodeColour.getValue());
+                setClassColours();
+            }
+        });
+        MessageChainingColour.setOnAction(new EventHandler() {
+            public void handle(Event t) {
+                colourPicker.replace("ArrowHeaded", MessageChainingColour.getValue());
+                setClassColours();
+            }
+        });
+        PrimitiveObsessionColour.setOnAction(new EventHandler() {
+            public void handle(Event t) {
+                colourPicker.replace("ArrowHeaded", PrimitiveObsessionColour.getValue());
+                setClassColours();
+            }
+        });
+        SwitchStatementColour.setOnAction(new EventHandler() {
+            public void handle(Event t) {
+                colourPicker.replace("ArrowHeaded", SwitchStatementColour.getValue());
+                setClassColours();
+            }
+        });
+        ToomanyLiteralsColour.setOnAction(new EventHandler() {
+            public void handle(Event t) {
+                colourPicker.replace("ArrowHeaded", ToomanyLiteralsColour.getValue());
+                setClassColours();
+            }
+        });
         treeView.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> {
             try {
-                //area.clear();
                 String classString = Files.readString(Path.of(getPathFromTreeView(v.getValue())));
                 area.replaceText(classString);
-                area.clearStyle(0,area.getLength());
+                area.clearStyle(0, area.getLength());
                 fileReport = completeReport.getAllDetectedSmells(new File(getPathFromTreeView(v.getValue())));
                 setClassColours();
             } catch (IOException e) {
@@ -88,16 +160,16 @@ public class Controller {
         //backToSetup.setOnAction(this::openFirstScene);//TODO this lets you go back , but doesn't clear everything
     }
 
-    private void setColourButtons(){
+    private void setColourButtons() {
         Set<String> s = colorPickers.keySet();
-        for (String a: s){
+        for (String a : s) {
             //colourPicker.get(a);
             colorPickers.get(a).setValue(colourPicker.get(a));
         }
     }
 
     private void initializeColourPicker() {
-        colourPicker.put("ArrowHeaded", Color.rgb(83,255,189));
+        colourPicker.put("ArrowHeaded", Color.rgb(83, 255, 189));
         colourPicker.put("BloatedClass", Color.rgb(178, 207, 255));
         colourPicker.put("BloatedMethod", Color.rgb(117, 169, 255));
         colourPicker.put("BloatedParameter", Color.rgb(141, 158, 186));
@@ -115,20 +187,20 @@ public class Controller {
 
     }
 
-    private void initializeColorPickers(){
-        colorPickers.put("ArrowHeaded",ArrowHeadedColour);
+    private void initializeColorPickers() {
+        colorPickers.put("ArrowHeaded", ArrowHeadedColour);
         colorPickers.put("BloatedClass", BloatedClassColour);
-        colorPickers.put("BloatedMethod",BloatedMethodColour);
-        colorPickers.put("BloatedParameter",BloatedParameterColour);
-        colorPickers.put("DataOnly",DataOnlyColour);
-        colorPickers.put("DeadCode",DeadCodeColour);
-        colorPickers.put("DuplicateCode",DuplicateCodeColour);
-        colorPickers.put("MessageChaining",MessageChainingColour);
-        colorPickers.put("PrimitiveObsession",PrimitiveObsessionColour);
+        colorPickers.put("BloatedMethod", BloatedMethodColour);
+        colorPickers.put("BloatedParameter", BloatedParameterColour);
+        colorPickers.put("DataOnly", DataOnlyColour);
+        colorPickers.put("DeadCode", DeadCodeColour);
+        colorPickers.put("DuplicateCode", DuplicateCodeColour);
+        colorPickers.put("MessageChaining", MessageChainingColour);
+        colorPickers.put("PrimitiveObsession", PrimitiveObsessionColour);
         //colorPickers.put("SpeculativeGenerality",SpeculativeGeneralityColour),
-        colorPickers.put("SwitchStatement",SwitchStatementColour);
-        colorPickers.put("TooManyLiterals",ToomanyLiteralsColour);
-        colorPickers.put("DataHiding",DataHidingColour);
+        colorPickers.put("SwitchStatement", SwitchStatementColour);
+        colorPickers.put("TooManyLiterals", ToomanyLiteralsColour);
+        colorPickers.put("DataHiding", DataHidingColour);
     }
 
 
@@ -188,6 +260,7 @@ public class Controller {
                     TextStyle.EMPTY.updateFontSize(12).updateFontFamily("Serif").updateTextColor(Color.BLACK),  // default segment style
                     styledTextOps._or(linkedImageOps, (s1, s2) -> Optional.empty()),                            // segment operations
                     seg -> createNode(seg, (text, style) -> text.setStyle(style.toCss())));                     // Node creator and segment style setter
+
     {
         area.setWrapText(true);
         area.setStyleCodecs(
@@ -229,12 +302,12 @@ public class Controller {
     }
 
     public void setLineColour(Color color, int line) {//TODO Rename as set line smell
-        if (line==0){
+        if (line == 0) {
             updateParagraphBackground(color, line);//this is to set line 0
-            for (int i=1;i<area.getLength();i++){
-                setLineColour(color,i);
+            for (int i = 1; i < area.getLength(); i++) {
+                setLineColour(color, i);
             }
-        }else {
+        } else {
             updateParagraphBackground(color, line);
         }
     }
@@ -251,7 +324,6 @@ public class Controller {
             }
         }
     }
-
 
     private void setLineStyle(Function<ParStyle, ParStyle> updater, int line) {
         Paragraph<ParStyle, Either<String, LinkedImage>, TextStyle> paragraph = area.getParagraph(line);
