@@ -15,7 +15,6 @@ import java.io.File;
 import javafx.scene.control.TextArea;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
@@ -80,71 +79,50 @@ public class Controller {
         setColourButtons();
         code.setContent(displayCodeTab());
 
-        ArrowHeadedColour.setOnAction(new EventHandler() {
-            public void handle(Event t) {
-                colourPicker.replace("ArrowHeaded", ArrowHeadedColour.getValue());
-                setClassColours();
-            }
+        ArrowHeadedColour.setOnAction(t -> {
+            colourPicker.replace("ArrowHeaded", ArrowHeadedColour.getValue());
+            setClassColours();
         });
-        BloatedClassColour.setOnAction(new EventHandler() {
-            public void handle(Event t) {
-                colourPicker.replace("ArrowHeaded", BloatedClassColour.getValue());
-                setClassColours();
-            }
+        BloatedClassColour.setOnAction(t -> {
+            colourPicker.replace("BloatedClass", BloatedClassColour.getValue());
+            setClassColours();
         });
-        BloatedMethodColour.setOnAction(new EventHandler() {
-            public void handle(Event t) {
-                colourPicker.replace("ArrowHeaded", BloatedMethodColour.getValue());
-                setClassColours();
-            }
+        BloatedMethodColour.setOnAction(t -> {
+            colourPicker.replace("BloatedMethod", BloatedMethodColour.getValue());
+            setClassColours();
         });
-        DataOnlyColour.setOnAction(new EventHandler() {
-            public void handle(Event t) {
-                colourPicker.replace("ArrowHeaded", DataOnlyColour.getValue());
-                setClassColours();
-            }
+        //todo - what about BloatedParameter?
+        DataOnlyColour.setOnAction(t -> {
+            colourPicker.replace("DataOnly", DataOnlyColour.getValue());
+            setClassColours();
         });
-        DataHidingColour.setOnAction(new EventHandler() {
-            public void handle(Event t) {
-                colourPicker.replace("ArrowHeaded", DataOnlyColour.getValue());
-                setClassColours();
-            }
+        DataHidingColour.setOnAction(t -> {
+            colourPicker.replace("DataHiding", DataHidingColour.getValue());
+            setClassColours();
         });
-        DeadCodeColour.setOnAction(new EventHandler() {
-            public void handle(Event t) {
-                colourPicker.replace("ArrowHeaded", DataOnlyColour.getValue());
-                setClassColours();
-            }
+        DeadCodeColour.setOnAction(t -> {
+            colourPicker.replace("DeadCode", DeadCodeColour.getValue());
+            setClassColours();
         });
-        DuplicateCodeColour.setOnAction(new EventHandler() {
-            public void handle(Event t) {
-                colourPicker.replace("ArrowHeaded", DuplicateCodeColour.getValue());
-                setClassColours();
-            }
+        DuplicateCodeColour.setOnAction(t -> {
+            colourPicker.replace("DuplicateCode", DuplicateCodeColour.getValue());
+            setClassColours();
         });
-        MessageChainingColour.setOnAction(new EventHandler() {
-            public void handle(Event t) {
-                colourPicker.replace("ArrowHeaded", MessageChainingColour.getValue());
-                setClassColours();
-            }
+        MessageChainingColour.setOnAction(t -> {
+            colourPicker.replace("MessageChaining", MessageChainingColour.getValue());
+            setClassColours();
         });
-        PrimitiveObsessionColour.setOnAction(new EventHandler() {
-            public void handle(Event t) {
-                colourPicker.replace("ArrowHeaded", PrimitiveObsessionColour.getValue());
-                setClassColours();
-            }
+        PrimitiveObsessionColour.setOnAction(t -> {
+            colourPicker.replace("PrimitiveObsession", PrimitiveObsessionColour.getValue());
+            setClassColours();
         });
-        SwitchStatementColour.setOnAction(new EventHandler() {
-            public void handle(Event t) {
-                colourPicker.replace("ArrowHeaded", SwitchStatementColour.getValue());
-                setClassColours();
-            }
+        SwitchStatementColour.setOnAction(t -> {
+            colourPicker.replace("SwitchStatement", SwitchStatementColour.getValue());
+            setClassColours();
         });
-        ToomanyLiteralsColour.setOnAction(new EventHandler() {
-            public void handle(Event t) {
-                colourPicker.replace("ArrowHeaded", ToomanyLiteralsColour.getValue());
-                setClassColours();
-            }
+        ToomanyLiteralsColour.setOnAction(t -> {
+            colourPicker.replace("TooManyLiterals", ToomanyLiteralsColour.getValue());
+            setClassColours();
         });
         treeView.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> {
             try {
