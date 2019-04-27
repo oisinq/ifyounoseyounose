@@ -40,11 +40,11 @@ public class FileReport {
         try {
             int numberOfSmellyLines = getSmellyLinesCount();
             long totalNumberOfLines = Files.lines(relatedFile.toPath()).count();
-            return 1.0*numberOfSmellyLines/totalNumberOfLines;
+            return 100.0*numberOfSmellyLines/totalNumberOfLines;
         } catch (Exception e) {
             System.err.println("Cannot open file at path " + relatedFile.toPath().toString());
         }
-        return 0.0;
+        return -1.0;
     }
 
     public Map<String, Integer> getSmellyLineCountPerSmell() {
@@ -53,6 +53,19 @@ public class FileReport {
             lineCountPerSmell.put(smellName, detections.get(smellName).size());
         }
         return lineCountPerSmell;
+    }
+
+    public Set<String> getPresentSmells() {
+        return detections.keySet();
+    }
+
+    public boolean isEmpty() {
+        for (List<Integer> l : detections.values()) {
+            if (!l.isEmpty()) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public String toString() {
