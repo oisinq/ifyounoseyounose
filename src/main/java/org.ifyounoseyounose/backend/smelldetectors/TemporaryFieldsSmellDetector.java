@@ -27,11 +27,10 @@ public class TemporaryFieldsSmellDetector extends LimitableSmellDetector impleme
         TemporaryFieldsCollector visitor = new TemporaryFieldsCollector();
 
         for (CompilationUnit compilationUnit : compilationUnits.keySet()) {
-            try {
+
                 boolean occurred;//Checks if an instance variable has already occurred in the method
-                CompilationUnit cu = StaticJavaParser.parse(compilationUnits.get(compilationUnit));
                 HashMap<VariableDeclarator, Integer> variables = new HashMap<>();// Stores instance variables and there amount of occurrences
-                for (TypeDeclaration<?> typeDec : cu.getTypes()) {// Finds the instance variables and stores them in a hashmap
+                for (TypeDeclaration<?> typeDec : compilationUnit.getTypes()) {// Finds the instance variables and stores them in a hashmap
                     for (BodyDeclaration<?> member : typeDec.getMembers()) {
                         member.toFieldDeclaration().ifPresent(field -> {
                             for (VariableDeclarator variable : field.getVariables()) {
@@ -40,7 +39,7 @@ public class TemporaryFieldsSmellDetector extends LimitableSmellDetector impleme
                         });
                     }
                 }
-                for(MethodDeclaration md:cu.findAll(MethodDeclaration.class)){// Checks each method
+                for(MethodDeclaration md:compilationUnit.findAll(MethodDeclaration.class)){// Checks each method
                     occurred=false;
                     for(BinaryExpr be: md.findAll(BinaryExpr.class)){// Checks all binary expressions against the instance variable
                         for (VariableDeclarator v : variables.keySet()) {
@@ -85,10 +84,7 @@ public class TemporaryFieldsSmellDetector extends LimitableSmellDetector impleme
                         smellReport.addToReport(compilationUnits.get(compilationUnit), lines);
                     }
                 }
-            }
-            catch(IOException e) {
 
-            }
         }
 
         return smellReport;
