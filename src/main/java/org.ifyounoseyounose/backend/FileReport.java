@@ -73,10 +73,10 @@ public class FileReport {
         for (String s : detections.keySet()) {
             output.append("Smell: ").append(s).append("\n").append("Lines ");
             List<Integer> lines = detections.get(s);
-            for (int i = 0; i < lines.size()-1; i++) {
-                output.append(i).append(", ");
+            for (int i = 0; i < lines.size()-2; i++) {
+                output.append(lines.get(i)).append(", ");
             }
-            output.append(" & ").append(lines.get(lines.size() - 1)).append(".\n");
+            output.append("& ").append(lines.get(lines.size() - 1)).append("\n");
         }
         return output.toString();
     }
