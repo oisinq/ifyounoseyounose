@@ -19,7 +19,9 @@ public class DeadCodeMethodCollector extends VoidVisitorAdapter<List<MethodDecla
     void addLineNumbers(Node node, List<Integer> collector) {
         if (node.getRange().isPresent()) {
             Range r = node.getRange().get();
-            collector.add(r.begin.line);
+            for (int lineNumber = r.begin.line; lineNumber <= r.end.line; lineNumber++) {
+                collector.add(lineNumber);
+            }
         }
     }
 }
