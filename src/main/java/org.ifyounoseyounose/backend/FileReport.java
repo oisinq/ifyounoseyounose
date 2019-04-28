@@ -1,12 +1,9 @@
 package org.ifyounoseyounose.backend;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import static java.util.Map.Entry.comparingByValue;
 
 public class FileReport {
     //Todo need a better variable name for this.
@@ -37,6 +34,13 @@ public class FileReport {
             smellyLines.addAll(lineNumbers);
         }
 
+        if (smellyLines.contains(0)) {
+            try {
+                return (int)Files.lines(relatedFile.toPath()).count();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         return smellyLines.size();
     }
 

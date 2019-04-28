@@ -1,13 +1,11 @@
 package org.ifyounoseyounose.backend;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.TreeMap;
 
 public class CompleteReport {
     private HashMap<File, FileReport> data = new HashMap<>();

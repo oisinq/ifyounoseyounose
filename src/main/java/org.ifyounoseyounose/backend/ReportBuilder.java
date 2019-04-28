@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.List;
 import java.io.File;
+import java.util.Objects;
 
 
 /**
@@ -39,16 +40,12 @@ public class ReportBuilder {
 
         for (File dir : directory) {
             if (dir.isDirectory()) {
-                getJavaFiles(dir.listFiles());
+                getJavaFiles(Objects.requireNonNull(dir.listFiles()));
             } else if(dir.isFile() && dir.getName().endsWith(".java") && !dir.getName().contains("module-info")){
                 //module info can't be parsed and causes a crash if parser tries to get it so we take it out
                 java_files.add(dir);
             }
         }
         return java_files;
-    }
-
-    private void addStats(CompleteReport report) {
-        // Todo
     }
 }
