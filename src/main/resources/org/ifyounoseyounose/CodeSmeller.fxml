@@ -5,6 +5,7 @@
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.ColorPicker?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
@@ -76,7 +77,7 @@
                               <content>
 
                               </content></Tab>
-                          <Tab text="Info">
+                          <Tab text="File Report">
                               <content>
                                   <GridPane>
                                       <columnConstraints>
@@ -101,11 +102,47 @@
                                                   <NumberAxis side="LEFT" />
                                               </yAxis>
                                           </BarChart>
-                                          <TextArea editable="false" prefHeight="105.0" prefWidth="590.0" promptText="info will go here" GridPane.columnSpan="3" GridPane.rowIndex="4" GridPane.rowSpan="2" />
+                                          <TextArea fx:id="fileStats" editable="false" prefHeight="105.0" prefWidth="590.0" GridPane.columnSpan="3" GridPane.rowIndex="4" GridPane.rowSpan="2" />
+                              <ListView fx:id="SmellList" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.rowSpan="2">
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                              </ListView>
                                       </children>
                                   </GridPane>
                               </content>
                           </Tab>
+                  <Tab text="Project Report">
+                     <content>
+                        <GridPane>
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                           <children>
+                              <BarChart GridPane.rowIndex="1">
+                                 <xAxis>
+                                    <CategoryAxis side="BOTTOM" />
+                                 </xAxis>
+                                 <yAxis>
+                                    <NumberAxis side="LEFT" />
+                                 </yAxis>
+                              </BarChart>
+                              <TextArea editable="false" prefHeight="105.0" prefWidth="590.0" promptText="info will go here" GridPane.columnSpan="3" GridPane.rowIndex="4" GridPane.rowSpan="2" />
+                              <ListView prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                           </children>
+                        </GridPane>
+                     </content>
+                  </Tab>
                       </tabs>
                   </TabPane>
             <AnchorPane>
@@ -173,19 +210,15 @@
                            <GridPane.margin>
                               <Insets right="10.0" />
                            </GridPane.margin></ColorPicker>
-                        <ColorPicker fx:id="SwitchStatementColour" GridPane.columnIndex="1" GridPane.rowIndex="10">
+                        <ColorPicker fx:id="SwitchStatementColour" GridPane.columnIndex="1" GridPane.rowIndex="11">
                            <GridPane.margin>
                               <Insets right="10.0" />
                            </GridPane.margin></ColorPicker>
-                        <ColorPicker GridPane.columnIndex="1" GridPane.rowIndex="13">
+                        <ColorPicker fx:id="TemporaryFieldsColour" GridPane.columnIndex="1" GridPane.rowIndex="12">
                            <GridPane.margin>
                               <Insets right="10.0" />
                            </GridPane.margin></ColorPicker>
-                        <ColorPicker GridPane.columnIndex="1" GridPane.rowIndex="12">
-                           <GridPane.margin>
-                              <Insets right="10.0" />
-                           </GridPane.margin></ColorPicker>
-                        <ColorPicker fx:id="ToomanyLiteralsColour" GridPane.columnIndex="1" GridPane.rowIndex="11">
+                        <ColorPicker fx:id="TooManyLiteralsColour" GridPane.columnIndex="1" GridPane.rowIndex="13">
                            <GridPane.margin>
                               <Insets right="10.0" />
                            </GridPane.margin></ColorPicker>
@@ -199,10 +232,15 @@
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Duplicate Code" GridPane.halignment="CENTER" GridPane.rowIndex="7" />
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Message Chaining" GridPane.halignment="CENTER" GridPane.rowIndex="8" />
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Primitive Obsession" GridPane.halignment="CENTER" GridPane.rowIndex="9" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Switch Statement" GridPane.halignment="CENTER" GridPane.rowIndex="10" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Too Many Literals" GridPane.halignment="CENTER" GridPane.rowIndex="11" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.halignment="CENTER" GridPane.rowIndex="12" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.halignment="CENTER" GridPane.rowIndex="13" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Switch Statement" GridPane.halignment="CENTER" GridPane.rowIndex="11" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Temporary Fields" GridPane.halignment="CENTER" GridPane.rowIndex="12" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Too Many Literals" GridPane.halignment="CENTER" GridPane.rowIndex="13" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Speculative Generality" GridPane.halignment="CENTER" GridPane.rowIndex="10" />
+                        <ColorPicker fx:id="SpeculativeGeneralityColour" GridPane.columnIndex="1" GridPane.rowIndex="10">
+                           <GridPane.margin>
+                              <Insets right="10.0" />
+                           </GridPane.margin>
+                        </ColorPicker>
                      </children>
                      <opaqueInsets>
                         <Insets />
