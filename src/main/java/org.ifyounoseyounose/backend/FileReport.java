@@ -62,11 +62,12 @@ public class FileReport {
     public List<Map.Entry<String, Integer>> getListOfSmellsByCount() {
         Set<Map.Entry<String, Integer>> setOfEntries = getSmellyLineCountPerSmell().entrySet();
 
-        List<Map.Entry<String, Integer>> sorted = new ArrayList<>(setOfEntries);
+        List<Map.Entry<String, Integer>> sortedEntries = new ArrayList<>(setOfEntries);
 
-        sorted.sort(Comparator.comparing(Map.Entry::getValue));
+        sortedEntries.sort(Comparator.comparing(Map.Entry::getValue));
+        Collections.reverse(sortedEntries);
 
-        return sorted;
+        return sortedEntries;
     }
 
     public Set<String> getPresentSmells() {
