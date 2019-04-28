@@ -62,7 +62,7 @@ public class DuplicateCodeSmellDetector extends LimitableSmellDetector implement
                 for(List<Integer> u : x.values()) { // Adds up the total amount of times the lines has appeared
                     maxLines = maxLines + u.size();
                 }
-                if(maxLines >= limit) { // If greater then the limit, add to report
+                if(maxLines > limit) { // If greater then the limit, add to report
                     for (File y : x.keySet()) {
                         smells.addToReport(y, x.get(y));
                     }
