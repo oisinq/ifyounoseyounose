@@ -10,8 +10,8 @@ import com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeS
 import org.ifyounoseyounose.backend.SmellReport;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -25,28 +25,13 @@ public class DeadCodeSmellDetector implements JavaParserSmellDetector, SmellDete
         for(CompilationUnit comp: compilationUnits.keySet()){
            addMethods(visitor1 , comp, methodHash, compilationUnits.get(comp));
         }
-
-
-        ReflectionTypeSolver[] ha = new ReflectionTypeSolver[1];
-        ha[0] = new ReflectionTypeSolver();
-        CombinedTypeSolver combinedTypeSolver = new CombinedTypeSolver(ha);
-        // Configure JavaParser to use type resolution
-        JavaSymbolSolver symbolSolver = new JavaSymbolSolver(combinedTypeSolver);
-        StaticJavaParser.getConfiguration().setSymbolResolver(symbolSolver);
+        setSymbolSolver();
 
         for(CompilationUnit comp: compilationUnits.keySet()) {
-                comp.findAll(MethodCallExpr.class).forEach(be -> {
-                    for (File search : compilationUnits.values()) {//Check against our stored methods
-                        String methodName = be.getNameAsString();
-                            if (methodHash.get(search).containsKey(methodName)) {//If used method is in the list remove it
-
-                                methodHash.get(search).remove(methodName, methodHash.get(search).get(methodName));
-                            }
-                    }
-                });
+            compareMethods(comp, compilationUnits.values(), methodHash);
         }
-       for(File e: methodHash.keySet())
-       {
+
+       for(File e: methodHash.keySet()) {
         List<Integer> lines= new ArrayList<>();//Temporary list
         for (MethodDeclaration m: methodHash.get(e).values()) {//Iterate through method declarations that havent been used
             if(!"main".equals(m.getName().asString())&&!"initialize".equals(m.getName().asString())) {//Ignore main
@@ -68,7 +53,24 @@ public class DeadCodeSmellDetector implements JavaParserSmellDetector, SmellDete
         }
         methodHash.put(file, temp);//Places in the overall hashmap
     }
-
+    private void compareMethods(CompilationUnit comp, Collection<File> files, HashMap<File, HashMap<String, MethodDeclaration>> methodHash){
+        comp.findAll(MethodCallExpr.class).forEach(be -> {
+            for (File search : files) {//Check against our stored methods
+                String methodName = be.getNameAsString();
+                if (methodHash.get(search).containsKey(methodName)) {//If used method is in the list remove it
+                    MethodDeclaration declareCheck=  methodHash.get(search).get(methodName);
+                    methodHash.get(search).remove(methodName,declareCheck);
+                }
+            }
+        });
+    }
+    private void setSymbolSolver(){
+        ReflectionTypeSolver[] ha = new ReflectionTypeSolver[1];
+        ha[0] = new ReflectionTypeSolver();
+        CombinedTypeSolver combinedTypeSolver = new CombinedTypeSolver(ha);// Configure JavaParser to use type resolution
+        JavaSymbolSolver symbolSolver = new JavaSymbolSolver(combinedTypeSolver);
+        StaticJavaParser.getConfiguration().setSymbolResolver(symbolSolver);
+    }
 
     public String getSmellName() {
         return "DeadCode";

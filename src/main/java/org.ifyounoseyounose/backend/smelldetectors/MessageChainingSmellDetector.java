@@ -11,22 +11,15 @@ public class MessageChainingSmellDetector extends LimitableSmellDetector impleme
     public SmellReport detectSmell(List<File> sourceCode) {
         SmellReport smells = new SmellReport();// To be returned
         int count;// Line number
-
         for (File f : sourceCode) {// Iterates through files
             List<Integer> current = new ArrayList<>();// Smelly line numbers
             String line;
             count = 1;
             try {
                 FileReader targetStream = new FileReader(f);
-                BufferedReader bufferedReader =
-                        new BufferedReader(targetStream);
+                BufferedReader bufferedReader = new BufferedReader(targetStream);
                 while ((line = bufferedReader.readLine()) != null) {
-
-                    if (!line.trim().startsWith("/") && !line.startsWith("*")) {
-                        if (line.matches(".*(\\..*\\(.*\\)){" + limit + ",};")) { // Regular expression check
-                            current.add(count);
-                        }
-                    }
+                    checkRegex(line, count, current);
                     count++;
                 }
                 if (!current.isEmpty()) {//Ensures there is a line of code to add
@@ -35,11 +28,17 @@ public class MessageChainingSmellDetector extends LimitableSmellDetector impleme
             } catch (Exception e) {
                 System.out.println("Invalid file");
             }
-
         }
         return smells;
     }
 
+    private void checkRegex(String line, int count, List<Integer> current){
+        if (!line.trim().startsWith("/") && !line.startsWith("*")) {
+            if (line.matches(".*(\\..*\\(.*\\)){" + limit + ",};")) { // Regular expression check
+                current.add(count);
+            }
+        }
+    }
 
     public String getSmellName() {
         return "MessageChaining";
