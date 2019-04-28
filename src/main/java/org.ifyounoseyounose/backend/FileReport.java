@@ -10,7 +10,7 @@ import static java.util.Map.Entry.comparingByValue;
 
 public class FileReport {
     //Todo need a better variable name for this.
-    private Map<String, List<Integer>> detections = new HashMap<>();
+    private HashMap<String, List<Integer>> detections = new HashMap<>();
     private File relatedFile;
 
     void addSmellDetections(String smellName, List<Integer> newLines) {
