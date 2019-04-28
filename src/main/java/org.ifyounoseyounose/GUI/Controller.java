@@ -6,6 +6,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.chart.BarChart;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import com.google.common.eventbus.Subscribe;
@@ -60,6 +61,7 @@ public class Controller {
             PrimitiveObsessionColour, SwitchStatementColour,SpeculativeGeneralityColour,TemporaryFieldsColour, TooManyLiteralsColour;
     private HashMap<String, ColorPicker> colorPickers = new HashMap<>();
     @FXML private ListView<Map.Entry<String,Integer>> SmellList;
+    @FXML BarChart fileBarChart;
 
     // the initialize method is automatically invoked by the FXMLLoader - it's magic
     public void initialize() {

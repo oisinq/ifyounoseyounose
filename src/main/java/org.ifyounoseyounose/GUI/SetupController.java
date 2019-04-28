@@ -11,6 +11,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
+import org.ifyounoseyounose.backend.smelldetectors.SpeculativeGeneralityMethodCollector;
+import org.ifyounoseyounose.backend.smelldetectors.TemporaryFieldsSmellDetector;
+
 import java.io.File;
 import java.util.HashMap;
 import java.util.Set;
@@ -19,9 +22,9 @@ public class SetupController {
 
     @FXML private Button browse,settingsDisplay,smellTime;
     @FXML private ScrollPane scrollPane;
-    @FXML private CheckBox JavaToggle,ToggleButtons,ArrowHeaded,BloatedClass,BloatedMethod,BloatedParameter,DataOnly,DataHiding,DeadCode,DuplicateCode,MessageChaining,PrimitiveObsession,SwitchStatement,TooManyLiterals;
-    @FXML private Slider ArrowHeadedSlider,BloatedClassSlider,BloatedMethodSlider,BloatedParameterSlider,DuplicateCodeSlider,MessageChainingSlider,PrimitiveObsessionSlider,SwitchStatementSlider,TooManyLiteralsSlider;
-    @FXML private TextField HiddenText,displayDirectory,ArrowHeadedText,BloatedClassText,BloatedMethodText,BloatedParameterText,DeadCodeText,DuplicateCodeText,MessageChainingText,PrimitiveObsessionText,SwitchStatementText,TooManyLiteralsText;
+    @FXML private CheckBox JavaToggle,ToggleButtons,ArrowHeaded,BloatedClass,BloatedMethod,BloatedParameter,DataOnly,DataHiding,DeadCode,DuplicateCode,MessageChaining,PrimitiveObsession,SpeculativeGenerality,SwitchStatement,TemporaryFields,TooManyLiterals;
+    @FXML private Slider ArrowHeadedSlider,BloatedClassSlider,BloatedMethodSlider,BloatedParameterSlider,DuplicateCodeSlider,MessageChainingSlider,PrimitiveObsessionSlider,SwitchStatementSlider,TemporaryFieldsSlider,TooManyLiteralsSlider;
+    @FXML private TextField HiddenText,displayDirectory,ArrowHeadedText,BloatedClassText,BloatedMethodText,BloatedParameterText,DeadCodeText,DuplicateCodeText,MessageChainingText,PrimitiveObsessionText,SwitchStatementText,TemporaryFieldsText,TooManyLiteralsText;
     Set<CheckBox> checkboxes;
     @FXML private VBox vbox;
     @FXML private AnchorPane ap;
@@ -54,7 +57,9 @@ public class SetupController {
                 put(DuplicateCode,DuplicateCodeText);
                 put(MessageChaining,MessageChainingText);
                 put(PrimitiveObsession,PrimitiveObsessionText);
+                put(SpeculativeGenerality,HiddenText);
                 put(SwitchStatement,SwitchStatementText);
+                put(TemporaryFields,TemporaryFieldsText);
                 put(TooManyLiterals,TooManyLiteralsText);
             }};
         
@@ -99,10 +104,9 @@ public class SetupController {
         PrimitiveObsessionSlider.valueProperty().addListener((ChangeListener) (arg0, arg1, arg2) -> {
             PrimitiveObsessionText.setText(String.valueOf(((int)PrimitiveObsessionSlider.getValue())));
         });
-
-        //ArrowHeadedText.textProperty().addListener((observable, oldValue, newValue) -> {
-        //    ArrowHeadedSlider.setValue(Double.parseDouble(ArrowHeadedText.getText()));
-        //});
+        TemporaryFieldsSlider.valueProperty().addListener((ChangeListener) (arg0, arg1, arg2) -> {
+            TemporaryFieldsText.setText(String.valueOf(((int) TemporaryFieldsSlider.getValue())));
+        });
 
         settingsDisplay.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -151,5 +155,6 @@ public class SetupController {
         for(CheckBox a: checkboxes){
             a.setSelected(ToggleButtons.isSelected());
         }
+        DataHiding.selectedProperty().setValue(false);//we always want this to be false
     }
 }
