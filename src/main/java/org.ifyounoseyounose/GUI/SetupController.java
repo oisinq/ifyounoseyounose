@@ -108,10 +108,6 @@ public class SetupController {
             TemporaryFieldsText.setText(String.valueOf(((int) TemporaryFieldsSlider.getValue())));
         });
 
-        //ArrowHeadedText.textProperty().addListener((observable, oldValue, newValue) -> {
-        //    ArrowHeadedSlider.setValue(Double.parseDouble(ArrowHeadedText.getText()));
-        //});
-
         settingsDisplay.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -159,5 +155,6 @@ public class SetupController {
         for(CheckBox a: checkboxes){
             a.setSelected(ToggleButtons.isSelected());
         }
+        DataHiding.selectedProperty().setValue(false);//we always want this to be false
     }
 }
