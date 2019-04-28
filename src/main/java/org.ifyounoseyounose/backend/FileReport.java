@@ -3,6 +3,10 @@ package org.ifyounoseyounose.backend;
 import java.io.File;
 import java.nio.file.Files;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static java.util.Map.Entry.comparingByValue;
 
 public class FileReport {
     //Todo need a better variable name for this.
@@ -53,6 +57,17 @@ public class FileReport {
             lineCountPerSmell.put(smellName, detections.get(smellName).size());
         }
         return lineCountPerSmell;
+    }
+
+    public List<Map.Entry<String, Integer>> getListOfSmellsByCount() {
+        Set<Map.Entry<String, Integer>> setOfEntries = getSmellyLineCountPerSmell().entrySet();
+
+        List<Map.Entry<String, Integer>> sortedEntries = new ArrayList<>(setOfEntries);
+
+        sortedEntries.sort(Comparator.comparing(Map.Entry::getValue));
+        Collections.reverse(sortedEntries);
+
+        return sortedEntries;
     }
 
     public Set<String> getPresentSmells() {

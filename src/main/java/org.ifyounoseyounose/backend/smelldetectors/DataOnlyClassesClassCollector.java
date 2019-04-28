@@ -9,7 +9,9 @@ import java.util.List;
 public class DataOnlyClassesClassCollector extends VoidVisitorAdapter<List<Integer>> {
     public void visit(ClassOrInterfaceDeclaration cd, List<Integer> collector) {
         super.visit(cd, collector);
-       collector.add(cd.getMethods().size()+cd.getConstructors().size());
+        int numberMethods =cd.getMethods().size();
+        int numberConstruct = cd.getConstructors().size();
+       collector.add(numberMethods+numberConstruct);
     }
 
 
