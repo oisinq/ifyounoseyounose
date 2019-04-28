@@ -1,6 +1,7 @@
 package org.ifyounoseyounose.backend;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -32,5 +33,13 @@ public class SmellReport {
 
     boolean isEmptyForFile(File f) {
         return !smells.containsKey(f) || smells.get(f).isEmpty();
+    }
+
+   public void appendToList(File current, List<Integer> alpha){
+       smells.computeIfAbsent(current,age->new ArrayList<Integer>());
+
+        for(Integer i: alpha) {
+             smells.get(current).add(i);
+        }
     }
 }
