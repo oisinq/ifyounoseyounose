@@ -23,15 +23,7 @@ public class DeadCodeSmellDetector implements JavaParserSmellDetector, SmellDete
         HashMap<File, HashMap<String, MethodDeclaration>> methodHash = new HashMap<>();// Stores method declarations and their string variations
 
         for(CompilationUnit comp: compilationUnits.keySet()){
-            List<MethodDeclaration> methodList = new ArrayList<>(); //Temporary storage of method declarations
-
-            visitor1.visit(comp, methodList);
-            HashMap<String, MethodDeclaration> temp=new HashMap<>(); //Temporary storage of string and method declaration
-
-            for(MethodDeclaration m: methodList) {//Adds every element from the temp methods list to the hashmap
-                temp.put(m.getName().asString(), m);
-            }
-            methodHash.put(compilationUnits.get(comp), temp);//Places in the overall hashmap
+           addMethods(visitor1 , comp, methodHash, compilationUnits.get(comp));
         }
 
 
@@ -45,15 +37,13 @@ public class DeadCodeSmellDetector implements JavaParserSmellDetector, SmellDete
         for(CompilationUnit comp: compilationUnits.keySet()) {
                 comp.findAll(MethodCallExpr.class).forEach(be -> {
                     for (File search : compilationUnits.values()) {//Check against our stored methods
-                            if (methodHash.get(search).containsKey(be.getNameAsString())) {//If used method is in the list remove it
+                        String methodName = be.getNameAsString();
+                            if (methodHash.get(search).containsKey(methodName)) {//If used method is in the list remove it
 
-                                methodHash.get(search).remove(be.getNameAsString(), methodHash.get(search).get(be.getNameAsString()));
+                                methodHash.get(search).remove(methodName, methodHash.get(search).get(methodName));
                             }
                     }
                 });
-
-
-
         }
        for(File e: methodHash.keySet())
        {
@@ -66,6 +56,17 @@ public class DeadCodeSmellDetector implements JavaParserSmellDetector, SmellDete
          smells.addToReport(e, lines);
        }
         return smells;
+    }
+    private void addMethods( DeadCodeMethodCollector visitor1 , CompilationUnit comp, HashMap<File, HashMap<String, MethodDeclaration>> methodHash, File file){
+        List<MethodDeclaration> methodList = new ArrayList<>(); //Temporary storage of method declarations
+
+        visitor1.visit(comp, methodList);
+        HashMap<String, MethodDeclaration> temp=new HashMap<>(); //Temporary storage of string and method declaration
+
+        for(MethodDeclaration m: methodList) {//Adds every element from the temp methods list to the hashmap
+            temp.put(m.getName().asString(), m);
+        }
+        methodHash.put(file, temp);//Places in the overall hashmap
     }
 
 

@@ -11,47 +11,13 @@ public class DuplicateCodeSmellDetector extends LimitableSmellDetector implement
     @Override
     public SmellReport detectSmell(List<File> sourceCode) {
         SmellReport smells = new SmellReport();
-        int lineNumber;
 
         // A hashmap with key being the contents of the line, the value being a hashmap with the key
         // being the file and the value being the line number the content appeared on
         HashMap<String, HashMap<File, List<Integer>>> outerHashMap = new HashMap<>();
 
         for(File file : sourceCode) { // Iterates through files
-
-            String line;
-            lineNumber = 1;
-
-            try {
-                FileReader targetStream = new FileReader(file);
-                BufferedReader bufferedReader = new BufferedReader(targetStream);
-
-                // This conditional gets the next line from bufferedReader, assigns its value to line then ensures it's not null
-                while((line = bufferedReader.readLine()) != null) {
-                    line = line.trim();
-                        if (!line.startsWith("try")&&!line.contains("catch")&&!line.equals("")&&!line.equals("}") && !line.equals("{") && !line.equals("") && !line.startsWith("/") &&!line.startsWith("*")&&!line.startsWith("import")&&!line.startsWith("package")&& !line.startsWith("protected") &&!line.startsWith("final")&&!line.startsWith("private")&&!line.startsWith("public")) { // Checks lines are irrelevant
-
-                            // Adds a hashmap if one does not exist
-                            outerHashMap.computeIfAbsent(line, k -> new HashMap<>());
-
-                            List<Integer> list = (outerHashMap.get(line)).get(file); // See if you already have a list for current key
-
-                            if (list == null) { // If not, create one and put it in the map
-                                list = new ArrayList<>();
-                                outerHashMap.get(line).put(file, list);
-                            }
-                            outerHashMap.get(line).get(file).add(lineNumber); // Adds the line number to the inner hashmap
-                        }
-                    
-                    lineNumber++;
-                }
-
-
-            }
-            catch(IOException e)
-            {
-                System.err.println("Could not read file");
-            }
+            checkLines(file, outerHashMap);
         }
 
         if(!outerHashMap.isEmpty()) { // Ensures there is a line of code to add
@@ -73,6 +39,41 @@ public class DuplicateCodeSmellDetector extends LimitableSmellDetector implement
         return smells;
     }
 
+    private void checkLines(File file, HashMap<String, HashMap<File, List<Integer>>> outerHashMap){
+        String line;
+        int lineNumber = 1;
+
+        try {
+            FileReader targetStream = new FileReader(file);
+            BufferedReader bufferedReader = new BufferedReader(targetStream);
+
+            // This conditional gets the next line from bufferedReader, assigns its value to line then ensures it's not null
+            while((line = bufferedReader.readLine()) != null) {
+                line = line.trim();
+                if (!line.startsWith("try")&&!line.contains("catch")&&!line.equals("")&&!line.equals("}") && !line.equals("{") && !line.equals("") && !line.startsWith("/") &&!line.startsWith("*")&&!line.startsWith("import")&&!line.startsWith("package")&& !line.startsWith("protected") &&!line.startsWith("final")&&!line.startsWith("private")&&!line.startsWith("public")) { // Checks lines are irrelevant
+
+                    // Adds a hashmap if one does not exist
+                    outerHashMap.computeIfAbsent(line, k -> new HashMap<>());
+
+                    List<Integer> list = (outerHashMap.get(line)).get(file); // See if you already have a list for current key
+
+                    if (list == null) { // If not, create one and put it in the map
+                        list = new ArrayList<>();
+                        outerHashMap.get(line).put(file, list);
+                    }
+                    outerHashMap.get(line).get(file).add(lineNumber); // Adds the line number to the inner hashmap
+                }
+
+                lineNumber++;
+            }
+
+
+        }
+        catch(IOException e)
+        {
+            System.err.println("Could not read file");
+        }
+    }
 
     public String getSmellName() {
         return "DuplicateCode";
