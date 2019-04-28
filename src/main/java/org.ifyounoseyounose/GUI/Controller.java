@@ -239,7 +239,9 @@ public class Controller {
         if (file.isDirectory()) {
             TreeItem<String> treeItem = new TreeItem<>(file.getName());
             parent.getChildren().add(treeItem);
-            for (File f : file.listFiles()) {
+            File fileList[] = file.listFiles();
+            Arrays.sort(fileList);
+            for (File f : fileList) {
                 createTree(f, treeItem);
             }
         } else if (!JavaToggle || file.getName().endsWith(".java")) {
@@ -251,6 +253,7 @@ public class Controller {
         TreeItem<String> rootItem = new TreeItem<>(inputDirectoryLocation);
         File Input = new File(inputDirectoryLocation);
         File fileList[] = Input.listFiles();
+        Arrays.sort(fileList);
         for (File file : fileList) {
             createTree(file, rootItem);
         }
@@ -355,8 +358,6 @@ public class Controller {
             for (int i : smellyLines) {
                 setLineColour(colourTracker.get(smellName), i - 1);
             }
-        } else {
-            System.out.println("It don't contain "+ smellName);
         }
     }
 
