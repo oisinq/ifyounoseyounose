@@ -29,7 +29,7 @@ public class DuplicateCodeSmellDetector extends LimitableSmellDetector implement
                 // This conditional gets the next line from bufferedReader, assigns its value to line then ensures it's not null
                 while((line = bufferedReader.readLine()) != null) {
                     line = line.trim();
-                        if (!line.startsWith("try")&&!line.contains("catch")&&!line.equals("")&&!line.equals("}") && !line.equals("{") && !line.equals("") && !line.startsWith("/") &&!line.startsWith("*")&&!line.startsWith("import")&&!line.startsWith("package")) { // Checks lines are irrelevant
+                        if (!line.startsWith("try")&&!line.contains("catch")&&!line.equals("")&&!line.equals("}") && !line.equals("{") && !line.equals("") && !line.startsWith("/") &&!line.startsWith("*")&&!line.startsWith("import")&&!line.startsWith("package")&& !line.startsWith("protected") &&!line.startsWith("final")&&!line.startsWith("private")&&!line.startsWith("public")) { // Checks lines are irrelevant
 
                             // Adds a hashmap if one does not exist
                             outerHashMap.computeIfAbsent(line, k -> new HashMap<>());
