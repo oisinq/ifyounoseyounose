@@ -327,17 +327,34 @@ public class Controller {
 
     public void setClassColours() {
         HashMap<String, List<Integer>> fileReportHashMap = fileReport.getSmellDetections();
-        Set<String> smellDetectors = fileReportHashMap.keySet();
-
         resetAllLines();
         System.out.println("File: " + fileReport.getFile().getName());
 
-        for (String s : smellDetectors) {
-            List<Integer> smellyLines = fileReportHashMap.get(s);
-            System.out.println("SmellyLines for " + s + ": " + smellyLines.toString());
+        setSmellColours("BloatedClass", fileReportHashMap);
+        setSmellColours("DataOnly", fileReportHashMap);
+        setSmellColours("BloatedMethod", fileReportHashMap);
+        setSmellColours("SpeculativeGenerality", fileReportHashMap);
+        setSmellColours("DeadCode", fileReportHashMap);
+        setSmellColours("ArrowHeaded", fileReportHashMap);
+        setSmellColours("SwitchStatement", fileReportHashMap);
+        setSmellColours("DuplicateCode", fileReportHashMap);
+        setSmellColours("TemporaryFields", fileReportHashMap);
+        setSmellColours("TooManyLiterals", fileReportHashMap);
+        setSmellColours("MessageChaining", fileReportHashMap);
+        setSmellColours("DataHiding", fileReportHashMap);
+        setSmellColours("BloatedParameter", fileReportHashMap);
+        setSmellColours("PrimitiveObsession", fileReportHashMap);
+    }
+
+    private void setSmellColours(String smellName, HashMap<String, List<Integer>> fileReportHashMap) {
+        if (fileReportHashMap.containsKey(smellName)) {
+            List<Integer> smellyLines = fileReportHashMap.get(smellName);
+            System.out.println("SmellyLines for " + smellName + ": " + smellyLines.toString());
             for (int i : smellyLines) {
-                setLineColour(colourTracker.get(s), i - 1);
+                setLineColour(colourTracker.get(smellName), i - 1);
             }
+        } else {
+            System.out.println("It don't contain "+ smellName);
         }
     }
 
