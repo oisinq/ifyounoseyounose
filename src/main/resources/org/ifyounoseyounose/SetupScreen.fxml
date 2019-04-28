@@ -193,10 +193,10 @@
                         <CheckBox fx:id="JavaToggle" mnemonicParsing="false" text="Display Only Java Files" GridPane.columnIndex="4" GridPane.columnSpan="3" />
                         <TextField fx:id="HiddenText" opacity="0.0" prefHeight="26.0" prefWidth="60.0" text="0" />
                         <CheckBox fx:id="SpeculativeGenerality" mnemonicParsing="false" text="Speculative Generality" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="11" />
-                        <CheckBox fx:id="TemporaryFeilds" mnemonicParsing="false" text="Temporary Fields" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="13" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Case Limit:" GridPane.columnIndex="9" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="11" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Field Limit:" GridPane.columnIndex="9" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="13" />
-                        <Slider fx:id="SwitchStatementSlider1" majorTickUnit="5.0" max="10.0" minorTickCount="2" showTickLabels="true" showTickMarks="true" value="5.0" GridPane.columnIndex="11" GridPane.rowIndex="13" />
+                        <CheckBox fx:id="TemporaryFields" mnemonicParsing="false" text="Temporary Fields" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="13" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Field Threshold:" GridPane.columnIndex="9" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="13" />
+                        <Slider fx:id="TemporaryFieldsSlider" blockIncrement="1.0" majorTickUnit="1.0" max="10.0" min="1.0" minorTickCount="0" showTickLabels="true" showTickMarks="true" value="3.0" GridPane.columnIndex="11" GridPane.columnSpan="2" GridPane.rowIndex="13" />
+                        <TextField fx:id="TemporaryFieldsText" prefHeight="26.0" prefWidth="60.0" text="3" GridPane.columnIndex="14" GridPane.rowIndex="13" />
                      </children>
                   </GridPane>
                </content>
