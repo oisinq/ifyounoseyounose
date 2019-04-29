@@ -16,24 +16,6 @@ public class CompleteReport {
         return data.get(f);
     }
 
-    public Set<String> getPresentSmells() {
-        Set<String> presentSmells = new HashSet<>();
-        for (FileReport fileReport : data.values()) {
-            presentSmells.addAll(fileReport.getPresentSmells());
-        }
-        return presentSmells;
-    }
-
-    public Set<File> getCleanFiles() {
-        Set<File> cleanFiles = new HashSet<>();
-        for (File file : data.keySet()) {
-            if (data.get(file).isEmpty()) {
-                cleanFiles.add(file);
-            }
-        }
-        return cleanFiles;
-    }
-
     public int getNumberOfSmellyLines() {
         int totalSmellyLines = 0;
         for (FileReport fileReport : data.values()) {
@@ -94,6 +76,24 @@ public class CompleteReport {
         }
 
         return smellCounter;
+    }
+    
+    public Set<String> getPresentSmells() {
+        Set<String> presentSmells = new HashSet<>();
+        for (FileReport fileReport : data.values()) {
+            presentSmells.addAll(fileReport.getPresentSmells());
+        }
+        return presentSmells;
+    }
+
+    public Set<File> getCleanFiles() {
+        Set<File> cleanFiles = new HashSet<>();
+        for (File file : data.keySet()) {
+            if (data.get(file).isEmpty()) {
+                cleanFiles.add(file);
+            }
+        }
+        return cleanFiles;
     }
 
     public String toString() {

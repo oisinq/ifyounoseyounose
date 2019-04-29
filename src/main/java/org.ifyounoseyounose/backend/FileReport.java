@@ -43,7 +43,7 @@ public class FileReport {
         return smellyLines.size();
     }
 
-    public double getSmellyLinePercentage() {
+    private double getSmellyLinePercentage() {
         try {
             int numberOfSmellyLines = getSmellyLinesCount();
             long totalNumberOfLines = Files.lines(relatedFile.toPath()).count();
@@ -54,7 +54,7 @@ public class FileReport {
         return -1.0;
     }
 
-    public Map<String, Integer> getSmellyLineCountPerSmell() {
+    private Map<String, Integer> getSmellyLineCountPerSmell() {
         Map<String, Integer> lineCountPerSmell = new HashMap<>();
         for (String smellName : detections.keySet()) {
             lineCountPerSmell.put(smellName, detections.get(smellName).size());
@@ -73,11 +73,11 @@ public class FileReport {
         return sortedEntries;
     }
 
-    public Set<String> getPresentSmells() {
+    Set<String> getPresentSmells() {
         return detections.keySet();
     }
 
-    public boolean isEmpty() {
+    boolean isEmpty() {
         for (List<Integer> l : detections.values()) {
             if (!l.isEmpty()) {
                 return false;
@@ -88,6 +88,7 @@ public class FileReport {
 
     public String toString() {
         StringBuilder output = new StringBuilder("File: " + getFile().toString() + "\n");
+        output.append("Smelly percentage:").append(getSmellyLinePercentage()).append("\n");
         for (String s : detections.keySet()) {
             output.append("Smell: ").append(s).append("\n").append("Lines ");
             List<Integer> lines = detections.get(s);
