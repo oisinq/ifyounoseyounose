@@ -56,7 +56,7 @@ public class Controller {
     private String InputDirectory = null;//
     private CompleteReport completeReport;
     private FileReport fileReport;
-    private HashMap<String, Color> colourTracker = new HashMap<>();
+    private HashMap<String, Color> colorTrackers = new HashMap<>();
     @FXML
     private ColorPicker ArrowHeadedColour, BloatedClassColour, BloatedMethodColour, BloatedParameterColour,
             DataOnlyColour, DataHidingColour, DeadCodeColour, DuplicateCodeColour, MessageChainingColour,
@@ -88,66 +88,66 @@ public class Controller {
         }
     }
 
-    private void setColourTrackers() {
+    private void setcolorTrackers() {
         ArrowHeadedColour.setOnAction(t -> {
-            colourTracker.replace("ArrowHeaded", ArrowHeadedColour.getValue());
+            colorTrackers.replace("ArrowHeaded", ArrowHeadedColour.getValue());
             setClassColours();
         });
         BloatedClassColour.setOnAction(t -> {
-            colourTracker.replace("BloatedClass", BloatedClassColour.getValue());
+            colorTrackers.replace("BloatedClass", BloatedClassColour.getValue());
             setClassColours();
         });
         BloatedMethodColour.setOnAction(t -> {
-            colourTracker.replace("BloatedMethod", BloatedMethodColour.getValue());
+            colorTrackers.replace("BloatedMethod", BloatedMethodColour.getValue());
             setClassColours();
         });
         BloatedParameterColour.setOnAction(t -> {
-            colourTracker.replace("BloatedParameter", BloatedParameterColour.getValue());
+            colorTrackers.replace("BloatedParameter", BloatedParameterColour.getValue());
             setClassColours();
         });
         DataOnlyColour.setOnAction(t -> {
-            colourTracker.replace("DataOnly", DataOnlyColour.getValue());
+            colorTrackers.replace("DataOnly", DataOnlyColour.getValue());
             setClassColours();
         });
         DataHidingColour.setOnAction(t -> {
-            colourTracker.replace("DataHiding", DataHidingColour.getValue());
+            colorTrackers.replace("DataHiding", DataHidingColour.getValue());
             setClassColours();
         });
         DeadCodeColour.setOnAction(t -> {
-            colourTracker.replace("DeadCode", DeadCodeColour.getValue());
+            colorTrackers.replace("DeadCode", DeadCodeColour.getValue());
             setClassColours();
         });
         DuplicateCodeColour.setOnAction(t -> {
-            colourTracker.replace("DuplicateCode", DuplicateCodeColour.getValue());
+            colorTrackers.replace("DuplicateCode", DuplicateCodeColour.getValue());
             setClassColours();
         });
         MessageChainingColour.setOnAction(t -> {
-            colourTracker.replace("MessageChaining", MessageChainingColour.getValue());
+            colorTrackers.replace("MessageChaining", MessageChainingColour.getValue());
             setClassColours();
         });
         PrimitiveObsessionColour.setOnAction(t -> {
-            colourTracker.replace("PrimitiveObsession", PrimitiveObsessionColour.getValue());
+            colorTrackers.replace("PrimitiveObsession", PrimitiveObsessionColour.getValue());
             setClassColours();
         });
         SpeculativeGeneralityColour.setOnAction(t -> {
-            colourTracker.replace("SpeculativeGenerality", SpeculativeGeneralityColour.getValue());
+            colorTrackers.replace("SpeculativeGenerality", SpeculativeGeneralityColour.getValue());
             setClassColours();
         });
         SwitchStatementColour.setOnAction(t -> {
-            colourTracker.replace("SwitchStatement", SwitchStatementColour.getValue());
+            colorTrackers.replace("SwitchStatement", SwitchStatementColour.getValue());
             setClassColours();
         });
         TemporaryFieldsColour.setOnAction(t -> {
-            colourTracker.replace("TemporaryFields", TemporaryFieldsColour.getValue());
+            colorTrackers.replace("TemporaryFields", TemporaryFieldsColour.getValue());
             setClassColours();
         });
         TooManyLiteralsColour.setOnAction(t -> {
-            colourTracker.replace("TooManyLiterals", TooManyLiteralsColour.getValue());
+            colorTrackers.replace("TooManyLiterals", TooManyLiteralsColour.getValue());
             setClassColours();
         });
     }
 
-    // the initialize method is automatically invoked by the FXMLLoader - it's magic
+    // this is invoked by the FXML loader before anything else is
     public void initialize() {
         EventBusFactory.getEventBus().register(new Object() {
             @Subscribe
@@ -158,14 +158,14 @@ public class Controller {
             }
         });
 
-        final boolean projectStatsRan = false;
-        initializecolourTracker();
-        initializeColorPickers();
-        setColourButtons();
+        final boolean projectStatsRan = false;//this boolean makes sure the projectstats tab only runs once
+        initializecolorTrackers();//makes sure hashmaps are set up
+        initializecolorPickers();
+        setColourButtons();//listeners for the colour buttons
         code.setContent(displayCodeTab());
         area.replaceText("Select a java file to check its smells");
 
-        setColourTrackers();
+        setcolorTrackers();
 
         addTreeViewListener(projectStatsRan);
     }
@@ -175,16 +175,16 @@ public class Controller {
             try {
                 String classString = Files.readString(Path.of(getPathFromTreeView(v.getValue())));
                 area.replaceText(classString);
-                clearStats();
+                clearStats();//clears stats when files swapped
                 fileReport = completeReport.getAllDetectedSmells(new File(getPathFromTreeView(v.getValue())));
                 if (!projectStatsRan) {
-                    projectStatsBuilder();
+                    projectStatsBuilder();//only runs once, sets project stats
                 }
                 if (fileReport != null) {
-                    setClassColours();
-                    fileStatsBuilder();
+                    setClassColours();//update highlighting
+                    fileStatsBuilder();//update stats page
                 } else {
-                    fileStats.setText("All Clear!");
+                    fileStats.setText("All Clear!");//display if no smells detected
                 }
             } catch (IOException e) {
                 System.err.println("Cannot get path " + getPathFromTreeView(v.getValue()));
@@ -192,6 +192,7 @@ public class Controller {
         });
     }
 
+    //this clears some report fields on command
     private void clearStats() {
         area.clearStyle(0, area.getLength());
         fileBarChart.getData().clear();
@@ -255,28 +256,28 @@ public class Controller {
     private void setColourButtons() {
         Set<String> s = colorPickers.keySet();
         for (String a : s) {
-            colorPickers.get(a).setValue(colourTracker.get(a));
+            colorPickers.get(a).setValue(colorTrackers.get(a));
         }
     }
 
-    private void initializecolourTracker() {
-        colourTracker.put("ArrowHeaded", Color.rgb(83, 255, 189));
-        colourTracker.put("BloatedClass", Color.rgb(178, 207, 255));
-        colourTracker.put("BloatedMethod", Color.rgb(117, 169, 255));
-        colourTracker.put("BloatedParameter", Color.rgb(141, 158, 186));
-        colourTracker.put("DataOnly", Color.rgb(208, 244, 137));
-        colourTracker.put("DataHiding", Color.rgb(242, 190, 87));
-        colourTracker.put("DeadCode", Color.rgb(255, 180, 140));
-        colourTracker.put("DuplicateCode", Color.rgb(249, 187, 184));
-        colourTracker.put("MessageChaining", Color.rgb(185, 158, 193));
-        colourTracker.put("PrimitiveObsession", Color.rgb(65, 178, 219));
-        colourTracker.put("SpeculativeGenerality", Color.rgb(206, 177, 103));
-        colourTracker.put("SwitchStatement", Color.rgb(127, 193, 127));
-        colourTracker.put("TemporaryFields", Color.rgb(237, 107, 64));
-        colourTracker.put("TooManyLiterals", Color.rgb(167, 229, 87));
+    private void initializecolorTrackers() {
+        colorTrackers.put("ArrowHeaded", Color.rgb(83, 255, 189));
+        colorTrackers.put("BloatedClass", Color.rgb(178, 207, 255));
+        colorTrackers.put("BloatedMethod", Color.rgb(117, 169, 255));
+        colorTrackers.put("BloatedParameter", Color.rgb(141, 158, 186));
+        colorTrackers.put("DataOnly", Color.rgb(208, 244, 137));
+        colorTrackers.put("DataHiding", Color.rgb(242, 190, 87));
+        colorTrackers.put("DeadCode", Color.rgb(255, 180, 140));
+        colorTrackers.put("DuplicateCode", Color.rgb(249, 187, 184));
+        colorTrackers.put("MessageChaining", Color.rgb(185, 158, 193));
+        colorTrackers.put("PrimitiveObsession", Color.rgb(65, 178, 219));
+        colorTrackers.put("SpeculativeGenerality", Color.rgb(206, 177, 103));
+        colorTrackers.put("SwitchStatement", Color.rgb(127, 193, 127));
+        colorTrackers.put("TemporaryFields", Color.rgb(237, 107, 64));
+        colorTrackers.put("TooManyLiterals", Color.rgb(167, 229, 87));
     }
 
-    private void initializeColorPickers() {
+    private void initializecolorPickers() {
         colorPickers.put("ArrowHeaded", ArrowHeadedColour);
         colorPickers.put("BloatedClass", BloatedClassColour);
         colorPickers.put("BloatedMethod", BloatedMethodColour);
@@ -387,7 +388,7 @@ public class Controller {
         if (fileReportHashMap.containsKey(smellName)) {
             List<Integer> smellyLines = fileReportHashMap.get(smellName);
             for (int i : smellyLines) {
-                setLineColour(colourTracker.get(smellName), i - 1);
+                setLineColour(colorTrackers.get(smellName), i - 1);
             }
         }
     }
