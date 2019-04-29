@@ -95,4 +95,12 @@ public class CompleteReport {
 
         return smellCounter;
     }
+
+    public String toString() {
+        StringBuilder output = new StringBuilder();
+        for (FileReport report : data.values()) {
+            output.append(report.toString());
+        }
+        return output.toString();
+    }
 }
