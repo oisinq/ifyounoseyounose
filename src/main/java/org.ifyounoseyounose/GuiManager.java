@@ -37,7 +37,6 @@ public class GuiManager extends Application {
         primaryStage.setScene(setupScene);
 
         setupController.setSecondScene(mainScene);
-        mainApplicationController.setFirstScene(setupScene);
 
         ReportBuilder reportBuilder=new ReportBuilder();
 

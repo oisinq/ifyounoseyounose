@@ -3,9 +3,7 @@ package org.ifyounoseyounose.backend;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class CompleteReport {
     private HashMap<File, FileReport> data = new HashMap<>();
@@ -42,6 +40,36 @@ public class CompleteReport {
             totalSmellyLines += fileReport.getSmellyLinesCount();
         }
         return totalSmellyLines;
+    }
+
+    public List<Map.Entry<String, Integer>> getListOfFilesByLineCount() {
+        List<Map.Entry<String, Integer>> sortedEntries = new ArrayList<>();
+
+        for (Map.Entry<File, FileReport> entry : data.entrySet()) {
+            Map.Entry<String,Integer> smellCountEntry = new AbstractMap.SimpleEntry<>(entry.getKey().getName(), entry.getValue().getSmellyLinesCount());
+            sortedEntries.add(smellCountEntry);
+        }
+
+
+        sortedEntries.sort(Comparator.comparing(Map.Entry::getValue));
+        Collections.reverse(sortedEntries);
+
+        return sortedEntries;
+    }
+
+    public List<Map.Entry<String, Integer>> getListOfFilesBySmellCount() {
+        List<Map.Entry<String, Integer>> sortedEntries = new ArrayList<>();
+
+        for (Map.Entry<File, FileReport> entry : data.entrySet()) {
+            Map.Entry<String,Integer> smellCountEntry = new AbstractMap.SimpleEntry<>(entry.getKey().getName(), entry.getValue().getPresentSmells().size());
+            sortedEntries.add(smellCountEntry);
+        }
+
+
+        sortedEntries.sort(Comparator.comparing(Map.Entry::getValue));
+        Collections.reverse(sortedEntries);
+
+        return sortedEntries;
     }
 
     public double getPercentageOfSmellLines() {
