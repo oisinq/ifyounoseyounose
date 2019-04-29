@@ -47,6 +47,13 @@ public class GuiManager extends Application {
                 Set<String> s=test.keySet();
                 System.out.println(s.toString());
                 mainApplicationController.setCompleteReport(completeReport);
+
+                mainScene.getWindow().setOnCloseRequest(new EventHandler<WindowEvent>() {
+                    @Override
+                    public void handle(WindowEvent event) {
+                        System.exit(0);
+                    }
+                });
                 //hashmap with code smell as key, limit as value sure
             }
         });
@@ -59,8 +66,10 @@ public class GuiManager extends Application {
         primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent event) {
-                Platform.exit();
+                System.exit(0);
             }
         });
+
+
     }
 }
