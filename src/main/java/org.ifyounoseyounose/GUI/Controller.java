@@ -181,13 +181,14 @@ public class Controller {
             pieChartData.add(new PieChart.Data(s.getKey(),s.getValue()));
         }
         fileBarChart.getData().add(dataSeries);
+        //fileBarChart.getXAxis().
         filePieChart.setData(pieChartData);
     }
 
     private void projectStatsBuilder(){
         XYChart.Series dataSeries= new XYChart.Series();
         int a=completeReport.getNumberOfSmellyLines();
-        projectStats.setText("There are " + a + " across your project");
+        projectStats.setText("There are " + a + " smelly lines across your project");
 
         List<Map.Entry<String, Integer>> filesByLineCount=completeReport.getListOfFilesByLineCount();
 
