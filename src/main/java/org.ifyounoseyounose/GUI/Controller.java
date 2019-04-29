@@ -61,7 +61,7 @@ public class Controller {
             DataOnlyColour, DataHidingColour, DeadCodeColour, DuplicateCodeColour, MessageChainingColour,
             PrimitiveObsessionColour, SwitchStatementColour,SpeculativeGeneralityColour,TemporaryFieldsColour, TooManyLiteralsColour;
     private HashMap<String, ColorPicker> colorPickers = new HashMap<>();
-    @FXML private ListView<Map.Entry<String,Integer>> SmellList;
+    @FXML private ListView<Map.Entry<String,String>> SmellList;
     @FXML BarChart fileBarChart;
 
     // the initialize method is automatically invoked by the FXMLLoader - it's magic
@@ -161,12 +161,18 @@ public class Controller {
     private void fileReportBuilder(){
         XYChart.Series dataSeries= new XYChart.Series();
         int a=fileReport.getSmellyLinesCount();
-        fileStats.setText("There are " +a+ " Smelly lines in this file");
+        fileStats.setText("There are " + a + " Smelly lines in this file");
 
         List<Map.Entry<String, Integer>> b=fileReport.getListOfSmellsByCount();
         SmellList.getItems().addAll();
+
+
         for (Map.Entry<String,Integer> s: b) {
-            SmellList.getItems().add(s);
+            AbstractMap.SimpleEntry entryWithStringValue = new AbstractMap.SimpleEntry(s.getKey(), s.getValue().toString());
+            if (entryWithStringValue.getKey().equals("BloatedClass") || entryWithStringValue.getKey().equals("DataOnly")) {
+                entryWithStringValue.setValue("Full class smell");
+            }
+            SmellList.getItems().add(entryWithStringValue);
             XYChart.Data c=new XYChart.Data(s.getKey(), s.getValue());
             //c.getNode().setStyle(
             //             "-fx-bar-color: " + colourTracker.get(s.getKey()).toString() + ";"
