@@ -11,7 +11,7 @@ public class SmellReport {
 
     private HashMap<File, List<Integer>> smells = new HashMap<>(); // Contains a list of smelly lines for each class
 
-    public void addToReport(File current, List<Integer> lines){ // Adds found lines to the report
+    public void addToReport(File current, List<Integer> lines) { // Adds found lines to the report
         smells.put(current, lines);
     }
 
@@ -35,11 +35,11 @@ public class SmellReport {
         return !smells.containsKey(f) || smells.get(f).isEmpty();
     }
 
-   public void appendToList(File current, List<Integer> alpha){
-       smells.computeIfAbsent(current,age->new ArrayList<Integer>());
+    public void appendToList(File current, List<Integer> alpha) {
+        smells.computeIfAbsent(current, age -> new ArrayList<Integer>());
 
-        for(Integer i: alpha) {
-             smells.get(current).add(i);
+        for (Integer i : alpha) {
+            smells.get(current).add(i);
         }
     }
 }

@@ -2,7 +2,9 @@ package org.ifyounoseyounose.backend.smelldetectors;
 
 import org.ifyounoseyounose.backend.SmellReport;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +34,7 @@ public class MessageChainingSmellDetector extends LimitableSmellDetector impleme
         return smells;
     }
 
-    private void checkRegex(String line, int count, List<Integer> current){
+    private void checkRegex(String line, int count, List<Integer> current) {
         if (!line.trim().startsWith("/") && !line.startsWith("*")) {
             if (line.matches(".*(\\..*\\(.*\\)){" + limit + ",};")) { // Regular expression check
                 current.add(count);

@@ -18,13 +18,13 @@ public class ArrowheadedIndentationSmellDetector extends LimitableSmellDetector 
     public SmellReport detectSmell(HashMap<CompilationUnit, File> compilationUnits) {
         SmellReport smellReport = new SmellReport();
         ArrowheadedIndentationCollector visitor = new ArrowheadedIndentationCollector();
-         visitor.setLimit(limit);
+        visitor.setLimit(limit);
 
         // We check for literals in each individual CompliationUnit and record the line numbers of instances of literals being used
         for (CompilationUnit compilationUnit : compilationUnits.keySet()) {
             List<Integer> collector = new ArrayList<>();
             visitor.visit(compilationUnit, collector);
-            smellReport.addToReport(compilationUnits.get(compilationUnit),collector);
+            smellReport.addToReport(compilationUnits.get(compilationUnit), collector);
         }
 
         return smellReport;

@@ -3,19 +3,17 @@ package org.ifyounoseyounose.backend.smelldetectors;
 
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.MethodDeclaration;
-
 import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 
-
-import java.util.*;
+import java.util.List;
 
 public class BloatedParamCollector extends VoidVisitorAdapter<List<Integer>> {
     private int limit = 20;
 
 
     @Override
-    public void visit(MethodDeclaration md, List<Integer> collector){
+    public void visit(MethodDeclaration md, List<Integer> collector) {
         super.visit(md, collector);
         NodeList<Parameter> param = md.getParameters();
 
@@ -30,4 +28,4 @@ public class BloatedParamCollector extends VoidVisitorAdapter<List<Integer>> {
     public void setLimit(int limit) {
         this.limit = limit;
     }
-    }
+}

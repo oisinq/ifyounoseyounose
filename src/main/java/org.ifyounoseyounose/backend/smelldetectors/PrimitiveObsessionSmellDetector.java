@@ -23,11 +23,10 @@ public class PrimitiveObsessionSmellDetector extends LimitableSmellDetector impl
         for (CompilationUnit compilationUnit : compilationUnits.keySet()) {
             List<Integer> collector = new ArrayList<>();
             visitor.visit(compilationUnit, collector);
-            if(collector.size()<=limit) {
+            if (collector.size() <= limit) {
                 collector.clear();
                 smellReport.addToReport(compilationUnits.get(compilationUnit), collector);
-            }
-            else {
+            } else {
                 smellReport.addToReport(compilationUnits.get(compilationUnit), collector);
             }
 

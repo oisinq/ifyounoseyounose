@@ -30,7 +30,7 @@ public interface LinkedImage {
             public LinkedImage decode(DataInputStream is) throws IOException {
                 if (is.readBoolean()) {
                     String imagePath = Codec.STRING_CODEC.decode(is);
-                    imagePath = imagePath.replace("\\",  "/");
+                    imagePath = imagePath.replace("\\", "/");
                     return new RealLinkedImage(imagePath);
                 } else {
                     return new EmptyLinkedImage();

@@ -28,7 +28,7 @@ public class TooManyLiteralsSmellDetector extends LimitableSmellDetector impleme
             List<Integer> collector = new ArrayList<>();
             visitor.visit(compilationUnit, collector);
             if (collector.size() > limit) {
-                smellReport.addToReport(compilationUnits.get(compilationUnit),collector);
+                smellReport.addToReport(compilationUnits.get(compilationUnit), collector);
             }
         }
 

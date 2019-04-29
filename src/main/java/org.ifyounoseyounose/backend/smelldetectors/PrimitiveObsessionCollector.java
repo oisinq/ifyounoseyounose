@@ -5,14 +5,13 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.type.PrimitiveType;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 
-
 import java.util.List;
 
 
 public class PrimitiveObsessionCollector extends VoidVisitorAdapter<List<Integer>> {
 
     @Override
-    public void visit(PrimitiveType md, List<Integer> collector){
+    public void visit(PrimitiveType md, List<Integer> collector) {
         super.visit(md, collector);
         addLineNumbers(md, collector);
     }
