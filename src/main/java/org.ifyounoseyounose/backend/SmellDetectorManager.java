@@ -171,29 +171,31 @@ public class SmellDetectorManager {
         }
 
         for (Path p : pathsList) {
-            try {
-                String fullPath = p.toString();
-
-                // This extracts the class and package name from the full path of the class in /.compiled_clasees/
-                String output = fullPath.replaceAll("\\.compiled_classes/", "");
-                output = output.replaceAll("\\.class", "");
-                output = output.replaceAll("/", ".");
-
-                for (File f : files) {
-                    // find the file to which the compiled class corresponds
-                    if (fullPath.contains(f.getName().replaceAll(".java", ""))) {
-                        classesMap.put(classLoader.loadClass(output), f); // add the class and file to hashMap to be returned
-                    }
-                }
-
-
-            } catch (ClassNotFoundException e) {
-                System.err.println("Cannot find class.");
-            }
+            addPathToClassesMap(p, files, classesMap, classLoader);
         }
 
-
         return classesMap;
+    }
+
+    private void addPathToClassesMap(Path p, List<File> files, HashMap<Class, File> classesMap, URLClassLoader classLoader) {
+        try {
+            String fullPath = p.toString();
+
+            // This extracts the class and package name from the full path of the class in /.compiled_clasees/
+            String output = fullPath.replaceAll("\\.compiled_classes/", "");
+            output = output.replaceAll("\\.class", "");
+            output = output.replaceAll("/", ".");
+
+            for (File f : files) {
+                // find the file to which the compiled class corresponds
+                if (fullPath.contains(f.getName().replaceAll(".java", ""))) {
+                    classesMap.put(classLoader.loadClass(output), f); // add the class and file to hashMap to be returned
+                }
+            }
+
+        } catch (ClassNotFoundException e) {
+            System.err.println("Cannot find class.");
+        }
     }
 
     /**
@@ -260,14 +262,8 @@ public class SmellDetectorManager {
         File compiledClassesDirectory = new File(".compiled_classes/");
         URL[] urlList = new URL[1];
         URLClassLoader classLoader = null;
-
         SmellReport result = new SmellReport();
-        try {
-            urlList[0] = compiledClassesDirectory.toURI().toURL();
-            classLoader = URLClassLoader.newInstance(urlList);
-        } catch (Exception e) {
-            System.err.println("Failed to add .class files to the ClassLoader");
-        }
+        classLoader = addToClassLoader(urlList, compiledClassesDirectory, classLoader);
 
         if (classLoader != null) {
             HashMap<Class, File> classesMap = getListOfClasses(classLoader, compiledClassesDirectory, files);
@@ -276,6 +272,15 @@ public class SmellDetectorManager {
         return result;
     }
 
+    private URLClassLoader addToClassLoader(URL[] urlList, File compiledClassesDirectory , URLClassLoader classLoader) {
+        try {
+            urlList[0] = compiledClassesDirectory.toURI().toURL();
+            classLoader = URLClassLoader.newInstance(urlList);
+        } catch (Exception e) {
+            System.err.println("Failed to add .class files to the ClassLoader");
+        }
+        return classLoader;
+    }
     /**
      * Takes a list of .java files, compiles them .class files and puts them in the .compiled_classes folder
      *
