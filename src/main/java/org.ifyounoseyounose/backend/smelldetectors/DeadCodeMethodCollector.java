@@ -1,4 +1,5 @@
 package org.ifyounoseyounose.backend.smelldetectors;
+
 import com.github.javaparser.Range;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.MethodDeclaration;

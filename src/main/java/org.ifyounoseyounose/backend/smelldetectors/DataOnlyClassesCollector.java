@@ -5,9 +5,7 @@ import com.github.javaparser.Range;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.ConstructorDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
-import com.github.javaparser.ast.comments.*;
-
-
+import com.github.javaparser.ast.comments.Comment;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 
 import java.util.List;
@@ -38,12 +36,11 @@ public class DataOnlyClassesCollector extends VoidVisitorAdapter<List<Integer>> 
             collector.add(md.getRange().get().begin.line);
         }
 
-        if (mdString.contains("this.") && md.getType().isVoidType())  {
-                        collector.add(md.getRange().get().begin.line);
-                }
-
+        if (mdString.contains("this.") && md.getType().isVoidType()) {
+            collector.add(md.getRange().get().begin.line);
         }
 
+    }
 
 
     //need to check constructors also
