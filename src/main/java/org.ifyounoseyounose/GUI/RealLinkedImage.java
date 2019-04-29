@@ -1,10 +1,10 @@
 package org.ifyounoseyounose.GUI;
 
-import java.io.File;
-
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+
+import java.io.File;
 
 
 /**

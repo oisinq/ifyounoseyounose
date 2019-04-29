@@ -16,24 +16,6 @@ public class CompleteReport {
         return data.get(f);
     }
 
-    public Set<String> getPresentSmells() {
-        Set<String> presentSmells = new HashSet<>();
-        for (FileReport fileReport : data.values()) {
-            presentSmells.addAll(fileReport.getPresentSmells());
-        }
-        return presentSmells;
-    }
-
-    public Set<File> getCleanFiles() {
-        Set<File> cleanFiles = new HashSet<>();
-        for (File file : data.keySet()) {
-            if (data.get(file).isEmpty()) {
-                cleanFiles.add(file);
-            }
-        }
-        return cleanFiles;
-    }
-
     public int getNumberOfSmellyLines() {
         int totalSmellyLines = 0;
         for (FileReport fileReport : data.values()) {
@@ -46,7 +28,7 @@ public class CompleteReport {
         List<Map.Entry<String, Integer>> sortedEntries = new ArrayList<>();
 
         for (Map.Entry<File, FileReport> entry : data.entrySet()) {
-            Map.Entry<String,Integer> smellCountEntry = new AbstractMap.SimpleEntry<>(entry.getKey().getName(), entry.getValue().getSmellyLinesCount());
+            Map.Entry<String, Integer> smellCountEntry = new AbstractMap.SimpleEntry<>(entry.getKey().getName(), entry.getValue().getSmellyLinesCount());
             sortedEntries.add(smellCountEntry);
         }
 
@@ -61,7 +43,7 @@ public class CompleteReport {
         List<Map.Entry<String, Integer>> sortedEntries = new ArrayList<>();
 
         for (Map.Entry<File, FileReport> entry : data.entrySet()) {
-            Map.Entry<String,Integer> smellCountEntry = new AbstractMap.SimpleEntry<>(entry.getKey().getName(), entry.getValue().getPresentSmells().size());
+            Map.Entry<String, Integer> smellCountEntry = new AbstractMap.SimpleEntry<>(entry.getKey().getName(), entry.getValue().getPresentSmells().size());
             sortedEntries.add(smellCountEntry);
         }
 
@@ -81,7 +63,7 @@ public class CompleteReport {
                 System.err.println("Cannot open file " + file.toPath().toString());
             }
         }
-        return 100.0*getNumberOfSmellyLines()/totalNumberOfLines;
+        return 100.0 * getNumberOfSmellyLines() / totalNumberOfLines;
     }
 
     public HashMap<String, Integer> getNumberOfDetections() {
@@ -94,6 +76,24 @@ public class CompleteReport {
         }
 
         return smellCounter;
+    }
+
+    public Set<String> getPresentSmells() {
+        Set<String> presentSmells = new HashSet<>();
+        for (FileReport fileReport : data.values()) {
+            presentSmells.addAll(fileReport.getPresentSmells());
+        }
+        return presentSmells;
+    }
+
+    public Set<File> getCleanFiles() {
+        Set<File> cleanFiles = new HashSet<>();
+        for (File file : data.keySet()) {
+            if (data.get(file).isEmpty()) {
+                cleanFiles.add(file);
+            }
+        }
+        return cleanFiles;
     }
 
     public String toString() {

@@ -1,9 +1,9 @@
 package org.ifyounoseyounose.backend;
 
-import java.util.HashMap;
-import java.util.ArrayList;
-import java.util.List;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 
 
@@ -14,7 +14,7 @@ public class ReportBuilder {
 
     private ArrayList<File> java_files = new ArrayList<>();
 
-    public CompleteReport generateReport(HashMap<String,Integer> smells, File directory) {
+    public CompleteReport generateReport(HashMap<String, Integer> smells, File directory) {
         CompleteReport completeReport = new CompleteReport();
 
         File[] directory_files = directory.listFiles();
@@ -41,7 +41,7 @@ public class ReportBuilder {
         for (File dir : directory) {
             if (dir.isDirectory()) {
                 getJavaFiles(Objects.requireNonNull(dir.listFiles()));
-            } else if(dir.isFile() && dir.getName().endsWith(".java") && !dir.getName().contains("module-info")){
+            } else if (dir.isFile() && dir.getName().endsWith(".java") && !dir.getName().contains("module-info")) {
                 //module info can't be parsed and causes a crash if parser tries to get it so we take it out
                 java_files.add(dir);
             }

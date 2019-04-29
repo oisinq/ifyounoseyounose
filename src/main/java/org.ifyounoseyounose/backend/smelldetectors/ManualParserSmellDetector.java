@@ -1,4 +1,5 @@
 package org.ifyounoseyounose.backend.smelldetectors;
+
 import org.ifyounoseyounose.backend.SmellReport;
 
 import java.io.File;

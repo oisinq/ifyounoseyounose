@@ -6,7 +6,6 @@ import java.nio.file.Files;
 import java.util.*;
 
 public class FileReport {
-    //Todo need a better variable name for this.
     private HashMap<String, List<Integer>> detections = new HashMap<>();
     private File relatedFile;
 
@@ -36,7 +35,7 @@ public class FileReport {
 
         if (smellyLines.contains(0)) {
             try {
-                return (int)Files.lines(relatedFile.toPath()).count();
+                return (int) Files.lines(relatedFile.toPath()).count();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -44,18 +43,18 @@ public class FileReport {
         return smellyLines.size();
     }
 
-    public double getSmellyLinePercentage() {
+    private double getSmellyLinePercentage() {
         try {
             int numberOfSmellyLines = getSmellyLinesCount();
             long totalNumberOfLines = Files.lines(relatedFile.toPath()).count();
-            return 100.0*numberOfSmellyLines/totalNumberOfLines;
+            return 100.0 * numberOfSmellyLines / totalNumberOfLines;
         } catch (Exception e) {
             System.err.println("Cannot open file at path " + relatedFile.toPath().toString());
         }
         return -1.0;
     }
 
-    public Map<String, Integer> getSmellyLineCountPerSmell() {
+    private Map<String, Integer> getSmellyLineCountPerSmell() {
         Map<String, Integer> lineCountPerSmell = new HashMap<>();
         for (String smellName : detections.keySet()) {
             lineCountPerSmell.put(smellName, detections.get(smellName).size());
@@ -74,11 +73,11 @@ public class FileReport {
         return sortedEntries;
     }
 
-    public Set<String> getPresentSmells() {
+    Set<String> getPresentSmells() {
         return detections.keySet();
     }
 
-    public boolean isEmpty() {
+    boolean isEmpty() {
         for (List<Integer> l : detections.values()) {
             if (!l.isEmpty()) {
                 return false;
@@ -89,10 +88,11 @@ public class FileReport {
 
     public String toString() {
         StringBuilder output = new StringBuilder("File: " + getFile().toString() + "\n");
+        output.append("Smelly percentage:").append(getSmellyLinePercentage()).append("\n");
         for (String s : detections.keySet()) {
             output.append("Smell: ").append(s).append("\n").append("Lines ");
             List<Integer> lines = detections.get(s);
-            for (int i = 0; i < lines.size()-2; i++) {
+            for (int i = 0; i < lines.size() - 2; i++) {
                 output.append(lines.get(i)).append(", ");
             }
             output.append("& ").append(lines.get(lines.size() - 1)).append("\n");

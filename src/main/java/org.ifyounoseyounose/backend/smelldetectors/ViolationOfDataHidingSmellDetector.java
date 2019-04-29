@@ -2,19 +2,18 @@ package org.ifyounoseyounose.backend.smelldetectors;
 
 import org.ifyounoseyounose.backend.SmellReport;
 
-import java.lang.reflect.Modifier;
-import java.util.*;
-
-import java.lang.reflect.Field;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.io.BufferedReader;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.*;
 
 public class ViolationOfDataHidingSmellDetector implements ReflectionSmellDetector, SmellDetector {
 
     @Override
     public SmellReport detectSmell(HashMap<Class, File> classes) {
-        
+
         SmellReport smells = new SmellReport();
         for (Class current : classes.keySet()) {    //iterate through all the classes in the hashmap
             List<String> publicFields = new ArrayList<>();

@@ -1,4 +1,5 @@
 package org.ifyounoseyounose.GUI;
+
 import javafx.scene.Node;
 
 public class EmptyLinkedImage implements LinkedImage {

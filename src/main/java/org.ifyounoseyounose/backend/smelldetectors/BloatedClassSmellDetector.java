@@ -11,8 +11,10 @@ import java.util.List;
 
 public class BloatedClassSmellDetector extends LimitableSmellDetector implements ManualParserSmellDetector, SmellDetector {
 
-    public BloatedClassSmellDetector() {super(34);
+    public BloatedClassSmellDetector() {
+        super(34);
     }
+
     @Override
     public SmellReport detectSmell(List<File> files) {
 
@@ -31,27 +33,27 @@ public class BloatedClassSmellDetector extends LimitableSmellDetector implements
 
                 while (line != null) {
                     line = line.trim();
-                    if(line.startsWith("//") || line.startsWith("*") || line.length() == 0){
+                    if (line.startsWith("//") || line.startsWith("*") || line.length() == 0) {
                         removeLines++;
                     }
 
                     line = bufferedReader.readLine();
                     lineNumber++;
 
-                 }
+                }
 
             } catch (Exception e) {
                 System.err.println("Invalid file" + e.toString());
             }
 
-            if (limit <= lineNumber-removeLines) {
+            if (limit <= lineNumber - removeLines) {
                 lines.add(0); // highlight line 1 (to signify that the class is smelly)
 
             }
             smells.addToReport(current, lines);
         }
 
-            return smells;
+        return smells;
 
     }
 

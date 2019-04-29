@@ -1,5 +1,4 @@
 package org.ifyounoseyounose.backend.smelldetectors;
-import java.util.List;
 
 import com.github.javaparser.Range;
 import com.github.javaparser.ast.Node;
@@ -7,6 +6,7 @@ import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.comments.Comment;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 
+import java.util.List;
 
 
 public class BloatedMethodCollector extends VoidVisitorAdapter<List<Integer>> {

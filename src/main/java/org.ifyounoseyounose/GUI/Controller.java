@@ -1,23 +1,14 @@
 package org.ifyounoseyounose.GUI;
 
+import com.google.common.eventbus.Subscribe;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
-import com.google.common.eventbus.Subscribe;
-import java.io.File;
-import javafx.scene.control.TextArea;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.*;
-import java.util.function.BiConsumer;
-import java.util.function.Function;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -25,37 +16,78 @@ import org.fxmisc.flowless.VirtualizedScrollPane;
 import org.fxmisc.richtext.GenericStyledArea;
 import org.fxmisc.richtext.StyledTextArea;
 import org.fxmisc.richtext.TextExt;
-import org.fxmisc.richtext.model.Codec;
-import org.fxmisc.richtext.model.Paragraph;
-import org.fxmisc.richtext.model.SegmentOps;
-import org.fxmisc.richtext.model.StyledSegment;
-import org.fxmisc.richtext.model.TextOps;
-import org.ifyounoseyounose.backend.FileReport;
+import org.fxmisc.richtext.model.*;
 import org.ifyounoseyounose.backend.CompleteReport;
+import org.ifyounoseyounose.backend.FileReport;
 import org.reactfx.SuspendableNo;
 import org.reactfx.util.Either;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.*;
+import java.util.function.BiConsumer;
+import java.util.function.Function;
+
 public class Controller {
 
+    private static Boolean JavaToggle;
+    private final TextOps<String, TextStyle> styledTextOps = SegmentOps.styledTextOps();
+    private final LinkedImageOps<TextStyle> linkedImageOps = new LinkedImageOps<>();
+    private final GenericStyledArea<ParStyle, Either<String, LinkedImage>, TextStyle> area =
+            new GenericStyledArea<>(
+                    ParStyle.EMPTY,                                                 // default paragraph style
+                    (paragraph, style) -> paragraph.setStyle(style.toCss()),        // paragraph style setter
+
+                    TextStyle.EMPTY.updateFontSize(12).updateFontFamily("Serif").updateTextColor(Color.BLACK),  // default segment style
+                    styledTextOps._or(linkedImageOps, (s1, s2) -> Optional.empty()),                            // segment operations
+                    seg -> createNode(seg, (text, style) -> text.setStyle(style.toCss())));                     // Node creator and segment style setter
+    private final SuspendableNo updatingToolbar = new SuspendableNo();
     @FXML
-    private TextArea projectStats,fileStats;
+    BarChart projectBarChart, fileBarChart;
+    @FXML
+    PieChart projectPieChart, filePieChart;
+    @FXML
+    private TextArea projectStats, fileStats;
     @FXML
     private TreeView<String> treeView;
     @FXML
     private Tab code;
-    public String InputDirectory = null;//
+    private String InputDirectory = null;//
     private CompleteReport completeReport;
     private FileReport fileReport;
-    private static Boolean JavaToggle;
     private HashMap<String, Color> colourTracker = new HashMap<>();
     @FXML
     private ColorPicker ArrowHeadedColour, BloatedClassColour, BloatedMethodColour, BloatedParameterColour,
             DataOnlyColour, DataHidingColour, DeadCodeColour, DuplicateCodeColour, MessageChainingColour,
-            PrimitiveObsessionColour, SwitchStatementColour,SpeculativeGeneralityColour,TemporaryFieldsColour, TooManyLiteralsColour;
+            PrimitiveObsessionColour, SwitchStatementColour, SpeculativeGeneralityColour, TemporaryFieldsColour, TooManyLiteralsColour;
     private HashMap<String, ColorPicker> colorPickers = new HashMap<>();
-    @FXML private ListView<Map.Entry<String,String>> projectSmellListbyLine,projectSmellListbySmell,fileSmellList;
-    @FXML BarChart projectBarChart,fileBarChart;
-    @FXML PieChart projectPieChart,filePieChart;
+    @FXML
+    private ListView<Map.Entry<String, String>> projectSmellListbyLine, projectSmellListbySmell, fileSmellList;
+
+    {
+        area.setWrapText(true);
+        area.setStyleCodecs(
+                ParStyle.CODEC,
+                Codec.styledSegmentCodec(Codec.eitherCodec(Codec.STRING_CODEC, LinkedImage.codec()), TextStyle.CODEC));
+    }
+
+    private static void createTree(File file, TreeItem<String> parent) {
+        if (file.isDirectory()) {
+            TreeItem<String> treeItem = new TreeItem<>(file.getName());
+            parent.getChildren().add(treeItem);
+            File[] fileList = file.listFiles();
+            if (fileList != null) {
+                Arrays.sort(fileList);
+                for (File f : fileList) {
+                    createTree(f, treeItem);
+                }
+            }
+        } else if (!JavaToggle || file.getName().endsWith(".java")) {
+            parent.getChildren().add(new TreeItem<>(file.getName()));
+        }
+    }
 
     // the initialize method is automatically invoked by the FXMLLoader - it's magic
     public void initialize() {
@@ -68,6 +100,7 @@ public class Controller {
             }
         });
 
+        final boolean[] projectStatsRan = {false};
         initializecolourTracker();
         initializeColorPickers();
         setColourButtons();
@@ -115,7 +148,7 @@ public class Controller {
             setClassColours();
         });
         SpeculativeGeneralityColour.setOnAction(t -> {
-            colourTracker.replace("SpeculativeGenerality",  SpeculativeGeneralityColour.getValue());
+            colourTracker.replace("SpeculativeGenerality", SpeculativeGeneralityColour.getValue());
             setClassColours();
         });
         SwitchStatementColour.setOnAction(t -> {
@@ -137,74 +170,75 @@ public class Controller {
                 area.replaceText(classString);
                 clearStats();
                 fileReport = completeReport.getAllDetectedSmells(new File(getPathFromTreeView(v.getValue())));
-                if (fileReport!=null){
+                if (!projectStatsRan[0]) {
+                    projectStatsBuilder();
+                    projectStatsRan[0] = true;
+                }
+                if (fileReport != null) {
                     setClassColours();
                     fileStatsBuilder();
-                    projectStatsBuilder();
-                }else{
+                } else {
                     fileStats.setText("All Clear!");
                 }
             } catch (IOException e) {
+                System.err.println("Cannot get path " + getPathFromTreeView(v.getValue()));
             }
         });
     }
 
-    private void clearStats(){
+    private void clearStats() {
         area.clearStyle(0, area.getLength());
         fileBarChart.getData().clear();
         filePieChart.getData().clear();
         fileSmellList.getItems().clear();
-        projectBarChart.getData().clear();
-        projectPieChart.getData().clear();
-        projectSmellListbySmell.getItems().clear();
-        projectSmellListbyLine.getItems().clear();
     }
 
-    private void fileStatsBuilder(){
-        XYChart.Series dataSeries= new XYChart.Series();
-        int a=fileReport.getSmellyLinesCount();
-        fileStats.setText("There are " + a + " Smelly lines in this file\n\n------File Report--------\n\n" + fileReport.toString());
+    private void fileStatsBuilder() {
+        XYChart.Series dataSeries = new XYChart.Series();
+        int a = fileReport.getSmellyLinesCount();
+        fileStats.setText("There are " + a + " Smelly lines in this file");
 
-        List<Map.Entry<String, Integer>> listOfSmellsByCount=fileReport.getListOfSmellsByCount();
+        List<Map.Entry<String, Integer>> listOfSmellsByCount = fileReport.getListOfSmellsByCount();
         ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
 
-        for (Map.Entry<String,Integer> s: listOfSmellsByCount) {
-            AbstractMap.SimpleEntry entryWithStringValue = new AbstractMap.SimpleEntry(s.getKey(), s.getValue().toString());
+        for (Map.Entry<String, Integer> s : listOfSmellsByCount) {
+            AbstractMap.SimpleEntry<String, String> entryWithStringValue = new AbstractMap.SimpleEntry<>(s.getKey(), s.getValue().toString());
             if (entryWithStringValue.getKey().equals("BloatedClass") || entryWithStringValue.getKey().equals("DataOnly")) {
                 entryWithStringValue.setValue("Full class smell");
             }
             fileSmellList.getItems().add(entryWithStringValue);
-            dataSeries.getData().add(new XYChart.Data(s.getKey(), s.getValue()));
-            pieChartData.add(new PieChart.Data(s.getKey(),s.getValue()));
+            if (!entryWithStringValue.getKey().equals("BloatedClass") && !entryWithStringValue.getKey().equals("DataOnly")) {
+                dataSeries.getData().add(new XYChart.Data(s.getKey(), s.getValue()));
+                pieChartData.add(new PieChart.Data(s.getKey(), s.getValue()));
+            }
         }
         fileBarChart.getData().add(dataSeries);
         fileBarChart.setLegendVisible(false);
         filePieChart.setData(pieChartData);
     }
 
-    private void projectStatsBuilder(){
-        XYChart.Series dataSeries= new XYChart.Series();
-        int a=completeReport.getNumberOfSmellyLines();
-        projectStats.setText("There are " + a + " smelly lines across your project\n\n------Complete Project Report--------\n\n" + completeReport.toString());
+    private void projectStatsBuilder() {
+        XYChart.Series dataSeries = new XYChart.Series();
+        int a = completeReport.getNumberOfSmellyLines();
+        projectStats.setText("There are " + a + " smelly lines across your project");
 
-        List<Map.Entry<String, Integer>> filesByLineCount=completeReport.getListOfFilesByLineCount();
+        List<Map.Entry<String, Integer>> filesByLineCount = completeReport.getListOfFilesByLineCount();
 
-        //fileSmellList.getItems().addAll();
         ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
-        int counter=0;
-        for (Map.Entry<String,Integer> s: filesByLineCount) {
-            AbstractMap.SimpleEntry entryWithStringValue = new AbstractMap.SimpleEntry(s.getKey(), s.getValue().toString());
-                projectSmellListbyLine.getItems().add(entryWithStringValue);
-            if (counter<10) {
+        int counter = 0;
+        for (Map.Entry<String, Integer> s : filesByLineCount) {
+            AbstractMap.SimpleEntry<String, String> entryWithStringValue = new AbstractMap.SimpleEntry<>(s.getKey(), s.getValue().toString());
+            projectSmellListbyLine.getItems().add(entryWithStringValue);
+            if (counter < 10) {
                 counter++;
-                dataSeries.getData().add(new XYChart.Data(s.getKey().substring(0,12), s.getValue()));
+                dataSeries.getData().add(new XYChart.Data(s.getKey().substring(0, 12), s.getValue()));
             }
         }
-        counter=0;
-        for (Map.Entry<String,Integer> s: completeReport.getListOfFilesBySmellCount()) {
-            AbstractMap.SimpleEntry entryWithStringValue = new AbstractMap.SimpleEntry(s.getKey(), s.getValue().toString());
+        counter = 0;
+        for (Map.Entry<String, Integer> s : completeReport.getListOfFilesBySmellCount()) {
+            AbstractMap.SimpleEntry<String, String> entryWithStringValue = new AbstractMap.SimpleEntry<>(s.getKey(), s.getValue().toString());
             projectSmellListbySmell.getItems().add(entryWithStringValue);
-            if (counter<10) {
+            if (counter < 10) {
                 counter++;
                 pieChartData.add(new PieChart.Data(s.getKey(), s.getValue()));
             }
@@ -249,7 +283,7 @@ public class Controller {
         colorPickers.put("DuplicateCode", DuplicateCodeColour);
         colorPickers.put("MessageChaining", MessageChainingColour);
         colorPickers.put("PrimitiveObsession", PrimitiveObsessionColour);
-        colorPickers.put("SpeculativeGenerality",SpeculativeGeneralityColour);
+        colorPickers.put("SpeculativeGenerality", SpeculativeGeneralityColour);
         colorPickers.put("SwitchStatement", SwitchStatementColour);
         colorPickers.put("TemporaryFields", TemporaryFieldsColour);
         colorPickers.put("TooManyLiterals", TooManyLiteralsColour);
@@ -270,53 +304,20 @@ public class Controller {
         completeReport = report;
     }
 
-    public static void createTree(File file, TreeItem<String> parent) {
-        if (file.isDirectory()) {
-            TreeItem<String> treeItem = new TreeItem<>(file.getName());
-            parent.getChildren().add(treeItem);
-            File fileList[] = file.listFiles();
-            Arrays.sort(fileList);
-            for (File f : fileList) {
-                createTree(f, treeItem);
-            }
-        } else if (!JavaToggle || file.getName().endsWith(".java")) {
-            parent.getChildren().add(new TreeItem<>(file.getName()));
-        }
-    }
-
-    public void displayTreeView(String inputDirectoryLocation) {
+    private void displayTreeView(String inputDirectoryLocation) {
         TreeItem<String> rootItem = new TreeItem<>(inputDirectoryLocation);
         File Input = new File(inputDirectoryLocation);
-        File fileList[] = Input.listFiles();
-        Arrays.sort(fileList);
-        for (File file : fileList) {
-            createTree(file, rootItem);
+        File[] fileList = Input.listFiles();
+        if (fileList != null) {
+            Arrays.sort(fileList);
+            for (File file : fileList) {
+                createTree(file, rootItem);
+            }
         }
         treeView.setRoot(rootItem);
     }
 
-    private final TextOps<String, TextStyle> styledTextOps = SegmentOps.styledTextOps();
-    private final LinkedImageOps<TextStyle> linkedImageOps = new LinkedImageOps<>();
-    private final GenericStyledArea<ParStyle, Either<String, LinkedImage>, TextStyle> area =
-            new GenericStyledArea<>(
-                    ParStyle.EMPTY,                                                 // default paragraph style
-                    (paragraph, style) -> paragraph.setStyle(style.toCss()),        // paragraph style setter
-
-                    TextStyle.EMPTY.updateFontSize(12).updateFontFamily("Serif").updateTextColor(Color.BLACK),  // default segment style
-                    styledTextOps._or(linkedImageOps, (s1, s2) -> Optional.empty()),                            // segment operations
-                    seg -> createNode(seg, (text, style) -> text.setStyle(style.toCss())));                     // Node creator and segment style setter
-
-    {
-        area.setWrapText(true);
-        area.setStyleCodecs(
-                ParStyle.CODEC,
-                Codec.styledSegmentCodec(Codec.eitherCodec(Codec.STRING_CODEC, LinkedImage.codec()), TextStyle.CODEC));
-    }
-
-    private final SuspendableNo updatingToolbar = new SuspendableNo();
-
-
-    public Node displayCodeTab() {
+    private Node displayCodeTab() {
         area.setEditable(false);
 
         VirtualizedScrollPane<GenericStyledArea<ParStyle, Either<String, LinkedImage>, TextStyle>> vsPane = new VirtualizedScrollPane<>(area);
@@ -324,8 +325,7 @@ public class Controller {
         VBox.setVgrow(vsPane, Priority.ALWAYS);
         vbox.getChildren().addAll(vsPane);
 
-        Node node = vbox;
-        return node;
+        return vbox;
     }
 
     private Node createNode(StyledSegment<Either<String, LinkedImage>, TextStyle> seg,
@@ -346,8 +346,8 @@ public class Controller {
         }
     }
 
-    public void setLineColour(Color color, int line) {//TODO Rename as set line smell
-        if (line==-1){
+    private void setLineColour(Color color, int line) {
+        if (line == -1) {
             for (int i = 0; i < area.getText().split("\n").length; i++) {
                 updateParagraphBackground(color, i);
             }
@@ -356,13 +356,13 @@ public class Controller {
         }
     }
 
-    public void resetAllLines() {
+    private void resetAllLines() {
         for (int i = 0; i < area.getText().split("\n").length; i++) {
             updateParagraphBackground(Color.WHITE, i);
         }
     }
 
-    public void setClassColours() {
+    private void setClassColours() {
         HashMap<String, List<Integer>> fileReportHashMap = fileReport.getSmellDetections();
         resetAllLines();
 

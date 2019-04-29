@@ -1,6 +1,8 @@
 package org.ifyounoseyounose.GUI;
 
-import static javafx.scene.text.TextAlignment.*;
+import javafx.scene.paint.Color;
+import javafx.scene.text.TextAlignment;
+import org.fxmisc.richtext.model.Codec;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -8,10 +10,7 @@ import java.io.IOException;
 import java.util.Objects;
 import java.util.Optional;
 
-import javafx.scene.paint.Color;
-import javafx.scene.text.TextAlignment;
-
-import org.fxmisc.richtext.model.Codec;
+import static javafx.scene.text.TextAlignment.*;
 
 /**
  * Holds information about the style of a paragraph.
@@ -47,11 +46,25 @@ class ParStyle {
 
     };
 
-    public static ParStyle alignLeft() { return EMPTY.updateAlignment(LEFT); }
-    public static ParStyle alignCenter() { return EMPTY.updateAlignment(CENTER); }
-    public static ParStyle alignRight() { return EMPTY.updateAlignment(RIGHT); }
-    public static ParStyle alignJustify() { return EMPTY.updateAlignment(JUSTIFY); }
-    public static ParStyle backgroundColor(Color color) { return EMPTY.updateBackgroundColor(color); }
+    public static ParStyle alignLeft() {
+        return EMPTY.updateAlignment(LEFT);
+    }
+
+    public static ParStyle alignCenter() {
+        return EMPTY.updateAlignment(CENTER);
+    }
+
+    public static ParStyle alignRight() {
+        return EMPTY.updateAlignment(RIGHT);
+    }
+
+    public static ParStyle alignJustify() {
+        return EMPTY.updateAlignment(JUSTIFY);
+    }
+
+    public static ParStyle backgroundColor(Color color) {
+        return EMPTY.updateBackgroundColor(color);
+    }
 
     final Optional<TextAlignment> alignment;
     final Optional<Color> backgroundColor;
@@ -72,7 +85,7 @@ class ParStyle {
 
     @Override
     public boolean equals(Object other) {
-        if(other instanceof ParStyle) {
+        if (other instanceof ParStyle) {
             ParStyle that = (ParStyle) other;
             return Objects.equals(this.alignment, that.alignment) &&
                     Objects.equals(this.backgroundColor, that.backgroundColor);
@@ -91,12 +104,21 @@ class ParStyle {
 
         alignment.ifPresent(al -> {
             String cssAlignment;
-            switch(al) {
-                case LEFT:    cssAlignment = "left";    break;
-                case CENTER:  cssAlignment = "center";  break;
-                case RIGHT:   cssAlignment = "right";   break;
-                case JUSTIFY: cssAlignment = "justify"; break;
-                default: throw new AssertionError("unreachable code");
+            switch (al) {
+                case LEFT:
+                    cssAlignment = "left";
+                    break;
+                case CENTER:
+                    cssAlignment = "center";
+                    break;
+                case RIGHT:
+                    cssAlignment = "right";
+                    break;
+                case JUSTIFY:
+                    cssAlignment = "justify";
+                    break;
+                default:
+                    throw new AssertionError("unreachable code");
             }
             sb.append("-fx-text-alignment: " + cssAlignment + ";");
         });

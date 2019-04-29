@@ -20,7 +20,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<VBox prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.ifyounoseyounose.GUI.Controller">
+<VBox prefHeight="700.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.ifyounoseyounose.GUI.Controller">
   <children>
     <SplitPane dividerPositions="0.1523046092184369, 0.7585170340681363" focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <items>

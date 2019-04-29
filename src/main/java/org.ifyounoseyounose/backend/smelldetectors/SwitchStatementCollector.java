@@ -19,7 +19,7 @@ public class SwitchStatementCollector extends VoidVisitorAdapter<List<Integer>> 
 
         // This checks if the number of cases is over the limit. If it is, we add the lines to the list.
         // We subtract one because getChildNodes() also includes the condition of the switch statement
-        if ((md.getChildNodes().size()-1) > limit) {
+        if ((md.getChildNodes().size() - 1) > limit) {
             addLineNumbers(md, collector);
         }
     }

@@ -1,4 +1,5 @@
 package org.ifyounoseyounose.backend.smelldetectors;
+
 import com.github.javaparser.ast.CompilationUnit;
 import org.ifyounoseyounose.backend.SmellReport;
 

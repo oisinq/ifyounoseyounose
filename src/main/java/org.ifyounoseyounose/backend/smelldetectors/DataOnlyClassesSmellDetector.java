@@ -7,8 +7,8 @@ import org.ifyounoseyounose.backend.SmellReport;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.LinkedHashSet;
+import java.util.List;
 
 public class DataOnlyClassesSmellDetector extends LimitableSmellDetector implements JavaParserSmellDetector, SmellDetector {
 
@@ -30,7 +30,6 @@ public class DataOnlyClassesSmellDetector extends LimitableSmellDetector impleme
             visitorData.visit(compilationUnit, collector);
             LinkedHashSet<Integer> hashSet = new LinkedHashSet<>(collector);
             ArrayList<Integer> listWithoutDuplicates = new ArrayList<>(hashSet);
-            // System.out.println(limit + " " + listWithoutDuplicates.size());
             if (listWithoutDuplicates.size() == limit) {
                 listWithoutDuplicates.clear();
                 listWithoutDuplicates.add(0);
