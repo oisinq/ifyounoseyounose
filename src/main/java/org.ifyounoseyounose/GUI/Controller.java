@@ -2,9 +2,6 @@ package org.ifyounoseyounose.GUI;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -12,20 +9,15 @@ import javafx.scene.chart.BarChart;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
-import javafx.stage.Stage;
 import com.google.common.eventbus.Subscribe;
-
 import java.io.File;
-
 import javafx.scene.control.TextArea;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
-
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -46,13 +38,11 @@ import org.reactfx.util.Either;
 public class Controller {
 
     @FXML
-    private TextArea txtView,fileStats;
+    private TextArea projectStats,fileStats;
     @FXML
     private TreeView<String> treeView;
     @FXML
     private Tab code;
-    @FXML
-    private MenuItem backToSetup;
     public String InputDirectory = null;//
     private Scene firstScene;
     private CompleteReport completeReport;
@@ -64,9 +54,9 @@ public class Controller {
             DataOnlyColour, DataHidingColour, DeadCodeColour, DuplicateCodeColour, MessageChainingColour,
             PrimitiveObsessionColour, SwitchStatementColour,SpeculativeGeneralityColour,TemporaryFieldsColour, TooManyLiteralsColour;
     private HashMap<String, ColorPicker> colorPickers = new HashMap<>();
-    @FXML private ListView<Map.Entry<String,String>> SmellList;
-    @FXML BarChart fileBarChart;
-    @FXML PieChart filePieChart;
+    @FXML private ListView<Map.Entry<String,String>> projectSmellListbyLine,projectSmellListbySmell,fileSmellList;
+    @FXML BarChart projectBarChart,fileBarChart;
+    @FXML PieChart projectPieChart,filePieChart;
 
     // the initialize method is automatically invoked by the FXMLLoader - it's magic
     public void initialize() {
@@ -146,14 +136,12 @@ public class Controller {
             try {
                 String classString = Files.readString(Path.of(getPathFromTreeView(v.getValue())));
                 area.replaceText(classString);
-                area.clearStyle(0, area.getLength());
-                fileBarChart.getData().clear();
-                filePieChart.getData().clear();
-                SmellList.getItems().clear();
+                clearStats();
                 fileReport = completeReport.getAllDetectedSmells(new File(getPathFromTreeView(v.getValue())));
                 if (fileReport!=null){
                     setClassColours();
-                    fileReportBuilder();
+                    fileStatsBuilder();
+                    projectStatsBuilder();
                 }else{
                     fileStats.setText("All Clear!");
                 }
@@ -163,27 +151,69 @@ public class Controller {
         });
     }
 
-    private void fileReportBuilder(){
+    private void clearStats(){
+        area.clearStyle(0, area.getLength());
+        fileBarChart.getData().clear();
+        filePieChart.getData().clear();
+        fileSmellList.getItems().clear();
+        projectBarChart.getData().clear();
+        projectPieChart.getData().clear();
+        projectSmellListbySmell.getItems().clear();
+        projectSmellListbyLine.getItems().clear();
+    }
+
+    private void fileStatsBuilder(){
         XYChart.Series dataSeries= new XYChart.Series();
         int a=fileReport.getSmellyLinesCount();
         fileStats.setText("There are " + a + " Smelly lines in this file");
 
-        List<Map.Entry<String, Integer>> b=fileReport.getListOfSmellsByCount();
-        SmellList.getItems().addAll();
-        ObservableList<PieChart.Data> pieChartData =
-                FXCollections.observableArrayList();
+        List<Map.Entry<String, Integer>> listOfSmellsByCount=fileReport.getListOfSmellsByCount();
+        //fileSmellList.getItems().addAll();
+        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
 
-        for (Map.Entry<String,Integer> s: b) {
+        for (Map.Entry<String,Integer> s: listOfSmellsByCount) {
             AbstractMap.SimpleEntry entryWithStringValue = new AbstractMap.SimpleEntry(s.getKey(), s.getValue().toString());
             if (entryWithStringValue.getKey().equals("BloatedClass") || entryWithStringValue.getKey().equals("DataOnly")) {
                 entryWithStringValue.setValue("Full class smell");
             }
-            SmellList.getItems().add(entryWithStringValue);
+            fileSmellList.getItems().add(entryWithStringValue);
             dataSeries.getData().add(new XYChart.Data(s.getKey(), s.getValue()));
             pieChartData.add(new PieChart.Data(s.getKey(),s.getValue()));
         }
         fileBarChart.getData().add(dataSeries);
         filePieChart.setData(pieChartData);
+    }
+
+    private void projectStatsBuilder(){
+        XYChart.Series dataSeries= new XYChart.Series();
+        int a=completeReport.getNumberOfSmellyLines();
+        projectStats.setText("There are " + a + " across your project");
+
+        List<Map.Entry<String, Integer>> filesByLineCount=completeReport.getListOfFilesByLineCount();
+
+        //fileSmellList.getItems().addAll();
+        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
+        int counter=0;
+        for (Map.Entry<String,Integer> s: filesByLineCount) {
+            AbstractMap.SimpleEntry entryWithStringValue = new AbstractMap.SimpleEntry(s.getKey(), s.getValue().toString());
+                projectSmellListbyLine.getItems().add(entryWithStringValue);
+            if (counter<10) {
+                counter++;
+                dataSeries.getData().add(new XYChart.Data(s.getKey(), s.getValue()));
+            }
+        }
+        counter=0;
+        for (Map.Entry<String,Integer> s: completeReport.getListOfFilesBySmellCount()) {
+            AbstractMap.SimpleEntry entryWithStringValue = new AbstractMap.SimpleEntry(s.getKey(), s.getValue().toString());
+            projectSmellListbySmell.getItems().add(entryWithStringValue);
+            if (counter<10) {
+                counter++;
+                pieChartData.add(new PieChart.Data(s.getKey(), s.getValue()));
+            }
+        }
+
+        projectBarChart.getData().add(dataSeries);
+        projectPieChart.setData(pieChartData);
     }
 
     private void setColourButtons() {
@@ -227,7 +257,6 @@ public class Controller {
         colorPickers.put("TooManyLiterals", TooManyLiteralsColour);
     }
 
-
     //this gets the filepath of a object from its treeview location
     public String getPathFromTreeView(TreeItem<String> v) {
         StringBuilder pathBuilder = new StringBuilder();
@@ -241,15 +270,6 @@ public class Controller {
 
     public void setCompleteReport(CompleteReport report) {
         completeReport = report;
-    }
-
-    public void setFirstScene(Scene scene) {
-        firstScene = scene;
-    }
-
-    public void openFirstScene(ActionEvent actionEvent) {
-        Stage primaryStage = (Stage) treeView.getScene().getWindow();
-        primaryStage.setScene(firstScene);
     }
 
     public static void createTree(File file, TreeItem<String> parent) {
