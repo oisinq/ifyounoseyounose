@@ -7,6 +7,8 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -57,10 +59,10 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-        <TextField fx:id="displayDirectory" prefHeight="0.0" prefWidth="228.0" GridPane.columnIndex="5" GridPane.columnSpan="6" GridPane.rowIndex="4" />
-        <Button fx:id="browse" mnemonicParsing="false" text="Browse" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
-        <Button fx:id="smellTime" mnemonicParsing="false" text="Smell Time" GridPane.columnIndex="11" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
-        <Button fx:id="settingsDisplay" mnemonicParsing="false" styleClass="fill-btn" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
+        <TextField fx:id="displayDirectory" prefHeight="0.0" prefWidth="228.0" GridPane.columnIndex="5" GridPane.columnSpan="6" GridPane.rowIndex="5" />
+        <Button fx:id="browse" mnemonicParsing="false" text="Browse" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.rowIndex="5" GridPane.valignment="CENTER" />
+        <Button fx:id="smellTime" mnemonicParsing="false" text="Smell Time" GridPane.columnIndex="11" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="5" />
+        <Button fx:id="settingsDisplay" mnemonicParsing="false" styleClass="fill-btn" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="7" />
             <ScrollPane fx:id="scrollPane" prefHeight="248.0" prefWidth="903.0" vbarPolicy="ALWAYS" GridPane.columnSpan="16" GridPane.rowIndex="9" GridPane.rowSpan="10">
                <content>
                   <GridPane prefHeight="337.0">
@@ -168,6 +170,11 @@
                   <Insets right="10.0" />
                </GridPane.margin>
             </ScrollPane>
+            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.rowSpan="2" GridPane.valignment="CENTER">
+               <image>
+                  <Image url="@splash.jpg" />
+               </image>
+            </ImageView>
          </children>
       </GridPane>
   </children>
