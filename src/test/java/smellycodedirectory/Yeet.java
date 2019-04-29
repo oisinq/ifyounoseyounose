@@ -1,20 +1,22 @@
 package smellycodedirectory;
 
 public class Yeet {
-    int a =0;
+
     public void lol() {
         System.out.println("hup the lads");
         double i;
-        i=1+1;
-        i=0;
+        i = 1 + 1;
+        i = 0;
+        reeeeee l = new reeeeee();
+        l.x().y().z();
 
-        //lol.ha().ha().ha()
     }
-    public int ty()
-    {
-        a=1;
-        return a;
+    public class reeeeee{
+        public reeeeee x(){return new reeeeee();}
+        public reeeeee z(){return new reeeeee();}
+        public reeeeee y(){return new reeeeee();}
+        public reeeeee a(){return new reeeeee();}
+        public reeeeee b(){return new reeeeee();}
+        public reeeeee c(){return new reeeeee();}
     }
-
 }
-

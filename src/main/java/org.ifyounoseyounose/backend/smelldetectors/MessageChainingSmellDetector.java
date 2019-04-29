@@ -34,7 +34,7 @@ public class MessageChainingSmellDetector extends LimitableSmellDetector impleme
 
     private void checkRegex(String line, int count, List<Integer> current){
         if (!line.trim().startsWith("/") && !line.startsWith("*")) {
-            if (line.matches(".*(\\..*\\(.*\\)){" + limit + ",};")) { // Regular expression check
+            if (line.matches("[^/].*(\\..*\\(.*\\)){"+limit+",};")) { // Regular expression check
                 current.add(count);
             }
         }
