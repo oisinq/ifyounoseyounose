@@ -181,6 +181,7 @@ public class Controller {
             pieChartData.add(new PieChart.Data(s.getKey(),s.getValue()));
         }
         fileBarChart.getData().add(dataSeries);
+        fileBarChart.setLegendVisible(false);
         //fileBarChart.getXAxis().
         filePieChart.setData(pieChartData);
     }
@@ -200,7 +201,7 @@ public class Controller {
                 projectSmellListbyLine.getItems().add(entryWithStringValue);
             if (counter<10) {
                 counter++;
-                dataSeries.getData().add(new XYChart.Data(s.getKey(), s.getValue()));
+                dataSeries.getData().add(new XYChart.Data(s.getKey().substring(0,12), s.getValue()));
             }
         }
         counter=0;
@@ -212,8 +213,8 @@ public class Controller {
                 pieChartData.add(new PieChart.Data(s.getKey(), s.getValue()));
             }
         }
-
         projectBarChart.getData().add(dataSeries);
+        projectBarChart.setLegendVisible(false);
         projectPieChart.setData(pieChartData);
     }
 
