@@ -170,7 +170,7 @@
                   <Insets right="10.0" />
                </GridPane.margin>
             </ScrollPane>
-            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.rowSpan="2" GridPane.valignment="CENTER">
+            <ImageView fitHeight="178.0" fitWidth="317.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.rowSpan="3" GridPane.valignment="CENTER">
                <image>
                   <Image url="@splash.jpg" />
                </image>
