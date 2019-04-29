@@ -101,38 +101,6 @@ class TextStyle {
         }
     };
 
-    public static TextStyle bold(boolean bold) {
-        return EMPTY.updateBold(bold);
-    }
-
-    public static TextStyle italic(boolean italic) {
-        return EMPTY.updateItalic(italic);
-    }
-
-    public static TextStyle underline(boolean underline) {
-        return EMPTY.updateUnderline(underline);
-    }
-
-    public static TextStyle strikethrough(boolean strikethrough) {
-        return EMPTY.updateStrikethrough(strikethrough);
-    }
-
-    public static TextStyle fontSize(int fontSize) {
-        return EMPTY.updateFontSize(fontSize);
-    }
-
-    public static TextStyle fontFamily(String family) {
-        return EMPTY.updateFontFamily(family);
-    }
-
-    public static TextStyle textColor(Color color) {
-        return EMPTY.updateTextColor(color);
-    }
-
-    public static TextStyle backgroundColor(Color color) {
-        return EMPTY.updateBackgroundColor(color);
-    }
-
     static String cssColor(Color color) {
         int red = (int) (color.getRed() * 255);
         int green = (int) (color.getGreen() * 255);
@@ -277,34 +245,6 @@ class TextStyle {
         return sb.toString();
     }
 
-    public TextStyle updateWith(TextStyle mixin) {
-        return new TextStyle(
-                mixin.bold.isPresent() ? mixin.bold : bold,
-                mixin.italic.isPresent() ? mixin.italic : italic,
-                mixin.underline.isPresent() ? mixin.underline : underline,
-                mixin.strikethrough.isPresent() ? mixin.strikethrough : strikethrough,
-                mixin.fontSize.isPresent() ? mixin.fontSize : fontSize,
-                mixin.fontFamily.isPresent() ? mixin.fontFamily : fontFamily,
-                mixin.textColor.isPresent() ? mixin.textColor : textColor,
-                mixin.backgroundColor.isPresent() ? mixin.backgroundColor : backgroundColor);
-    }
-
-    public TextStyle updateBold(boolean bold) {
-        return new TextStyle(Optional.of(bold), italic, underline, strikethrough, fontSize, fontFamily, textColor, backgroundColor);
-    }
-
-    public TextStyle updateItalic(boolean italic) {
-        return new TextStyle(bold, Optional.of(italic), underline, strikethrough, fontSize, fontFamily, textColor, backgroundColor);
-    }
-
-    public TextStyle updateUnderline(boolean underline) {
-        return new TextStyle(bold, italic, Optional.of(underline), strikethrough, fontSize, fontFamily, textColor, backgroundColor);
-    }
-
-    public TextStyle updateStrikethrough(boolean strikethrough) {
-        return new TextStyle(bold, italic, underline, Optional.of(strikethrough), fontSize, fontFamily, textColor, backgroundColor);
-    }
-
     public TextStyle updateFontSize(int fontSize) {
         return new TextStyle(bold, italic, underline, strikethrough, Optional.of(fontSize), fontFamily, textColor, backgroundColor);
     }
@@ -315,9 +255,5 @@ class TextStyle {
 
     public TextStyle updateTextColor(Color textColor) {
         return new TextStyle(bold, italic, underline, strikethrough, fontSize, fontFamily, Optional.of(textColor), backgroundColor);
-    }
-
-    public TextStyle updateBackgroundColor(Color backgroundColor) {
-        return new TextStyle(bold, italic, underline, strikethrough, fontSize, fontFamily, textColor, Optional.of(backgroundColor));
     }
 }
