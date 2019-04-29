@@ -44,7 +44,6 @@ public class Controller {
     @FXML
     private Tab code;
     public String InputDirectory = null;//
-    private Scene firstScene;
     private CompleteReport completeReport;
     private FileReport fileReport;
     private static Boolean JavaToggle;
@@ -349,8 +348,6 @@ public class Controller {
 
     public void setLineColour(Color color, int line) {//TODO Rename as set line smell
         if (line==-1){
-            System.out.println("Class smell time!");
-            //updateParagraphBackground(color, line);//this is to set line 0
             for (int i = 0; i < area.getText().split("\n").length; i++) {
                 updateParagraphBackground(color, i);
             }
@@ -360,7 +357,6 @@ public class Controller {
     }
 
     public void resetAllLines() {
-        System.out.println("Resetting background to white");
         for (int i = 0; i < area.getText().split("\n").length; i++) {
             updateParagraphBackground(Color.WHITE, i);
         }
@@ -369,7 +365,6 @@ public class Controller {
     public void setClassColours() {
         HashMap<String, List<Integer>> fileReportHashMap = fileReport.getSmellDetections();
         resetAllLines();
-        System.out.println("File: " + fileReport.getFile().getName());
 
         setSmellColours("BloatedClass", fileReportHashMap);
         setSmellColours("DataOnly", fileReportHashMap);
@@ -390,7 +385,6 @@ public class Controller {
     private void setSmellColours(String smellName, HashMap<String, List<Integer>> fileReportHashMap) {
         if (fileReportHashMap.containsKey(smellName)) {
             List<Integer> smellyLines = fileReportHashMap.get(smellName);
-            System.out.println("SmellyLines for " + smellName + ": " + smellyLines.toString());
             for (int i : smellyLines) {
                 setLineColour(colourTracker.get(smellName), i - 1);
             }

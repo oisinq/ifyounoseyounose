@@ -45,8 +45,6 @@ public class SmellDetectorManager {
             results.add(smellReport);
         }
 
-        printSmellDetectorResults(results);
-
         return generateFileReports(files, results);
     }
 
@@ -195,7 +193,7 @@ public class SmellDetectorManager {
     }
 
     /**
-     * Prints the results of all the SmellDetectors
+     * Prints the results of all the SmellDetectors. Here for debugging reasons.
      * @param results A list of SmellReports
      */
     private void printSmellDetectorResults(List<SmellReport> results) {
@@ -235,7 +233,6 @@ public class SmellDetectorManager {
      * @param compUnits The CompilationUnit and File pairs that we need to use with JavaParser SmellDetectors
      */
     private SmellReport runCodeSmellDetector(SmellDetector smellDetector, List<File> files, HashMap<CompilationUnit, File> compUnits) {
-        System.out.println("Current smelldetector: " + smellDetector.getSmellName());
         SmellReport smellReport;
         // Check what type of smellDetector it is by seeing what interface it inherits
         // and call smellDetector.detectSmell() on it with the parameters corresponding to its interface
