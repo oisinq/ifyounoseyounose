@@ -68,6 +68,7 @@ public class Controller {
             }
         });
 
+        final boolean[] projectStatsRan = {false};
         initializecolourTracker();
         initializeColorPickers();
         setColourButtons();
@@ -137,10 +138,13 @@ public class Controller {
                 area.replaceText(classString);
                 clearStats();
                 fileReport = completeReport.getAllDetectedSmells(new File(getPathFromTreeView(v.getValue())));
+                if(!projectStatsRan[0]){
+                    projectStatsBuilder();
+                    projectStatsRan[0] =true;
+                }
                 if (fileReport!=null){
                     setClassColours();
                     fileStatsBuilder();
-                    projectStatsBuilder();
                 }else{
                     fileStats.setText("All Clear!");
                 }
@@ -155,10 +159,6 @@ public class Controller {
         fileBarChart.getData().clear();
         filePieChart.getData().clear();
         fileSmellList.getItems().clear();
-        projectBarChart.getData().clear();
-        projectPieChart.getData().clear();
-        projectSmellListbySmell.getItems().clear();
-        projectSmellListbyLine.getItems().clear();
     }
 
     private void fileStatsBuilder(){
