@@ -89,24 +89,7 @@ public class Controller {
         }
     }
 
-    // the initialize method is automatically invoked by the FXMLLoader - it's magic
-    public void initialize() {
-        EventBusFactory.getEventBus().register(new Object() {
-            @Subscribe
-            public void setInputDirectory(EventBusFactory e) {
-                InputDirectory = e.getFileLocation().replace("\\", "/");
-                JavaToggle = e.getDisplayJava();
-                displayTreeView(InputDirectory);
-            }
-        });
-
-        final boolean[] projectStatsRan = {false};
-        initializecolourTracker();
-        initializeColorPickers();
-        setColourButtons();
-        code.setContent(displayCodeTab());
-        area.replaceText("Select a java file to check its smells");
-
+    private void setColourTrackers() {
         ArrowHeadedColour.setOnAction(t -> {
             colourTracker.replace("ArrowHeaded", ArrowHeadedColour.getValue());
             setClassColours();
@@ -163,16 +146,40 @@ public class Controller {
             colourTracker.replace("TooManyLiterals", TooManyLiteralsColour.getValue());
             setClassColours();
         });
+    }
 
+    // the initialize method is automatically invoked by the FXMLLoader - it's magic
+    public void initialize() {
+        EventBusFactory.getEventBus().register(new Object() {
+            @Subscribe
+            public void setInputDirectory(EventBusFactory e) {
+                InputDirectory = e.getFileLocation().replace("\\", "/");
+                JavaToggle = e.getDisplayJava();
+                displayTreeView(InputDirectory);
+            }
+        });
+
+        final boolean projectStatsRan = false;
+        initializecolourTracker();
+        initializeColorPickers();
+        setColourButtons();
+        code.setContent(displayCodeTab());
+        area.replaceText("Select a java file to check its smells");
+
+        setColourTrackers();
+
+        addTreeViewListener(projectStatsRan);
+    }
+
+    private void addTreeViewListener(boolean projectStatsRan) {
         treeView.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> {
             try {
                 String classString = Files.readString(Path.of(getPathFromTreeView(v.getValue())));
                 area.replaceText(classString);
                 clearStats();
                 fileReport = completeReport.getAllDetectedSmells(new File(getPathFromTreeView(v.getValue())));
-                if (!projectStatsRan[0]) {
+                if (!projectStatsRan) {
                     projectStatsBuilder();
-                    projectStatsRan[0] = true;
                 }
                 if (fileReport != null) {
                     setClassColours();
