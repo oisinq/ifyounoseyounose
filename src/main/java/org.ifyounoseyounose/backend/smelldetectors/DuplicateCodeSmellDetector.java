@@ -36,7 +36,7 @@ public class DuplicateCodeSmellDetector extends LimitableSmellDetector implement
             }
             if(maxLines > limit) { // If greater then the limit, add to report
                 for (File y : x.keySet()) {
-                    smells.addToReport(y, x.get(y));
+                    smells.appendToList(y, x.get(y));
                 }
             }
         }
@@ -49,7 +49,7 @@ public class DuplicateCodeSmellDetector extends LimitableSmellDetector implement
             BufferedReader bufferedReader = new BufferedReader(targetStream);
             while((line = bufferedReader.readLine()) != null) {
                 line = line.trim();
-                if (!line.startsWith("try")&&!line.contains("catch")&&!line.equals("")&&!line.equals("}") && !line.equals("{") && !line.equals("") && !line.startsWith("/") &&!line.startsWith("*")&&!line.startsWith("import")&&!line.startsWith("package")&& !line.startsWith("protected") &&!line.startsWith("final")&&!line.startsWith("private")&&!line.startsWith("public")&&!line.startsWith("@")&&!line.startsWith("return")) { // Checks lines are irrelevant
+                if (!line.startsWith("try")&&!line.contains("catch")&&!line.equals("")&&!line.equals("}") && !line.equals("{") && !line.equals("") && !line.startsWith("/") &&!line.startsWith("*")&&!line.startsWith("import")&&!line.startsWith("package")&& !line.startsWith("protected") &&!line.startsWith("final")&&!line.startsWith("private")&&!line.startsWith("public")&&!line.startsWith("@")&&!line.startsWith("return")&&!line.equals("break;")) { // Checks lines are irrelevant
                     outerHashMap.computeIfAbsent(line, k -> new HashMap<>());
                     List<Integer> list = (outerHashMap.get(line)).get(file); // See if you already have a list for current key
                     if (list == null) { // If not, create one and put it in the map

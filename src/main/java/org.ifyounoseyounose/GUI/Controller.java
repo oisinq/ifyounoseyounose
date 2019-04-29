@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import com.google.common.eventbus.Subscribe;
@@ -142,6 +143,7 @@ public class Controller {
                 String classString = Files.readString(Path.of(getPathFromTreeView(v.getValue())));
                 area.replaceText(classString);
                 area.clearStyle(0, area.getLength());
+                fileBarChart.getData().clear();
                 SmellList.getItems().clear();
                 fileReport = completeReport.getAllDetectedSmells(new File(getPathFromTreeView(v.getValue())));
                 if (fileReport!=null){
@@ -154,18 +156,27 @@ public class Controller {
                 //e.printStackTrace();
             }
         });
-        //backToSetup.setOnAction(this::openFirstScene);//TODO this lets you go back , but doesn't clear everything
     }
 
     private void fileReportBuilder(){
+        XYChart.Series dataSeries= new XYChart.Series();
         int a=fileReport.getSmellyLinesCount();
         fileStats.setText("There are " +a+ " Smelly lines in this file");
-        //fileReport.geta()
+
         List<Map.Entry<String, Integer>> b=fileReport.getListOfSmellsByCount();
         SmellList.getItems().addAll();
         for (Map.Entry<String,Integer> s: b) {
             SmellList.getItems().add(s);
+            XYChart.Data c=new XYChart.Data(s.getKey(), s.getValue());
+            //c.getNode().setStyle(
+            //             "-fx-bar-color: " + colourTracker.get(s.getKey()).toString() + ";"
+            //     );
+            dataSeries.getData().add(c);
+            //dataSeries.getNode().setStyle(
+            //        "-fx-bar-color: " + colourTracker.get(s.getKey()).toString() + ";"
+            //);
         }
+        fileBarChart.getData().add(dataSeries);
     }
 
     private void setColourButtons() {
