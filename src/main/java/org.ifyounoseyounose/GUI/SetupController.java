@@ -2,8 +2,6 @@ package org.ifyounoseyounose.GUI;
 
 import com.google.common.eventbus.EventBus;
 import javafx.beans.value.ChangeListener;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -16,6 +14,11 @@ import java.util.Set;
 
 public class SetupController {
 
+    Set<CheckBox> checkboxes;
+    HashMap<CheckBox, TextField> cbeckboxTextLinker;
+    File selectedDirectory = null;
+    String selectedDirectoryString = null;
+    EventBus eventBus = EventBusFactory.getEventBus();
     @FXML
     private Button browse, settingsDisplay, smellTime;
     @FXML
@@ -26,15 +29,7 @@ public class SetupController {
     private Slider ArrowHeadedSlider, BloatedClassSlider, BloatedMethodSlider, BloatedParameterSlider, DuplicateCodeSlider, MessageChainingSlider, PrimitiveObsessionSlider, SwitchStatementSlider, TemporaryFieldsSlider, TooManyLiteralsSlider;
     @FXML
     private TextField HiddenText, displayDirectory, ArrowHeadedText, BloatedClassText, BloatedMethodText, BloatedParameterText, DuplicateCodeText, MessageChainingText, PrimitiveObsessionText, SwitchStatementText, TemporaryFieldsText, TooManyLiteralsText;
-    Set<CheckBox> checkboxes;
-
-    HashMap<CheckBox, TextField> cbeckboxTextLinker;
-
-    File selectedDirectory = null;
     private Scene secondScene;
-    String selectedDirectoryString = null;
-    EventBus eventBus = EventBusFactory.getEventBus();
-
     private boolean showSettings = false;
 
     public void setSettingsDisplay() {
@@ -62,21 +57,15 @@ public class SetupController {
             put(TemporaryFields, TemporaryFieldsText);
             put(TooManyLiterals, TooManyLiteralsText);
         }};
-
         checkboxes = cbeckboxTextLinker.keySet();
-
         //set all to be true by default
         ToggleButtons.selectedProperty().setValue(true);
         toggleButtons();
-
+        setSettingsDisplay();//call once on intialise to set settings buttons as hidden
+        /*this has all the button listeners pretty much*/
         ToggleButtons.selectedProperty().addListener((ChangeListener) (arg0, arg1, arg2) -> {
             toggleButtons();
         });
-
-
-        /*this has all the button listeners pretty much*/
-        setSettingsDisplay();//call once on intialise to set settings buttons as hidden
-
         ArrowHeadedSlider.valueProperty().addListener((ChangeListener) (arg0, arg1, arg2) -> {
             ArrowHeadedText.setText(String.valueOf(((int) ArrowHeadedSlider.getValue())));
         });
@@ -108,38 +97,30 @@ public class SetupController {
             TemporaryFieldsText.setText(String.valueOf(((int) TemporaryFieldsSlider.getValue())));
         });
 
-        settingsDisplay.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                showSettings = !showSettings;
-                setSettingsDisplay();
-            }
+        settingsDisplay.setOnAction(event -> {
+            showSettings = !showSettings;
+            setSettingsDisplay();
         });
 
-        browse.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                DirectoryChooser chooser = new DirectoryChooser();
-                chooser.setTitle("Choose the Directory of files you wish to smell");
-                selectedDirectory = chooser.showDialog(new Stage());
-                selectedDirectoryString = selectedDirectory.getAbsolutePath();
-                displayDirectory.setText(selectedDirectoryString);
-            }
+        browse.setOnAction(event -> {
+            DirectoryChooser chooser = new DirectoryChooser();
+            chooser.setTitle("Choose the Directory of files you wish to smell");
+            selectedDirectory = chooser.showDialog(new Stage());
+            selectedDirectoryString = selectedDirectory.getAbsolutePath();
+            displayDirectory.setText(selectedDirectoryString);
         });
 
-        smellTime.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                HashMap<String, Integer> smells = getSmellsToTest();
-                if (selectedDirectoryString != null && smells != null) {
-                    eventBus.post(new EventBusFactory(smells, displayDirectory.getText(), selectedDirectory, JavaToggle.selectedProperty().get()));
-                    Stage stage = (Stage) ((Node) event.getTarget()).getScene().getWindow();
-                    stage.setScene(secondScene);
-                }
+        smellTime.setOnAction(event -> {
+            HashMap<String, Integer> smells = getSmellsToTest();
+            if (selectedDirectoryString != null && smells != null) {
+                eventBus.post(new EventBusFactory(smells, displayDirectory.getText(), selectedDirectory, JavaToggle.selectedProperty().get()));
+                Stage stage = (Stage) ((Node) event.getTarget()).getScene().getWindow();
+                stage.setScene(secondScene);
             }
         });
     }
 
+    //this returns all the smells selected as well as what values were given to their limiters
     public HashMap<String, Integer> getSmellsToTest() {
         HashMap<String, Integer> toReturn = new HashMap<>();
         for (CheckBox a : checkboxes) {
@@ -151,6 +132,7 @@ public class SetupController {
         return toReturn;
     }
 
+    //this toggles all the buttons in the setup panel
     public void toggleButtons() {
         for (CheckBox a : checkboxes) {
             a.setSelected(ToggleButtons.isSelected());

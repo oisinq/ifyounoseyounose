@@ -21,7 +21,6 @@ import org.ifyounoseyounose.backend.CompleteReport;
 import org.ifyounoseyounose.backend.FileReport;
 import org.reactfx.SuspendableNo;
 import org.reactfx.util.Either;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -202,8 +201,7 @@ public class Controller {
 
     private void fileStatsBuilder() {
         XYChart.Series dataSeries = new XYChart.Series();
-        int a = fileReport.getSmellyLinesCount();
-        fileStats.setText("There are " + a + " Smelly lines in this file\n\n------File Report--------\n\n" + fileReport.toString());
+        fileStats.setText("There are " + fileReport.getSmellyLinesCount() + " Smelly lines in this file\n\n------File Report--------\n\n" + fileReport.toString());
 
         List<Map.Entry<String, Integer>> listOfSmellsByCount = fileReport.getListOfSmellsByCount();
         ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
@@ -226,8 +224,7 @@ public class Controller {
 
     private void projectStatsBuilder() {
         XYChart.Series dataSeries = new XYChart.Series();
-        int a = completeReport.getNumberOfSmellyLines();
-        projectStats.setText("There are " + a + " smelly lines across your project\n\n------Complete Project Report--------\n\n" + completeReport.toString());
+        projectStats.setText("There are " + completeReport.getNumberOfSmellyLines() + " smelly lines across your project\n\n------Complete Project Report--------\n\n" + completeReport.toString());
 
         List<Map.Entry<String, Integer>> filesByLineCount = completeReport.getListOfFilesByLineCount();
 
@@ -326,12 +323,10 @@ public class Controller {
 
     private Node displayCodeTab() {
         area.setEditable(false);
-
         VirtualizedScrollPane<GenericStyledArea<ParStyle, Either<String, LinkedImage>, TextStyle>> vsPane = new VirtualizedScrollPane<>(area);
         VBox vbox = new VBox();
         VBox.setVgrow(vsPane, Priority.ALWAYS);
         vbox.getChildren().addAll(vsPane);
-
         return vbox;
     }
 
@@ -372,7 +367,6 @@ public class Controller {
     private void setClassColours() {
         HashMap<String, List<Integer>> fileReportHashMap = fileReport.getSmellDetections();
         resetAllLines();
-
         setSmellColours("BloatedClass", fileReportHashMap);
         setSmellColours("DataOnly", fileReportHashMap);
         setSmellColours("BloatedMethod", fileReportHashMap);
