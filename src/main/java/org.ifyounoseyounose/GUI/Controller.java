@@ -158,7 +158,7 @@ public class Controller {
             }
         });
 
-        final boolean projectStatsRan = false;//this boolean makes sure the projectstats tab only runs once
+        final boolean[] projectStatsRan = {false};//this boolean makes sure the projectstats tab only runs once
         initializecolorTrackers();//makes sure hashmaps are set up
         initializecolorPickers();
         setColourButtons();//listeners for the colour buttons
@@ -167,18 +167,15 @@ public class Controller {
 
         setcolorTrackers();
 
-        addTreeViewListener(projectStatsRan);
-    }
-
-    private void addTreeViewListener(boolean projectStatsRan) {
         treeView.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> {
             try {
                 String classString = Files.readString(Path.of(getPathFromTreeView(v.getValue())));
                 area.replaceText(classString);
                 clearStats();//clears stats when files swapped
                 fileReport = completeReport.getAllDetectedSmells(new File(getPathFromTreeView(v.getValue())));
-                if (!projectStatsRan) {
+                if (!projectStatsRan[0]) {
                     projectStatsBuilder();//only runs once, sets project stats
+                    projectStatsRan[0] = true;
                 }
                 if (fileReport != null) {
                     setClassColours();//update highlighting
