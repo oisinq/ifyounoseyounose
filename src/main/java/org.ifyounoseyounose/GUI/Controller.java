@@ -196,7 +196,7 @@ public class Controller {
     private void fileStatsBuilder() {
         XYChart.Series dataSeries = new XYChart.Series();
         int a = fileReport.getSmellyLinesCount();
-        fileStats.setText("There are " + a + " Smelly lines in this file");
+        fileStats.setText("There are " + a + " Smelly lines in this file\n\n------File Report--------\n\n" + fileReport.toString());
 
         List<Map.Entry<String, Integer>> listOfSmellsByCount = fileReport.getListOfSmellsByCount();
         ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
@@ -220,7 +220,7 @@ public class Controller {
     private void projectStatsBuilder() {
         XYChart.Series dataSeries = new XYChart.Series();
         int a = completeReport.getNumberOfSmellyLines();
-        projectStats.setText("There are " + a + " smelly lines across your project");
+        projectStats.setText("There are " + a + " smelly lines across your project\n\n------Complete Project Report--------\n\n" + completeReport.toString());
 
         List<Map.Entry<String, Integer>> filesByLineCount = completeReport.getListOfFilesByLineCount();
 
