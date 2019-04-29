@@ -77,7 +77,7 @@ public class CompleteReport {
 
         return smellCounter;
     }
-    
+
     public Set<String> getPresentSmells() {
         Set<String> presentSmells = new HashSet<>();
         for (FileReport fileReport : data.values()) {
