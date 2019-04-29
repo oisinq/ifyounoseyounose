@@ -94,7 +94,7 @@
                               <GridPane prefHeight="850.0" prefWidth="583.0">
                                  <columnConstraints>
                                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="95.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="95.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="15.0" />
                                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="90.0" />
                                  </columnConstraints>
                                  <rowConstraints>
@@ -123,7 +123,7 @@
                                        </yAxis>
                                     </BarChart>
                                     <TextArea fx:id="projectStats" editable="false" prefHeight="105.0" prefWidth="590.0" GridPane.columnSpan="3" GridPane.rowIndex="9" GridPane.rowSpan="5" />
-                                    <ListView fx:id="projectSmellListbyLine" prefHeight="71.0" prefWidth="239.0" GridPane.rowIndex="6" GridPane.rowSpan="3" />
+                                    <ListView fx:id="projectSmellListbyLine" prefHeight="178.0" prefWidth="279.0" GridPane.rowIndex="6" GridPane.rowSpan="3" />
                                     <PieChart fx:id="projectPieChart" GridPane.columnSpan="3" GridPane.rowIndex="2" GridPane.rowSpan="4" />
                                     <ListView fx:id="projectSmellListbySmell" prefHeight="71.0" prefWidth="239.0" GridPane.columnIndex="2" GridPane.rowIndex="6" GridPane.rowSpan="3" />
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Smelliest files by smelly lines" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="BOTTOM" />

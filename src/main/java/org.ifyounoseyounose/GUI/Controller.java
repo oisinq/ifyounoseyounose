@@ -181,13 +181,15 @@ public class Controller {
             pieChartData.add(new PieChart.Data(s.getKey(),s.getValue()));
         }
         fileBarChart.getData().add(dataSeries);
+        fileBarChart.setLegendVisible(false);
+        //fileBarChart.getXAxis().
         filePieChart.setData(pieChartData);
     }
 
     private void projectStatsBuilder(){
         XYChart.Series dataSeries= new XYChart.Series();
         int a=completeReport.getNumberOfSmellyLines();
-        projectStats.setText("There are " + a + " across your project");
+        projectStats.setText("There are " + a + " smelly lines across your project");
 
         List<Map.Entry<String, Integer>> filesByLineCount=completeReport.getListOfFilesByLineCount();
 
@@ -199,7 +201,7 @@ public class Controller {
                 projectSmellListbyLine.getItems().add(entryWithStringValue);
             if (counter<10) {
                 counter++;
-                dataSeries.getData().add(new XYChart.Data(s.getKey(), s.getValue()));
+                dataSeries.getData().add(new XYChart.Data(s.getKey().substring(0,12), s.getValue()));
             }
         }
         counter=0;
@@ -211,8 +213,8 @@ public class Controller {
                 pieChartData.add(new PieChart.Data(s.getKey(), s.getValue()));
             }
         }
-
         projectBarChart.getData().add(dataSeries);
+        projectBarChart.setLegendVisible(false);
         projectPieChart.setData(pieChartData);
     }
 
