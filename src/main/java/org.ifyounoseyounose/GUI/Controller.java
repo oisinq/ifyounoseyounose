@@ -145,6 +145,7 @@ public class Controller {
                     fileStats.setText("All Clear!");
                 }
             } catch (IOException e) {
+                //e.printStackTrace();
             }
         });
     }
@@ -163,9 +164,10 @@ public class Controller {
     private void fileStatsBuilder(){
         XYChart.Series dataSeries= new XYChart.Series();
         int a=fileReport.getSmellyLinesCount();
-        fileStats.setText("There are " + a + " Smelly lines in this file\n\n------File Report--------\n\n" + fileReport.toString());
+        fileStats.setText("There are " + a + " Smelly lines in this file");
 
         List<Map.Entry<String, Integer>> listOfSmellsByCount=fileReport.getListOfSmellsByCount();
+        //fileSmellList.getItems().addAll();
         ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
 
         for (Map.Entry<String,Integer> s: listOfSmellsByCount) {
@@ -179,13 +181,14 @@ public class Controller {
         }
         fileBarChart.getData().add(dataSeries);
         fileBarChart.setLegendVisible(false);
+        //fileBarChart.getXAxis().
         filePieChart.setData(pieChartData);
     }
 
     private void projectStatsBuilder(){
         XYChart.Series dataSeries= new XYChart.Series();
         int a=completeReport.getNumberOfSmellyLines();
-        projectStats.setText("There are " + a + " smelly lines across your project\n\n------Complete Project Report--------\n\n" + completeReport.toString());
+        projectStats.setText("There are " + a + " smelly lines across your project");
 
         List<Map.Entry<String, Integer>> filesByLineCount=completeReport.getListOfFilesByLineCount();
 
