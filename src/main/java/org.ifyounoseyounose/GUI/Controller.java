@@ -1,5 +1,7 @@
 package org.ifyounoseyounose.GUI;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -7,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
+import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
@@ -63,6 +66,7 @@ public class Controller {
     private HashMap<String, ColorPicker> colorPickers = new HashMap<>();
     @FXML private ListView<Map.Entry<String,String>> SmellList;
     @FXML BarChart fileBarChart;
+    @FXML PieChart filePieChart;
 
     // the initialize method is automatically invoked by the FXMLLoader - it's magic
     public void initialize() {
@@ -144,6 +148,7 @@ public class Controller {
                 area.replaceText(classString);
                 area.clearStyle(0, area.getLength());
                 fileBarChart.getData().clear();
+                filePieChart.getData().clear();
                 SmellList.getItems().clear();
                 fileReport = completeReport.getAllDetectedSmells(new File(getPathFromTreeView(v.getValue())));
                 if (fileReport!=null){
@@ -165,7 +170,8 @@ public class Controller {
 
         List<Map.Entry<String, Integer>> b=fileReport.getListOfSmellsByCount();
         SmellList.getItems().addAll();
-
+        ObservableList<PieChart.Data> pieChartData =
+                FXCollections.observableArrayList();
 
         for (Map.Entry<String,Integer> s: b) {
             AbstractMap.SimpleEntry entryWithStringValue = new AbstractMap.SimpleEntry(s.getKey(), s.getValue().toString());
@@ -173,22 +179,16 @@ public class Controller {
                 entryWithStringValue.setValue("Full class smell");
             }
             SmellList.getItems().add(entryWithStringValue);
-            XYChart.Data c=new XYChart.Data(s.getKey(), s.getValue());
-            //c.getNode().setStyle(
-            //             "-fx-bar-color: " + colourTracker.get(s.getKey()).toString() + ";"
-            //     );
-            dataSeries.getData().add(c);
-            //dataSeries.getNode().setStyle(
-            //        "-fx-bar-color: " + colourTracker.get(s.getKey()).toString() + ";"
-            //);
+            dataSeries.getData().add(new XYChart.Data(s.getKey(), s.getValue()));
+            pieChartData.add(new PieChart.Data(s.getKey(),s.getValue()));
         }
         fileBarChart.getData().add(dataSeries);
+        filePieChart.setData(pieChartData);
     }
 
     private void setColourButtons() {
         Set<String> s = colorPickers.keySet();
         for (String a : s) {
-
             colorPickers.get(a).setValue(colourTracker.get(a));
         }
     }
