@@ -7,6 +7,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import org.ifyounoseyounose.GUI.Controller;
@@ -18,10 +19,11 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Set;
 
+
 public class GuiManager extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
-        primaryStage.setTitle("Code Smeller");
+        primaryStage.setTitle("IfYouNoseYouNose");
         final FXMLLoader setupLoader = new FXMLLoader(getClass().getResource("SetupScreen.fxml"));
         final Parent setup =  setupLoader.load();
         final SetupController setupController = setupLoader.getController();
@@ -58,10 +60,7 @@ public class GuiManager extends Application {
             }
         });
 
-        //String classString=Files.readString(Path.of("D:/Code/ifyounoseyounose/src/main/java/org.ifyounoseyounose/Main.java"));
-        //Color color = Color.web("#56cbf9");
-        //mainApplicationController.setCodeAreaText(classString,color,5);
-
+        primaryStage.getIcons().add(new Image(GuiManager.class.getResourceAsStream("Logo.jpg")));
         primaryStage.show();
         primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
