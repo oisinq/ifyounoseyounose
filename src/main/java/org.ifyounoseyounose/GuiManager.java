@@ -2,22 +2,17 @@ package org.ifyounoseyounose;
 
 import com.google.common.eventbus.Subscribe;
 import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import org.ifyounoseyounose.GUI.Controller;
 import org.ifyounoseyounose.GUI.EventBusFactory;
 import org.ifyounoseyounose.GUI.SetupController;
 import org.ifyounoseyounose.backend.CompleteReport;
 import org.ifyounoseyounose.backend.ReportBuilder;
-
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Set;
 
 
 public class GuiManager extends Application {
@@ -49,12 +44,7 @@ public class GuiManager extends Application {
         //display the scene
         primaryStage.show();
         //event handler for when the window is closed
-        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            @Override
-            public void handle(WindowEvent event) {
-                System.exit(0);
-            }
-        });
+        primaryStage.setOnCloseRequest(event -> System.exit(0));
 
 
         ReportBuilder reportBuilder = new ReportBuilder();
@@ -68,18 +58,8 @@ public class GuiManager extends Application {
                 mainApplicationController.setCompleteReport(completeReport);
 
                 //this is a window listener for the new scene similar to the one above
-                mainScene.getWindow().setOnCloseRequest(new EventHandler<WindowEvent>() {
-                    @Override
-                    public void handle(WindowEvent event) {
-                        System.exit(0);
-                    }
-                });
-                //hashmap with code smell as key, limit as value sure
+                mainScene.getWindow().setOnCloseRequest(event -> System.exit(0));
             }
         });
-
-
-
-
     }
 }

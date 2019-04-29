@@ -13,8 +13,6 @@ import java.util.List;
 
 public class DataOnlyClassesCollector extends VoidVisitorAdapter<List<Integer>> {
 
-    boolean fullClass = false;
-
     @Override
     public void visit(MethodDeclaration md, List<Integer> collector) {
         super.visit(md, collector);

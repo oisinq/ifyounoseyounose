@@ -8,11 +8,8 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
-
 import java.io.File;
 import java.util.HashMap;
 import java.util.Set;
@@ -28,22 +25,19 @@ public class SetupController {
     @FXML
     private Slider ArrowHeadedSlider, BloatedClassSlider, BloatedMethodSlider, BloatedParameterSlider, DuplicateCodeSlider, MessageChainingSlider, PrimitiveObsessionSlider, SwitchStatementSlider, TemporaryFieldsSlider, TooManyLiteralsSlider;
     @FXML
-    private TextField HiddenText, displayDirectory, ArrowHeadedText, BloatedClassText, BloatedMethodText, BloatedParameterText, DeadCodeText, DuplicateCodeText, MessageChainingText, PrimitiveObsessionText, SwitchStatementText, TemporaryFieldsText, TooManyLiteralsText;
+    private TextField HiddenText, displayDirectory, ArrowHeadedText, BloatedClassText, BloatedMethodText, BloatedParameterText, DuplicateCodeText, MessageChainingText, PrimitiveObsessionText, SwitchStatementText, TemporaryFieldsText, TooManyLiteralsText;
     Set<CheckBox> checkboxes;
-    @FXML
-    private VBox vbox;
-    @FXML
-    private AnchorPane ap;
-    HashMap<CheckBox, TextField> connectidkidc;
+
+    HashMap<CheckBox, TextField> cbeckboxTextLinker;
 
     File selectedDirectory = null;
     private Scene secondScene;
     String selectedDirectoryString = null;
-    EventBus eventBus = EventBusFactory.getEventBus();//gotta explain this!!!!
+    EventBus eventBus = EventBusFactory.getEventBus();
 
     private boolean showSettings = false;
 
-    public void setSettingsDisplay() {//TODO::once smells are set this would be better with an array
+    public void setSettingsDisplay() {
         scrollPane.setVisible(showSettings);
     }
 
@@ -52,7 +46,7 @@ public class SetupController {
     }
 
     public void initialize() {
-        connectidkidc = new HashMap<>() {{
+        cbeckboxTextLinker = new HashMap<>() {{
             put(ArrowHeaded, ArrowHeadedText);
             put(BloatedClass, BloatedClassText);
             put(BloatedMethod, BloatedMethodText);
@@ -69,7 +63,7 @@ public class SetupController {
             put(TooManyLiterals, TooManyLiteralsText);
         }};
 
-        checkboxes = connectidkidc.keySet();
+        checkboxes = cbeckboxTextLinker.keySet();
 
         //set all to be true by default
         ToggleButtons.selectedProperty().setValue(true);
@@ -150,7 +144,7 @@ public class SetupController {
         HashMap<String, Integer> toReturn = new HashMap<>();
         for (CheckBox a : checkboxes) {
             if (a.isSelected()) {
-                toReturn.put(a.getId(), Integer.parseInt(connectidkidc.get(a).getText()));
+                toReturn.put(a.getId(), Integer.parseInt(cbeckboxTextLinker.get(a).getText()));
                 System.out.println(a.getId());
             }
         }
