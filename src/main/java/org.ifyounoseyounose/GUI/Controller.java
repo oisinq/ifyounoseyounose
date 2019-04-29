@@ -232,7 +232,7 @@ public class Controller {
         colourTracker.put("DuplicateCode", Color.rgb(249, 187, 184));
         colourTracker.put("MessageChaining", Color.rgb(185, 158, 193));
         colourTracker.put("PrimitiveObsession", Color.rgb(65, 178, 219));
-        colourTracker.put("SpeculativeGenerality", Color.rgb(83,255,189));
+        colourTracker.put("SpeculativeGenerality", Color.rgb(206, 177, 103));
         colourTracker.put("SwitchStatement", Color.rgb(127, 193, 127));
         colourTracker.put("TemporaryFields", Color.rgb(237, 107, 64));
         colourTracker.put("TooManyLiterals", Color.rgb(167, 229, 87));
