@@ -5,19 +5,33 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.*;
 
+/**
+ * CompleteReport - The report received by the front-end, containing information about every smell detected in every file, in the form of FileReports
+ */
 public class CompleteReport {
     private HashMap<File, FileReport> data = new HashMap<>();
 
+    /**
+     * Adds a FileReport to the internal logic
+     */
     void addFileReport(FileReport report) {
         data.put(report.getFile(), report);
     }
 
+    /**
+     * Returns the FileReport for a given File object
+     */
     public FileReport getAllDetectedSmells(File f) {
         return data.get(f);
     }
 
+    /**
+     * A String representation of the contents of the FileReport.
+     * (used for displaying stats to the user)
+     */
     public int getNumberOfSmellyLines() {
         int totalSmellyLines = 0;
+        
         for (FileReport fileReport : data.values()) {
             totalSmellyLines += fileReport.getSmellyLinesCount();
         }

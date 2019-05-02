@@ -19,17 +19,16 @@ import java.util.List;
 import java.util.stream.Stream;
 
 /**
- * SmellDetectorManager - class that creates SmellDetector objectsasks each SmellDetector to detect code smells in a
- * list of files
+ * SmellDetectorManager - 
  */
 public class SmellDetectorManager {
 
     /**
      * Method called by ReportBuilder which in turn invokes each individual SmellDetector
      *
-     * @param smellDetectorStrings The smell detector names we want to analyse the directory with
+     * @param smellDetectorStrings A map where the key is the name of a SmellDetector and the value is the associated limit with that smell
      * @param files                A list of files we want to analyse
-     * @return A result containing info about what code smells were detected
+     * @return A list of FileReports containing info about what code smells were detected
      */
     public List<FileReport> detectSmells(HashMap<String, Integer> smellDetectorStrings, List<File> files) {
 
@@ -40,7 +39,7 @@ public class SmellDetectorManager {
 
         List<SmellReport> results = new ArrayList<>();
 
-        // For each SmellDetector, we run it with the
+        // For each SmellDetector object, we run it so that it detects code smells
         for (SmellDetector smellDetector : smellDetectors) {
             SmellReport smellReport = runCodeSmellDetector(smellDetector, files, compUnits);
             results.add(smellReport);
@@ -224,10 +223,10 @@ public class SmellDetectorManager {
 
     /**
      * Detects which type of SmellDetector we are dealing with, and calls the appropriate method to execute it
-     *
      * @param smellDetector The SmellDetector we want to call
      * @param files         The files we want to analyze
      * @param compUnits     The CompilationUnit and File pairs that we need to use with JavaParser SmellDetectors
+     * @return A SmellReport object representing the smells found, and which lines they were found on
      */
     private SmellReport runCodeSmellDetector(SmellDetector smellDetector, List<File> files, HashMap<CompilationUnit, File> compUnits) {
         SmellReport smellReport;
@@ -272,6 +271,9 @@ public class SmellDetectorManager {
         return result;
     }
 
+    /**
+     * Adds a class URL to the classLoader
+     */
     private URLClassLoader addToClassLoader(URL[] urlList, File compiledClassesDirectory , URLClassLoader classLoader) {
         try {
             urlList[0] = compiledClassesDirectory.toURI().toURL();

@@ -1,3 +1,4 @@
+/// This file is a requirement for Java 11 to import exactly which parts of our libraries that we want to use
 module org.ifyounoseyounose {
     requires javafx.controls;
     requires javafx.fxml;

@@ -14,7 +14,9 @@ import org.ifyounoseyounose.backend.CompleteReport;
 import org.ifyounoseyounose.backend.ReportBuilder;
 import java.io.IOException;
 
-
+/**
+ * GuiManager - Sets up the application when launched 
+ */
 public class GuiManager extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
