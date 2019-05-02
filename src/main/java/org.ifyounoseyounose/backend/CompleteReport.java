@@ -38,6 +38,9 @@ public class CompleteReport {
         return totalSmellyLines;
     }
 
+    /**
+     * Returns a tuple of File name and smelly line count
+     */
     public List<Map.Entry<String, Integer>> getListOfFilesByLineCount() {
         List<Map.Entry<String, Integer>> sortedEntries = new ArrayList<>();
 
@@ -53,6 +56,9 @@ public class CompleteReport {
         return sortedEntries;
     }
 
+    /**
+     * Returns a tuple of File name and the number of unique smells present in that file
+     */
     public List<Map.Entry<String, Integer>> getListOfFilesBySmellCount() {
         List<Map.Entry<String, Integer>> sortedEntries = new ArrayList<>();
 
@@ -68,6 +74,9 @@ public class CompleteReport {
         return sortedEntries;
     }
 
+    /**
+     * Gets the percentage of smelly lines in a project
+     */
     public double getPercentageOfSmellLines() {
         int totalNumberOfLines = 0;
         for (File file : data.keySet()) {
@@ -80,6 +89,9 @@ public class CompleteReport {
         return 100.0 * getNumberOfSmellyLines() / totalNumberOfLines;
     }
 
+    /**
+     * Gets the number of smell detections in a project
+     */
     public HashMap<String, Integer> getNumberOfDetections() {
         HashMap<String, Integer> smellCounter = new HashMap<>();
 
@@ -100,6 +112,9 @@ public class CompleteReport {
         return presentSmells;
     }
 
+    /**
+     * Gets a list of files that contain no code smells
+     */
     public Set<File> getCleanFiles() {
         Set<File> cleanFiles = new HashSet<>();
         for (File file : data.keySet()) {
@@ -110,6 +125,9 @@ public class CompleteReport {
         return cleanFiles;
     }
 
+    /**
+     * String representation of the contents of the CompleteReport, detailing the contents of all containing FileReports in the process
+     */
     public String toString() {
         StringBuilder output = new StringBuilder();
         for (FileReport report : data.values()) {

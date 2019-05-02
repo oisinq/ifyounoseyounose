@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * ArrowheadedIndentationSmellDetector - Detects when code has too many nested for, if or while loops
+ */
 public class ArrowheadedIndentationSmellDetector extends LimitableSmellDetector implements JavaParserSmellDetector, SmellDetector {
 
     public ArrowheadedIndentationSmellDetector() {
