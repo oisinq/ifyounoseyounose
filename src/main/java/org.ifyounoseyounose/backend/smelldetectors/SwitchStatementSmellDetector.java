@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * TooManyLiteralsSmellDetector - Returns every line in which a literal int, double, float or char is referenced, apart from variable assignments
+ * SwitchStatementSmellDetector - SmelLDetector that detects any switch statements with more cases than "limit", and highlights those lines
  */
 public class SwitchStatementSmellDetector extends LimitableSmellDetector implements JavaParserSmellDetector, SmellDetector {
 

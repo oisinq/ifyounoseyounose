@@ -8,7 +8,7 @@ import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import java.util.List;
 
 /**
- * TooManyLiteralsCollector - JavaParser collector for visiting the individual nodes on the Abstract Syntax Tree
+ * SwitchStatementCollector - JavaParser collector that visits all SwitchStmt Nodes in the Abstract Syntax Tree
  */
 public class SwitchStatementCollector extends VoidVisitorAdapter<List<Integer>> {
     int limit = 0;

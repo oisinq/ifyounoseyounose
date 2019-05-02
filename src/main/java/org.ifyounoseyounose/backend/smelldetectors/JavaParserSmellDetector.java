@@ -7,7 +7,7 @@ import java.io.File;
 import java.util.HashMap;
 
 /**
- * JavaParserSmellDetector - interface extended by any SmellDetector that uses the JavaParser library
+ * JavaParserSmellDetector - interface implemented by any SmellDetector that uses the JavaParser library
  */
 public interface JavaParserSmellDetector {
     SmellReport detectSmell(HashMap<CompilationUnit, File> compilationUnits);

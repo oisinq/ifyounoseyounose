@@ -34,17 +34,17 @@ public class TooManyLiteralsCollector extends VoidVisitorAdapter<List<Integer>> 
     // If we visit a declaration, we don't want to count any declaration as literals, so we ignore its child nodes
     @Override
     public void visit(VariableDeclarationExpr dec, List<Integer> collector) {
-
+        // Left intentionally blank so that "dec"'s children are never visited
     }
 
     @Override
     public void visit(VariableDeclarator dec, List<Integer> collector) {
-
+        // Left intentionally blank so that "dec"'s children are never visited
     }
 
     @Override
     public void visit(AssignExpr dec, List<Integer> collector) {
-
+        // Left intentionally blank so that "dec"'s children are never visited
     }
 
     private void addLineNumbers(Node node, List<Integer> collector) {
