@@ -21,7 +21,7 @@ public class BloatedMethodCodeSmellDetector extends LimitableSmellDetector imple
     @Override
     public SmellReport detectSmell(HashMap<CompilationUnit, File> compilationUnits) {
         SmellReport smellReport = new SmellReport();
-        VoidVisitor<List<Integer>> visitor = new BloatedMethodCollector();
+        BloatedMethodCollector visitor = new BloatedMethodCollector();
         visitor.setLimit(limit);
 
         for (CompilationUnit compilationUnit : compilationUnits.keySet()) {
