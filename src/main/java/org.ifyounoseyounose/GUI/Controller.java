@@ -72,7 +72,9 @@ public class Controller {
                 Codec.styledSegmentCodec(Codec.eitherCodec(Codec.STRING_CODEC, LinkedImage.codec()), TextStyle.CODEC));
     }
 
-    //this keeps track of what colour is linked to each code smell
+    /**
+     *This keeps track of what colour is linked to each code smell
+     */
     private void setcolorTrackers() {
         ArrowHeadedColour.setOnAction(t -> {
             colorTrackers.replace("ArrowHeaded", ArrowHeadedColour.getValue());
@@ -132,7 +134,9 @@ public class Controller {
         });
     }
 
-    // this is invoked by the FXML loader before anything else is
+    /**
+     *This is invoked by the FXML loader before anything else is
+     */
     public void initialize() {
         //the event bus gets info sent from setup controller
         EventBusFactory.getEventBus().register(new Object() {
@@ -175,7 +179,9 @@ public class Controller {
         });
     }
 
-    //this clears some report fields as needed
+    /**
+     *This clears some report fields as needed
+     */
     private void clearStats() {
         area.clearStyle(0, area.getLength());
         fileBarChart.getData().clear();
@@ -183,7 +189,9 @@ public class Controller {
         fileSmellList.getItems().clear();
     }
 
-    //this populates the file stats tab
+    /**
+     *This populates the file stats tab
+     */
     private void fileStatsBuilder() {
         //this files out the text area at the bottom of the tab
         fileStats.setText("There are " + fileReport.getSmellyLinesCount()
@@ -210,7 +218,9 @@ public class Controller {
         filePieChart.setData(pieChartData);
     }
 
-    //this populates the project stats tab
+    /**
+     *this populates the project stats tab
+     */
     private void projectStatsBuilder() {
         //this files out the text area at the bottom of the tab
         projectStats.setText("There are " + completeReport.getNumberOfSmellyLines()
@@ -252,7 +262,9 @@ public class Controller {
         }
     }
 
-    //sets the initial colours for each button
+    /**
+     *sets the initial colours for each button
+     */
     private void initializecolorTrackers() {
         colorTrackers.put("ArrowHeaded", Color.rgb(83, 255, 189));
         colorTrackers.put("BloatedClass", Color.rgb(178, 207, 255));
@@ -270,7 +282,9 @@ public class Controller {
         colorTrackers.put("TooManyLiterals", Color.rgb(167, 229, 87));
     }
 
-    //links the colour pickers to the names of the identifier strings
+    /**
+     *links the colour pickers to the names of the identifier strings
+     */
     private void initializecolorPickers() {
         colorPickers.put("ArrowHeaded", ArrowHeadedColour);
         colorPickers.put("BloatedClass", BloatedClassColour);
@@ -288,7 +302,9 @@ public class Controller {
         colorPickers.put("TooManyLiterals", TooManyLiteralsColour);
     }
 
-    //this gets the filepath of a object from its treeview location
+    /**
+     *this gets the filepath of a object from its treeview location
+     */
     public String getPathFromTreeView(TreeItem<String> v) {
         StringBuilder pathBuilder = new StringBuilder();
         for (TreeItem<String> item = v;
@@ -303,7 +319,9 @@ public class Controller {
         completeReport = report;
     }
 
-    //this creates the treeview of the file directory in the gui
+    /**
+     *this creates the treeview of the file directory in the gui
+     */
     private static void createTree(File file, TreeItem<String> parent) {
         if (file.isDirectory()) {
             TreeItem<String> treeItem = new TreeItem<>(file.getName());
@@ -320,8 +338,9 @@ public class Controller {
             parent.getChildren().add(new TreeItem<>(file.getName()));
         }
     }
-
-    //this gets a passes the values to create tree view
+    /**
+     *this gets a passes the values to create tree view
+     */
     private void displayTreeView(String inputDirectoryLocation) {
         TreeItem<String> rootItem = new TreeItem<>(inputDirectoryLocation);
         File Input = new File(inputDirectoryLocation);
@@ -371,15 +390,18 @@ public class Controller {
             updateParagraphBackground(color, line);
         }
     }
-
-    //resets the background of all lines to white
+    /**
+     *Resets the background colour of all lines to white
+     */
     private void resetAllLines() {
         for (int i = 0; i < area.getText().split("\n").length; i++) {
             updateParagraphBackground(Color.WHITE, i);
         }
     }
 
-    //this gets the lines that smells and calls set smell colours for the respective smells
+    /**
+     *This gets the lines that smells and calls set smell colours for the respective smells
+     */
     private void setClassColours() {
         HashMap<String, List<Integer>> fileReportHashMap = fileReport.getSmellDetections();
         resetAllLines();
@@ -407,8 +429,9 @@ public class Controller {
             }
         }
     }
-
-    //this takes a line and a style and sets the line to that style
+    /**
+     *This takes a line and a style and sets the line to that style
+     */
     private void setLineStyle(Function<ParStyle, ParStyle> updater, int line) {
         Paragraph<ParStyle, Either<String, LinkedImage>, TextStyle> paragraph = area.getParagraph(line);
         area.setParagraphStyle(line, updater.apply(paragraph.getParagraphStyle()));
