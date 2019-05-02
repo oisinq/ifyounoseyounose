@@ -7,7 +7,9 @@ import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 
 import java.util.List;
 
-
+/**
+ * PrimitiveObsessionCollector - visits each PrimitiveType node and records its line number
+ */
 public class PrimitiveObsessionCollector extends VoidVisitorAdapter<List<Integer>> {
 
     @Override

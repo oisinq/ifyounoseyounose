@@ -13,6 +13,4 @@ public class DataOnlyClassesClassCollector extends VoidVisitorAdapter<List<Integ
         int numberConstruct = cd.getConstructors().size();
         collector.add(numberMethods + numberConstruct);
     }
-
-
 }

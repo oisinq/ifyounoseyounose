@@ -9,6 +9,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * SpeculativeGeneralitySmellDetector
+ */
 public class SpeculativeGeneralitySmellDetector implements JavaParserSmellDetector, SmellDetector {
 
     public SmellReport detectSmell(HashMap<CompilationUnit, File> compilationUnits) {

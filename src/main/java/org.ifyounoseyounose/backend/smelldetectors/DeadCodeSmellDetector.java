@@ -15,6 +15,9 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * DeadCodeSmellDetector - Detects dead code in a project
+ */
 public class DeadCodeSmellDetector implements JavaParserSmellDetector, SmellDetector {
 
     public SmellReport detectSmell(HashMap<CompilationUnit, File> compilationUnits) {

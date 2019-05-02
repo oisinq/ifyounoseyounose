@@ -9,6 +9,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * PrimitiveObsessionSmellDetector - detects if a class uses too many primitives
+ */
 public class PrimitiveObsessionSmellDetector extends LimitableSmellDetector implements JavaParserSmellDetector, SmellDetector {
 
     public PrimitiveObsessionSmellDetector() {

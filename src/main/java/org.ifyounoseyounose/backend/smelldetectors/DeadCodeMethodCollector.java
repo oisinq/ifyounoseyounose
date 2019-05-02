@@ -6,7 +6,9 @@ import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import java.util.List;
 
-
+/**
+ * DeadCodeMethodCollector - Gets all method declarations and returns them to DeadCodeSmellDetector. Also used to get line numbers
+ */
 public class DeadCodeMethodCollector extends VoidVisitorAdapter<List<MethodDeclaration>> {
 
     @Override

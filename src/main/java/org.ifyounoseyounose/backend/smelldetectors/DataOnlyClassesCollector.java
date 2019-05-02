@@ -10,7 +10,9 @@ import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 
 import java.util.List;
 
-
+/**
+ * DataOnlyClassesCollector - JavaParser collector that analyses a classes methods to see if it is data-only or not
+ */
 public class DataOnlyClassesCollector extends VoidVisitorAdapter<List<Integer>> {
 
     @Override

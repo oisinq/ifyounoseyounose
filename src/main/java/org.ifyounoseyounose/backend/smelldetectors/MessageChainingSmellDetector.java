@@ -8,6 +8,9 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * MessageChainingSmellDetector - Detects message chaining over a specific length in a list of .java Files
+ */
 public class MessageChainingSmellDetector extends LimitableSmellDetector implements ManualParserSmellDetector, SmellDetector {
     @Override
     public SmellReport detectSmell(List<File> sourceCode) {

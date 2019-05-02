@@ -17,6 +17,9 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * TemporaryFieldsSmellDetector - Checks if a class uses too many temporary fields
+ */
 public class TemporaryFieldsSmellDetector extends LimitableSmellDetector implements JavaParserSmellDetector, SmellDetector {
     //Checks if an instance variable has already occurred in the method
     boolean occurred;

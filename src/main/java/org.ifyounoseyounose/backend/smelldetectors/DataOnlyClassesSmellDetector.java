@@ -10,6 +10,10 @@ import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 
+
+/**
+ * DataOnlyClassesSmellDetector - Detects if a class is data-only or not
+ */
 public class DataOnlyClassesSmellDetector extends LimitableSmellDetector implements JavaParserSmellDetector, SmellDetector {
 
     @Override

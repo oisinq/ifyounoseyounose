@@ -11,6 +11,9 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * DuplicateCodeSmellDetector - Detects duplicate code in a project
+ */
 public class DuplicateCodeSmellDetector extends LimitableSmellDetector implements ManualParserSmellDetector, SmellDetector {
     @Override
     public SmellReport detectSmell(List<File> sourceCode) {

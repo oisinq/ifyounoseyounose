@@ -9,6 +9,10 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.*;
 
+/**
+ * ViolationOfDataHidingSmellDetector - Checks if a class is violating data hiding principles
+ * Note: this is an experimental SmellDetector that doesn't work with codebases that use external libraries
+ */
 public class ViolationOfDataHidingSmellDetector implements ReflectionSmellDetector, SmellDetector {
 
     @Override
