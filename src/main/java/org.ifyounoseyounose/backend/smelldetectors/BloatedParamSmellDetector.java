@@ -21,7 +21,7 @@ public class BloatedParamSmellDetector extends LimitableSmellDetector implements
     @Override
     public SmellReport detectSmell(HashMap<CompilationUnit, File> compilationUnits) {
         SmellReport smellReport = new SmellReport();
-        VoidVisitor<List<Integer>> visitor = new BloatedParamCollector();
+        BloatedParamCollector visitor = new BloatedParamCollector();
         visitor.setLimit(limit);
 
         // Runs the visitor for each compilationunit in the project
