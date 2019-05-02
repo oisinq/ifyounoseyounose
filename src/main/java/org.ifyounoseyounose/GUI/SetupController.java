@@ -62,7 +62,7 @@ public class SetupController {
         ToggleButtons.selectedProperty().setValue(true);
         toggleButtons();
         setSettingsDisplay();//call once on intialise to set settings buttons as hidden
-        /*this has all the button listeners pretty much*/
+        //this has all the button listeners pretty much
         ToggleButtons.selectedProperty().addListener((ChangeListener) (arg0, arg1, arg2) -> {
             toggleButtons();
         });
@@ -120,7 +120,9 @@ public class SetupController {
         });
     }
 
-    //this returns all the smells selected as well as what values were given to their limiters
+    /**
+     *This returns all the smells selected as well as what values were given to their limiters
+     */
     public HashMap<String, Integer> getSmellsToTest() {
         HashMap<String, Integer> toReturn = new HashMap<>();
         for (CheckBox a : checkboxes) {
@@ -132,7 +134,9 @@ public class SetupController {
         return toReturn;
     }
 
-    //this toggles all the buttons in the setup panel
+    /**
+     *This toggles all the buttons in the setup panel
+     */
     public void toggleButtons() {
         for (CheckBox a : checkboxes) {
             a.setSelected(ToggleButtons.isSelected());
