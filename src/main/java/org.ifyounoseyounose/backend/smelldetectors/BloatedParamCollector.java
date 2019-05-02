@@ -9,7 +9,7 @@ import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import java.util.List;
 
 public class BloatedParamCollector extends VoidVisitorAdapter<List<Integer>> {
-    private int limit = 20;
+    private int limit = 6;
 
 
     @Override

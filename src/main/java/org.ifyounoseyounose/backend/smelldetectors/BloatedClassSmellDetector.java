@@ -8,7 +8,9 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * BloatedClassSmellDetector - SmellDetector that manually evaluates if a class is bloated or not
+ */
 public class BloatedClassSmellDetector extends LimitableSmellDetector implements ManualParserSmellDetector, SmellDetector {
 
     public BloatedClassSmellDetector() {
@@ -20,6 +22,7 @@ public class BloatedClassSmellDetector extends LimitableSmellDetector implements
 
         SmellReport smells = new SmellReport();
 
+        // We run this loop for each file in the list, checkits its length
         for (File current : files) {
             int lineNumber = 0;
             int removeLines = 0;
@@ -33,28 +36,25 @@ public class BloatedClassSmellDetector extends LimitableSmellDetector implements
 
                 while (line != null) {
                     line = line.trim();
-                    if (line.startsWith("//") || line.startsWith("*") || line.length() == 0) {
+
+                    if (line.startsWith("//") || line.startsWith("*") || line.length() == 0) { // We ignore lines with comments or empty lines
                         removeLines++;
                     }
 
                     line = bufferedReader.readLine();
-                    lineNumber++;
-
+                    lineNumber++; // We add to the line count
                 }
 
             } catch (Exception e) {
-                System.err.println("Invalid file" + e.toString());
+                System.err.println("Invalid file" + e.toString()); // If we can't read the file, we throw an exception
             }
 
             if (limit <= lineNumber - removeLines) {
                 lines.add(0); // highlight line 1 (to signify that the class is smelly)
-
             }
             smells.addToReport(current, lines);
         }
-
         return smells;
-
     }
 
 

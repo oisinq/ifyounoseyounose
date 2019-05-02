@@ -9,6 +9,9 @@ import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 
 import java.util.List;
 
+/**
+ * ArrowheadedIndentationCollector - JavaParser collector that visits IfStmt, ForStmt and WhileStmt nodes, and checks indentation levels
+ */
 public class ArrowheadedIndentationCollector extends VoidVisitorAdapter<List<Integer>> {
     // This records the current depth, increasing as it enters if, while and for statements
     private int depth = 0;
