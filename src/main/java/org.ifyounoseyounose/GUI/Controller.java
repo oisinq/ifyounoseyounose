@@ -183,6 +183,7 @@ public class Controller {
      *This clears some report fields as needed
      */
     private void clearStats() {
+        resetAllLines();
         area.clearStyle(0, area.getLength());
         fileBarChart.getData().clear();
         filePieChart.getData().clear();
@@ -404,7 +405,6 @@ public class Controller {
      */
     private void setClassColours() {
         HashMap<String, List<Integer>> fileReportHashMap = fileReport.getSmellDetections();
-        resetAllLines();
         setSmellColours("BloatedClass", fileReportHashMap);
         setSmellColours("DataOnly", fileReportHashMap);
         setSmellColours("BloatedMethod", fileReportHashMap);
