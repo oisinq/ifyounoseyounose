@@ -72,22 +72,7 @@ public class Controller {
                 Codec.styledSegmentCodec(Codec.eitherCodec(Codec.STRING_CODEC, LinkedImage.codec()), TextStyle.CODEC));
     }
 
-    private static void createTree(File file, TreeItem<String> parent) {
-        if (file.isDirectory()) {
-            TreeItem<String> treeItem = new TreeItem<>(file.getName());
-            parent.getChildren().add(treeItem);
-            File[] fileList = file.listFiles();
-            if (fileList != null) {
-                Arrays.sort(fileList);
-                for (File f : fileList) {
-                    createTree(f, treeItem);
-                }
-            }
-        } else if (!JavaToggle || file.getName().endsWith(".java")) {
-            parent.getChildren().add(new TreeItem<>(file.getName()));
-        }
-    }
-
+    //this keeps track of what colour is linked to each code smell
     private void setcolorTrackers() {
         ArrowHeadedColour.setOnAction(t -> {
             colorTrackers.replace("ArrowHeaded", ArrowHeadedColour.getValue());
@@ -149,6 +134,7 @@ public class Controller {
 
     // this is invoked by the FXML loader before anything else is
     public void initialize() {
+        //the event bus gets info sent from setup controller
         EventBusFactory.getEventBus().register(new Object() {
             @Subscribe
             public void setInputDirectory(EventBusFactory e) {
@@ -158,7 +144,7 @@ public class Controller {
             }
         });
 
-        final boolean[] projectStatsRan = {false};//this boolean makes sure the projectstats tab only runs once
+        final boolean[] projectStatsRan = {false};//this boolean makes sure the project stats tab only runs once
         initializecolorTrackers();//makes sure hashmaps are set up
         initializecolorPickers();
         setColourButtons();//listeners for the colour buttons
@@ -189,7 +175,7 @@ public class Controller {
         });
     }
 
-    //this clears some report fields on command
+    //this clears some report fields as needed
     private void clearStats() {
         area.clearStyle(0, area.getLength());
         fileBarChart.getData().clear();
@@ -197,12 +183,16 @@ public class Controller {
         fileSmellList.getItems().clear();
     }
 
+    //this populates the file stats tab
     private void fileStatsBuilder() {
-        XYChart.Series dataSeries = new XYChart.Series();
-        fileStats.setText("There are " + fileReport.getSmellyLinesCount() + " Smelly lines in this file\n\n------File Report--------\n\n" + fileReport.toString());
+        //this files out the text area at the bottom of the tab
+        fileStats.setText("There are " + fileReport.getSmellyLinesCount()
+                + " Smelly lines in this file\n\n------File Report--------\n\n" + fileReport.toString());
 
+        //this gets all the smells and their number of occurances
         List<Map.Entry<String, Integer>> listOfSmellsByCount = fileReport.getListOfSmellsByCount();
-        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
+        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();//create the pi chart
+        XYChart.Series dataSeries = new XYChart.Series();//this data series gets used by the bar chart
 
         for (Map.Entry<String, Integer> s : listOfSmellsByCount) {
             AbstractMap.SimpleEntry<String, String> entryWithStringValue = new AbstractMap.SimpleEntry<>(s.getKey(), s.getValue().toString());
@@ -220,13 +210,18 @@ public class Controller {
         filePieChart.setData(pieChartData);
     }
 
+    //this populates the project stats tab
     private void projectStatsBuilder() {
-        XYChart.Series dataSeries = new XYChart.Series();
-        projectStats.setText("There are " + completeReport.getNumberOfSmellyLines() + " smelly lines across your project\n\n------Complete Project Report--------\n\n" + completeReport.toString());
+        //this files out the text area at the bottom of the tab
+        projectStats.setText("There are " + completeReport.getNumberOfSmellyLines()
+                + " smelly lines across your project\n\n------Complete Project Report--------\n\n" + completeReport.toString());
 
+        //this gets all the smells and their number of occurances
         List<Map.Entry<String, Integer>> filesByLineCount = completeReport.getListOfFilesByLineCount();
-
         ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
+        XYChart.Series dataSeries = new XYChart.Series();
+
+        //the counter is used to only show the top 10 smelliest files
         int counter = 0;
         for (Map.Entry<String, Integer> s : filesByLineCount) {
             AbstractMap.SimpleEntry<String, String> entryWithStringValue = new AbstractMap.SimpleEntry<>(s.getKey(), s.getValue().toString());
@@ -236,7 +231,7 @@ public class Controller {
                 dataSeries.getData().add(new XYChart.Data(s.getKey().substring(0, 12), s.getValue()));
             }
         }
-        counter = 0;
+        counter = 0;//reset counter for the next run
         for (Map.Entry<String, Integer> s : completeReport.getListOfFilesBySmellCount()) {
             AbstractMap.SimpleEntry<String, String> entryWithStringValue = new AbstractMap.SimpleEntry<>(s.getKey(), s.getValue().toString());
             projectSmellListbySmell.getItems().add(entryWithStringValue);
@@ -257,6 +252,7 @@ public class Controller {
         }
     }
 
+    //sets the initial colours for each button
     private void initializecolorTrackers() {
         colorTrackers.put("ArrowHeaded", Color.rgb(83, 255, 189));
         colorTrackers.put("BloatedClass", Color.rgb(178, 207, 255));
@@ -274,6 +270,7 @@ public class Controller {
         colorTrackers.put("TooManyLiterals", Color.rgb(167, 229, 87));
     }
 
+    //links the colour pickers to the names of the identifier strings
     private void initializecolorPickers() {
         colorPickers.put("ArrowHeaded", ArrowHeadedColour);
         colorPickers.put("BloatedClass", BloatedClassColour);
@@ -306,6 +303,25 @@ public class Controller {
         completeReport = report;
     }
 
+    //this creates the treeview of the file directory in the gui
+    private static void createTree(File file, TreeItem<String> parent) {
+        if (file.isDirectory()) {
+            TreeItem<String> treeItem = new TreeItem<>(file.getName());
+            parent.getChildren().add(treeItem);
+            File[] fileList = file.listFiles();
+            if (fileList != null) {
+                Arrays.sort(fileList);
+                for (File f : fileList) {
+                    createTree(f, treeItem);
+                }
+            }
+        } else if (!JavaToggle || file.getName().endsWith(".java")) {
+            //if the user set to only show java files then this else if will do that
+            parent.getChildren().add(new TreeItem<>(file.getName()));
+        }
+    }
+
+    //this gets a passes the values to create tree view
     private void displayTreeView(String inputDirectoryLocation) {
         TreeItem<String> rootItem = new TreeItem<>(inputDirectoryLocation);
         File Input = new File(inputDirectoryLocation);
@@ -356,12 +372,14 @@ public class Controller {
         }
     }
 
+    //resets the background of all lines to white
     private void resetAllLines() {
         for (int i = 0; i < area.getText().split("\n").length; i++) {
             updateParagraphBackground(Color.WHITE, i);
         }
     }
 
+    //this gets the lines that smells and calls set smell colours for the respective smells
     private void setClassColours() {
         HashMap<String, List<Integer>> fileReportHashMap = fileReport.getSmellDetections();
         resetAllLines();
@@ -390,6 +408,7 @@ public class Controller {
         }
     }
 
+    //this takes a line and a style and sets the line to that style
     private void setLineStyle(Function<ParStyle, ParStyle> updater, int line) {
         Paragraph<ParStyle, Either<String, LinkedImage>, TextStyle> paragraph = area.getParagraph(line);
         area.setParagraphStyle(line, updater.apply(paragraph.getParagraphStyle()));
